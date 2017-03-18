@@ -1,67 +1,80 @@
 @extends('layouts.app')
 
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Login</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">
-                        {{ csrf_field() }}
+@section('title', trans('general.login'))
 
-                        <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
-                            <label for="username" class="col-md-4 control-label">E-Mail Address</label>
+@section('admin-page')
+@endsection
 
-                            <div class="col-md-6">
-                                <input id="username" type="username" class="form-control" name="username" value="{{ old('username') }}" required autofocus>
+@section('error-page')
+@endsection
 
-                                @if ($errors->has('username'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('username') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+@section('login-page')
+<div>
+    <a class="hiddenanchor" id="signup"></a>
+    <a class="hiddenanchor" id="signin"></a>
+    <div class="login_wrapper">
+        <div class="animate form login_form">
+            <section class="login_content">
+                {{ Form::open(array('url' => 'login', 'id' => 'login-form')) }}
+                    <h1>{{trans('general.login')}}</h1>
+                    <div>
+                        <input type="text" name="username" value="{{ old('username') }}" class="form-control" placeholder="{{trans('general.username')}}" required="" />
+                    </div>
+                    <div>
+                        <input type="password" name="password" class="form-control"  placeholder="{{trans('general.password')}}" required="" />                        
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-default submit">{{trans('general.login')}}</button>
+                        <a class="reset_pass" href="#">{{trans('general.forgot_pass')}}</a>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="separator">
+                        <p class="change_link">{{trans('general.new_to_site')}}
+                            <a href="#signup" class="to_register"> {{trans('general.sign_up')}} </a>
+                        </p>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div>
+                            <h1><i class="fa fa-resistance"></i> Blabla</h1>
+                            <p>©2016 All Rights Reserved.</p>
                         </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                    </div>
+                {{ Form::close() }}
+            </section>
+        </div>
+        <div id="register" class="animate form registration_form">
+            <section class="login_content">
+                {{ Form::open(array('url' => 'register', 'id' => 'login-form')) }}
+                    <h1>{{trans('general.singup')}}</h1>
+                    <div>
+                        <input type="text" name="username" value="{{ old('username') }}" class="form-control" placeholder="{{trans('general.username')}}" required="" />
+                    </div>
+                    <div>
+                        <input type="text" name="email" value="{{ old('email') }}" class="form-control" placeholder="{{trans('general.email')}}" required="" />
+                    </div>
+                    <div>
+                        <input type="password" name="password" class="form-control" placeholder="{{trans('general.password')}}" required="" />
+                    </div>
+                    <div>
+                        <input type="password" name="password_confirmation" class="form-control" placeholder="{{trans('general.password_confirmation')}}" required="" />
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-default submit">{{trans('general.singup')}}</button>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="separator">
+                        <p class="change_link">{{trans('general.already_member')}}
+                            <a href="#signin" class="to_register"> {{trans('general.login')}} </a>
+                        </p>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div>
+                            <h1><i class="fa fa-resistance"></i> Blabla</h1>
+                            <p>©2016 All Rights Reserved.</p>
                         </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Login
-                                </button>
-
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    Forgot Your Password?
-                                </a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                    </div>
+                {{ Form::close() }}
+            </section>
         </div>
     </div>
 </div>

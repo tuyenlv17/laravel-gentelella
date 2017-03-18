@@ -1,0 +1,51 @@
+{
+  "name": "blabla.com",
+  "homepage": "",
+  "authors": [
+    "Blabla"
+  ],
+  "description": "Laravel + gentelella",
+  "keywords": [
+    "css",
+    "js",
+    "html",
+    "template",
+    "admin",
+    "bootstrap",
+    "theme",
+    "backend",
+    "responsive"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "documentation"
+  ],
+  "devDependencies": {
+    "jquery": "^2.2.3",
+    "bootstrap": "^3.3.7",
+    "font-awesome": "fontawesome#^4.6.1",    
+    "bootstrap-daterangepicker": "git@github.com:christianesperar/bootstrap-daterangepicker.git#master",    
+    "select2": "^4.0.2", 
+    "normalize-css": "^4.1.1",  
+    "validator": "https://github.com/yairEO/validator.git#^1.0.6",   
+    "pnotify": "^3.0.0",    
+    "datatables.net": "^1.10.11",
+    "datatables.net-bs": "^1.10.11",
+    "datatables.net-buttons": "^1.1.2",
+    "datatables.net-buttons-bs": "^1.1.2",
+    "datatables.net-fixedheader": "^3.1.1",
+    "datatables.net-fixedheader-bs": "^3.1.1",
+    "datatables.net-keytable": "^2.1.1",
+    "datatables.net-responsive": "^2.0.2",
+    "datatables.net-responsive-bs": "^2.0.2",
+    "datatables.net-scroller": "^1.4.1",
+    "datatables.net-scroller-bs": "^1.4.1",
+    "animate.css": "^3.5.1",
+    "DateJS": "^1.0.0-rc3"
+  },
+  "resolutions": {
+    "jquery": "^2.2.3",
+    "fastclick": "^1.0.6"
+  }
+}
