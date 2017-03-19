@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\App;
 class SiteController extends Controller {
 
-    public function __construct() {
+    public function __construct() {        
     }
 
     public function index() {

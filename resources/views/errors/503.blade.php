@@ -2,12 +2,6 @@
 
 @section('title', trans('general.error_503_pt'))
 
-@section('admin-page')
-@endsection
-
-@section('login-page')
-@endsection
-
 @section('error-page-detail')
 <h1 class="error-number"> 503 </h1>
 <h2> {{trans('general.error_503_title')}} </h2>

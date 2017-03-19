@@ -24,7 +24,7 @@ use AuthenticatesUsers;
      *
      * @var string
      */
-    protected $redirectTo = '/home_test';
+    protected $redirectTo = '/profile';
 
     /**
      * Create a new controller instance.
@@ -40,7 +40,7 @@ use AuthenticatesUsers;
     }
 
     protected function redirectTo() {
-        return '/path';
+//        return redirect()->intended($this->redirectPath());
     }
 
 }

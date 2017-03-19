@@ -1,4 +1,12 @@
-@extends('template')
+@extends('layouts.app')
+
+@section('title', trans('general.users'))
+
+@section('error-page')
+@endsection
+
+@section('login-page')
+@endsection
 
 @include('admin.users.partials.common')
 

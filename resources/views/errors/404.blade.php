@@ -1,12 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.error')
 
 @section('title', trans('general.error_404_pt'))
-
-@section('admin-page')
-@endsection
-
-@section('login-page')
-@endsection
 
 @section('error-page-detail')
 <h1 class="error-number"> 404 </h1>
@@ -14,4 +8,4 @@
 <p>
     {{trans('general.error_404_detail')}} <a href="#">{{trans('general.report_this')}}</a>
 </p>
-@endsection
+@stop

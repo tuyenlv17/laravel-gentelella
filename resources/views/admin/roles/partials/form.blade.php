@@ -1,15 +1,15 @@
 <div class="row">
     <div class="col-sm-5">
-        {{ Form::bsText('name', 'Mã nhóm', null, [], true) }}
+        {{ Form::ctText('name', 'Mã nhóm', null, [], true) }}
     </div>
     <div class="col-sm-7">
-        {{ Form::bsText('display_name', 'Tên nhóm', null, [], true) }}
+        {{ Form::ctText('display_name', 'Tên nhóm', null, [], true) }}
     </div>
     <div class="col-sm-12">
-        {{ Form::bsText('description', 'Mô tả', null, [], false) }}
+        {{ Form::ctText('description', 'Mô tả', null, [], false) }}
     </div>
     <div class="col-sm-12">
-        {{ Form::bsText('default_url', 'Default page', null, [], true) }}
+        {{ Form::ctText('default_url', 'Default page', null, [], true) }}
     </div>
     <div class="col-sm-12">
         <label>{{trans('admin.Permission')}}</label>

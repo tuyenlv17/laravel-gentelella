@@ -1,7 +1,7 @@
 @section('title', 'Quyền người dùng')
 
 @section('page-bar')
-{{ Form::bsPageBar('Quyền người dùng') }}
+{{ Form::ctPageBar('Quyền người dùng') }}
 @endsection
 
 @section('assets_head')

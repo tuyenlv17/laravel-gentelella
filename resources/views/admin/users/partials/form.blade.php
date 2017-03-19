@@ -1,19 +1,19 @@
 <div class="row">
     {{Form::hidden('is-adding-user',isset($current_role) ? 'false' : 'true', array('id' => 'is-adding-user'))}}
     <div class="col-sm-12">
-        {{ Form::bsText('name', 'Tên người dùng', null, [], true) }}
+        {{ Form::ctText('name', 'Tên người dùng', null, [], true) }}
     </div>
     <div class="col-sm-12">
-        {{ Form::bsText('email', 'Địa chỉ mail', null, [], true) }}
+        {{ Form::ctText('email', 'Địa chỉ mail', null, [], true) }}
     </div>
     <div class="col-sm-12">
-        {{ Form::bsPassword('password', 'Mật khẩu', null, [], isset($current_role) ? false : true) }}
+        {{ Form::ctPassword('password', 'Mật khẩu', null, [], isset($current_role) ? false : true) }}
     </div>
     <div class="col-sm-12">
-        {{ Form::bsPassword('password_confirmation', 'Nhập lại mật khẩu', null, [], isset($current_role) ? false : true) }}
+        {{ Form::ctPassword('password_confirmation', 'Nhập lại mật khẩu', null, [], isset($current_role) ? false : true) }}
     </div>
     <div class="col-sm-12">
-        {{ Form::bsSelect('role', 'Chọ vai trò', $roles, isset($current_role) ? $current_role : NULL, null, [], true) }}
+        {{ Form::ctSelect('role', 'Chọ vai trò', $roles, isset($current_role) ? $current_role : NULL, [], true) }}
     </div>
     <div class="col-md-12">
         {{ Form::submit('Submit', array('class' => 'btn btn-success')) }}

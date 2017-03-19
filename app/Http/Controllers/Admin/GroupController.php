@@ -13,11 +13,11 @@ use App\Group;
 class GroupController extends Controller {
 
     public function __construct() {
-        $this->middleware('auth');
-        $this->middleware('permission:group-create', ['only' => ['index', 'store']]);
-        $this->middleware('permission:group-edit', ['only' => ['update', 'edit']]);
-        $this->middleware('permission:group-list', ['only' => ['listing']]);
-        $this->middleware('permission:group-delete', ['only' => ['destroy']]);
+//        $this->middleware('auth');
+//        $this->middleware('permission:group-create', ['only' => ['index', 'store']]);
+//        $this->middleware('permission:group-edit', ['only' => ['update', 'edit']]);
+//        $this->middleware('permission:group-list', ['only' => ['listing']]);
+//        $this->middleware('permission:group-delete', ['only' => ['destroy']]);
     }
 
     /**
@@ -25,9 +25,10 @@ class GroupController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
-        
-        return view('admin.groups.index');
+    public function index() {        
+        return view('admin.groups.index', array(
+            'action' => 'add',
+        ));
     }
 
     /**

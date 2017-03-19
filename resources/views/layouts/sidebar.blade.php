@@ -1,21 +1,21 @@
 <div class="left_col">
     <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
-            <a href="#" class="site_title"><i class="fa fa-resistance"></i> <span>Blabla</span></a>
+            <a href="{{ url('/') }}" class="site_title"><i class="fa fa-resistance"></i> <span>Blabla</span></a>
         </div>
 
         <div class="clearfix"></div>
-
         <!-- menu profile quick info -->
         <div class="profile">
             <div class="profile_pic">
-                <img src="images/img.jpg" alt="..." class="img-circle profile_img">
+                <img src="{{asset('/resources/images/user.png')}}" alt="..." class="img-circle profile_img">
             </div>
             <div class="profile_info">
-                <span>Welcome,</span>
-                <h2>John Doe</h2>
+                <span>{{trans('general.welcome')}},</span>
+                <h2>{{Auth::user()->username}}</h2>
             </div>
-        </div>
+            <div class="clearfix"></div>
+        </div>        
         <!-- /menu profile quick info -->
 
         <br />
@@ -23,15 +23,17 @@
         <!-- sidebar menu -->
         <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
             <div class="menu_section">
-                <h3>General</h3>
                 <ul class="nav side-menu">
-                    <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
+                    @if(Auth::user()->can('user-management') || Auth::user()->can('option-edit') || Auth::user()->can('option-list'))
+                    <li>
+                        <a><i class="fa fa-home"></i> {{trans('general.permission_assign')}} <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="index.html">Dashboard</a></li>
+                            <li><a href="{{ url('/') }}">Dashboard</a></li>
                             <li><a href="index2.html">Dashboard2</a></li>
                             <li><a href="index3.html">Dashboard3</a></li>
                         </ul>
                     </li>
+                    @endif
                     <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="form.html">General Form</a></li>

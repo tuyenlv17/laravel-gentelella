@@ -30,5 +30,5 @@
 <script src="{{ asset('/global/plugins/bootbox/bootbox.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('/global/plugins/jquery-validation/js/jquery.validate.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('/global/plugins/jquery-validation/js/additional-methods.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('/apps/scripts/' . Session::get('locale', 'en') . '/admin/group.index.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/apps/js/admin/group.index.js') }}" type="text/javascript"></script>
 @endsection

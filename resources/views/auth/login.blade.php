@@ -1,14 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.main')
 
 @section('title', trans('general.login'))
 
-@section('admin-page')
-@endsection
-
-@section('error-page')
-@endsection
-
-@section('login-page')
+@section('page-content')
 <div>
     <a class="hiddenanchor" id="signup"></a>
     <a class="hiddenanchor" id="signin"></a>

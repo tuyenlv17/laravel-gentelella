@@ -1,7 +1,7 @@
 @section('title', 'Quản lý gười dùng')
 
 @section('page-bar')
-{{ Form::bsPageBar('Quản lý gười dùng') }}
+{{ Form::ctPageBar('Quản lý gười dùng') }}
 @endsection
 
 @section('assets_head')
