@@ -15,12 +15,7 @@
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 Auth::routes();
 
-Route::group(['namespace' => 'Admin', 'prefix'=>'/admin'], function() {    
-    Route::get('/', 'OptionController@index');
-    
-    Route::post('/options/listing', 'OptionController@listing');
-    Route::resource('/options', 'OptionController');
-    
+Route::group(['namespace' => 'Admin', 'prefix'=>'/admin'], function() {        
     Route::get('/roles/', 'RoleController@index');
     Route::post('/roles/listing', 'RoleController@listing');
     Route::resource('/roles', 'RoleController');

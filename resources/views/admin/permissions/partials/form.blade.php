@@ -8,7 +8,7 @@
     <div class="col-sm-12">
         {{ Form::ctText('description', 'Mô tả', null, [], false) }}
     </div>    
-        <div class="col-sm-12">
+    <div class="col-sm-12">
         {{ Form::ctSelect('group', 'Group', $groups, isset($current_group) ? $current_group : NULL, null, [], true) }}
     </div>
     <div class="col-md-12">

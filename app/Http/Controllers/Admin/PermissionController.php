@@ -21,21 +21,17 @@ class PermissionController extends Controller {
 //        $this->middleware('permission:permission-list', ['only' => ['listing']]);
 //        $this->middleware('permission:permission-delete', ['only' => ['destroy']]);
     }
-    
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     */    
-    
+     */
     public function index() {
-        $groups = Group::get();
-        $groups_selection = array();
-        foreach ($groups as $group) {
-            $groups_selection[$group->name] = $group->display_name;
-        }
-        return view('admin.permissions.index', array(
-            'groups' => $groups_selection
+        $groups = Group::pluck('display_name', 'name')->toArray();
+        return view('admin.permission', array(
+            'action' => 'add',
+            'groups' => $groups,
         ));
     }
 
@@ -61,19 +57,30 @@ class PermissionController extends Controller {
 
         $total = Permission::count();
 
-        $total_filter = Permission::where('name', 'LIKE', "%$keyword%")
-                ->orWhere('display_name', 'LIKE', "%$keyword%")
-                ->orWhere('description', 'LIKE', "%$keyword%")
+        $total_filter = DB::table('permissions')
+                ->join('groups', 'groups.id', '=', 'group_id')
+                ->where(function ($query) use ($keyword) {
+                    $query->where('permissions.name', 'LIKE', "%$keyword%")
+                        ->orWhere('permissions.display_name', 'LIKE', "%$keyword%")
+                        ->orWhere('permissions.description', 'LIKE', "%$keyword%")
+                        ->orWhere('groups.display_name', 'LIKE', "%$keyword%");
+                })
                 ->count();
 
-        $permissions = Permission::where('name', 'LIKE', "%$keyword%")
-                ->orWhere('display_name', 'LIKE', "%$keyword%")
-                ->orWhere('description', 'LIKE', "%$keyword%")
+        $permissions = DB::table('permissions')
+                ->select('permissions.*', DB::raw('groups.display_name as group_name'))
+                ->join('groups', 'groups.id', '=', 'group_id')
+                ->where(function ($query) use ($keyword) {
+                    $query->where('permissions.name', 'LIKE', "%$keyword%")
+                        ->orWhere('permissions.display_name', 'LIKE', "%$keyword%")
+                        ->orWhere('permissions.description', 'LIKE', "%$keyword%")
+                        ->orWhere('groups.display_name', 'LIKE', "%$keyword%");
+                })
                 ->orderBy($order_by, $order_type)
                 ->skip($start)
                 ->take($length)
-                ->get();       
-             
+                ->get();
+
 
         $arr = array(
             'recordsTotal' => $total,
@@ -110,11 +117,12 @@ class PermissionController extends Controller {
             return redirect('admin/permissions')
                             ->withErrors($validator);
         } else {
+            $group_id = DB::table('groups')->where('name', '=', Input::get('group'))->first()->id;
             $permission = new Permission();
             $permission->name = $request->input('name');
             $permission->display_name = $request->input('display_name');
             $permission->description = $request->input('description');
-
+            $permission->group_id = $group_id;
             $permission->save();
 
             // redirect
@@ -146,7 +154,7 @@ class PermissionController extends Controller {
         $current_group = NULL;
         foreach ($groups as $group) {
             $groups_selection[$group->name] = $group->display_name;
-            if($group->id == $permission->group_id) {
+            if ($group->id == $permission->group_id) {
                 $current_group = $group->name;
             }
         }
@@ -170,14 +178,13 @@ class PermissionController extends Controller {
             'name' => 'required|max:64|unique:permissions,name,' . $permission->id,
             'display_name' => 'required',
         ]);
-
+        $group_id = DB::table('groups')->where('name', '=', Input::get('group'))->first()->id;
         $permission->name = Input::get('name');
         $permission->display_name = Input::get('display_name');
-        $permission->description = Input::get('description');        
+        $permission->description = Input::get('description');
         $group = Group::where('name', Input::get('group'))
-                        ->get()
-                        ->first();
-        
+                ->get()
+                ->first();        
         $permission->group_id = $group->id;
         $permission->save();
 

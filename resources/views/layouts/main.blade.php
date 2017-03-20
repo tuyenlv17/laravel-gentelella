@@ -18,12 +18,14 @@
         <link href="{{asset('/resources/vendors/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
         <!-- Animate.css -->
         <link href="{{asset('/resources/vendors/animate.css/animate.min.css')}}" rel="stylesheet">
-        
-        <!-- Custom Theme Style -->
-        <link href="{{asset('/resources/css/app.css')}}" rel="stylesheet">
+        <!-- select2 -->
+        <link href="{{asset('/resources/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">                
         
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
         @yield('assets_css')        
+        
+        <!-- Custom Theme Style -->
+        <link href="{{asset('/resources/css/app.css')}}" rel="stylesheet">
     </head>
 
     <body class="nav-md">
@@ -44,9 +46,12 @@
         <script src="{{asset('/resources/vendors/jquery/dist/jquery.min.js')}}"></script>
         <!-- Bootstrap -->
         <script src="{{asset('/resources/vendors/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+        <!-- select2 -->
+        <script src="{{asset('/resources/vendors/select2/dist/js/select2.full.min.js')}}"></script>
         <!-- Custom Theme Scripts -->
-        <script src="{{asset('/resources/js/app.min.js')}}"></script>
-        <script src="{{asset('/resources/js/custom.js')}}"></script>
+        <script src="{{asset('/resources/js/app.js')}}"></script>
         @yield('assets_js')        
+        <input type="hidden" id="site-meta"             
+               data-base-url="{{ url('/') }}"/>
     </body>
 </html>

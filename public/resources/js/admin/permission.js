@@ -4,17 +4,16 @@
 var AppPermission = function () {
     
     var baseUrl = jQuery('#site-meta').attr('data-base-url');
-    var table = null;
-    $.fn.select2.defaults.set("theme", "bootstrap");
-    // private functions & variables
+    var table = null;    
 
     var _loadPermissionTable = function () {
         table = jQuery('#permission-table').DataTable({
             "dom": "<'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
             "serverSide": true,
             "processing": true,
+            responsive: true,
             "language": {
-                "processing": '<div class="loading-message"><img src="' + baseUrl + '/global/img/loading-spinner-grey.gif"/><span>&nbsp;&nbsp;&nbsp; Loading...</span></div>',
+                "processing": '<div class="loading-message"><i class="fa fa-spinner fa-spin"></i><span>&nbsp;&nbsp;&nbsp; Loading...</span></div>',
                 "infoEmpty": "No record found",                
             },
             "ajax": {
@@ -46,11 +45,11 @@ var AppPermission = function () {
             ],
             columnDefs: [
                 {
-                    targets: [0, 4],
+                    targets: [0, 5],
                     sortable: false
                 },
                 {
-                    targets: [4],
+                    targets: [5],
                     render: function (data, type, row) {
                         return '<a href="' + baseUrl + '/admin/permissions/' + row['id'] + '/edit" class="table-action table-action-edit" title="Edit"><i class="fa fa-pencil"></i></a>'
                                 + '<a href="javascript:;" class="table-action table-action-delete delete-permission" data-id="' + row['id'] + '" title="Delete"><i class="fa fa-trash-o"></i></a>';
@@ -79,48 +78,33 @@ var AppPermission = function () {
      */
     var _deletePermission = function () {
         jQuery(document).on('click', '.delete-permission', function () {
-            var btn = jQuery(this);
-            var id = btn.attr('data-id');
-
-            bootbox.dialog({
-                message: 'Are you sure to delete this record?',
-                title: 'Notification',
-                buttons: {
-                    success: {
-                        label: 'Cancel',
-                        className: 'btn btn-default'
+            if (confirm("Delete?")) {
+                var id = $(this).attr('data-id');
+                var btn = $(this);
+                jQuery.ajax({
+                    url: baseUrl + '/admin/permissions/' + id,
+                    dataType: 'json',
+                    type: 'DELETE',
+                    data: {
                     },
-                    danger: {
-                        label: 'Delete',
-                        className: 'btn btn-primary',
-                        callback: function () {
-                            jQuery.ajax({
-                                url: baseUrl + '/admin/permissions/' + id,
-                                dataType: 'json',
-                                type: 'DELETE',
-                                data: {
-                                },
-                                success: function (data, textStatus, jqXHR) {
-                                    if (data.code == 0) {
-                                        btn.parents('tr').addClass('hidden selected');
-                                        if (table != null) {
-                                            table.row('.selected')
-                                                    .remove()
-                                                    .draw(false);
-                                        }
-                                        toastr.success('Delete record successfully!', 'Norification');
-                                    } else {
-                                        toastr.error('Error, please try again later!', 'Norification');
-                                    }
-                                },
-                                error: function (jqXHR, textStatus, errorThrown) {
-                                    toastr.error('Error, please try again later!', 'Norification');
-                                }
-                            });
+                    success: function (data, textStatus, jqXHR) {
+                        if (data.code == 0) {
+                            btn.parents('tr').addClass('hidden selected');
+                            if (groupTable != null) {
+                                groupTable.row('.selected')
+                                        .remove()
+                                        .draw(false);
+                            }
+                            alert('success!');
+                        } else {
+                            alert('error!');
                         }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('error!');
                     }
-                }
-            });
+                });
+            }
         });
     };
 
@@ -170,14 +154,19 @@ var AppPermission = function () {
         });
     };
 
-
+    
+    function initComponent() {
+        $('select').select2({});
+    }
+    
     // public functions
     return {
         //main function
         init: function () {
             _loadPermissionTable();
             _deletePermission();
-            _handleValidation();
+//            _handleValidation();
+            initComponent();
         }
 
     };

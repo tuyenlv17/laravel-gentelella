@@ -25,8 +25,8 @@ class GroupController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {        
-        return view('admin.groups.index', array(
+    public function index() {
+        return view('admin.group', array(
             'action' => 'add',
         ));
     }
@@ -53,14 +53,20 @@ class GroupController extends Controller {
 
         $total = Group::count();
 
-        $total_filter = Group::where('name', 'LIKE', "%$keyword%")
-                ->orWhere('display_name', 'LIKE', "%$keyword%")
-                ->orWhere('description', 'LIKE', "%$keyword%")
+        $total_filter = Group::
+                where(function ($query) use ($keyword) {
+                    $query->where('name', 'LIKE', "%$keyword%")
+                        ->orWhere('display_name', 'LIKE', "%$keyword%")
+                        ->orWhere('description', 'LIKE', "%$keyword%");
+                })
                 ->count();
 
-        $groups = Group::where('name', 'LIKE', "%$keyword%")
-                ->orWhere('display_name', 'LIKE', "%$keyword%")
-                ->orWhere('description', 'LIKE', "%$keyword%")
+        $groups = Group::
+                where(function ($query) use ($keyword) {
+                    $query->where('name', 'LIKE', "%$keyword%")
+                        ->orWhere('display_name', 'LIKE', "%$keyword%")
+                        ->orWhere('description', 'LIKE', "%$keyword%");
+                })
                 ->orderBy($order_by, $order_type)
                 ->skip($start)
                 ->take($length)
@@ -133,7 +139,10 @@ class GroupController extends Controller {
      */
     public function edit($id) {
         $group = Group::findOrFail($id);
-        return view('admin.groups.edit', compact('group'));
+        return view('admin.group', array(
+            'action' => 'edit',
+            'group'=> $group,
+        ));
     }
 
     /**

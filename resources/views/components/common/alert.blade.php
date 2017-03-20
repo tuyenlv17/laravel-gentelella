@@ -1,7 +1,3 @@
-<div class="alert alert-danger display-hide" style="display: none;">
-    <button data-close="alert" class="close"></button>Có lỗi xảy ra!
-</div>
-
 @if (Session::has('message'))
 <div class="alert alert-success alert-dismissable">
     <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>

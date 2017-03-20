@@ -1,21 +1,19 @@
 /**
- Group Module
+ Permission's Group
  **/
-var AppGroup = function () {
-    
-    var baseUrl = jQuery('#site-meta').attr('data-base-url');
-    var table = null;
-    $.fn.select2.defaults.set("theme", "bootstrap");
-    // private functions & variables
+var AppPermissionGroup = function () {
 
-    var _loadGroupTable = function () {
-        table = jQuery('#group-table').DataTable({
-            "dom": "<'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
+    var baseUrl = $('#site-meta').attr('data-base-url');
+    var groupTable = null;
+
+    function loadGroupTable() {
+        groupTable = $('#group-table').DataTable({
+//            "dom": "<'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
             "serverSide": true,
             "processing": true,
             "language": {
-                "processing": '<div class="loading-message"><img src="' + baseUrl + '/global/img/loading-spinner-grey.gif"/><span>&nbsp;&nbsp;&nbsp; Loading...</span></div>',
-                "infoEmpty": "No record found",                
+                "processing": '<div class="loading-message"><i class="fa fa-spinner fa-spin"></i><span>&nbsp;&nbsp;&nbsp; Loading...</span></div>',
+                "infoEmpty": "No record found",
             },
             "ajax": {
                 "url": baseUrl + '/admin/groups/listing',
@@ -59,131 +57,74 @@ var AppGroup = function () {
             ]
         });
 
-        table.on('order.dt search.dt draw.dt', function () {
-            var info = table.page.info();
+        groupTable.on('order.dt search.dt draw.dt', function () {
+            var info = groupTable.page.info();
             var start = info.start;
-            table.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
+            groupTable.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
                 cell.innerHTML = i + 1 + start;
             });
         });
 
-        jQuery(".dataTables_length select").select2({
+        $(".dataTables_length select").select2({
             minimumResultsForSearch: -1,
             width: '60px'
         });
-    };
+    }
 
     /**
      * delete an Group
      * @returns {undefined}
      */
-    var _deleteGroup = function () {
-        jQuery(document).on('click', '.delete-group', function () {
-            var btn = jQuery(this);
-            var id = btn.attr('data-id');
-
-            bootbox.dialog({
-                message: 'Are you sure to delete this record?',
-                title: 'Notification',
-                buttons: {
-                    success: {
-                        label: 'Cancel',
-                        className: 'btn btn-default'
+    function deleteGroup() {
+        $(document).on('click', '.delete-group', function () {
+            if (confirm("Delete?")) {
+                var id = $(this).attr('data-id');
+                var btn = $(this);
+                jQuery.ajax({
+                    url: baseUrl + '/admin/groups/' + id,
+                    dataType: 'json',
+                    type: 'DELETE',
+                    data: {
                     },
-                    danger: {
-                        label: 'Delete',
-                        className: 'btn btn-primary',
-                        callback: function () {
-                            jQuery.ajax({
-                                url: baseUrl + '/admin/groups/' + id,
-                                dataType: 'json',
-                                type: 'DELETE',
-                                data: {
-                                },
-                                success: function (data, textStatus, jqXHR) {
-                                    if (data.code == 0) {
-                                        btn.parents('tr').addClass('hidden selected');
-                                        if (table != null) {
-                                            table.row('.selected')
-                                                    .remove()
-                                                    .draw(false);
-                                        }
-                                        toastr.success('Delete record successfully!', 'Norification');
-                                    } else {
-                                        toastr.error('Error, please try again later!', 'Norification');
-                                    }
-                                },
-                                error: function (jqXHR, textStatus, errorThrown) {
-                                    toastr.error('Error, please try again later!', 'Norification');
-                                }
-                            });
+                    success: function (data, textStatus, jqXHR) {
+                        if (data.code == 0) {
+                            btn.parents('tr').addClass('hidden selected');
+                            if (groupTable != null) {
+                                groupTable.row('.selected')
+                                        .remove()
+                                        .draw(false);
+                            }
+                            alert('success!');
+                        } else {
+                            alert('error!');
                         }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('error!');
                     }
-                }
-            });
-        });
-    };
-
-    /**
-     * handle validation form
-     * @returns {undefined}
-     */
-    var _handleValidation = function () {
-        var form = jQuery('#group-form');
-        var error = jQuery('.alert-danger', form);
-
-        form.validate({
-            errorElement: 'span',
-            errorClass: 'help-block help-block-error',
-            focusInvalid: false,
-            ignore: "",
-            rules: {
-                name: {
-                    minlength: 2,
-                    maxlength: 64,
-                    required: true
-                },
-                display_name: {
-                    required: true
-                }
-            },
-            invalidHandler: function (event, validator) {
-                error.show();
-                App.scrollTo(error, -200);
-            },
-            highlight: function (element) {
-                jQuery(element)
-                        .closest('.form-group').addClass('has-error');
-            },
-            unhighlight: function (element) {
-                jQuery(element)
-                        .closest('.form-group').removeClass('has-error');
-            },
-            success: function (label) {
-                label
-                        .closest('.form-group').removeClass('has-error');
-            },
-            submitHandler: function (form) {
-                error.hide();
-                form.submit();
+                });
             }
-        });
-    };
 
+        });
+    }
+
+    function initComponent() {
+        $('select').select2({});
+    }
 
     // public functions
     return {
         //main function
         init: function () {
-            _loadGroupTable();
-            _deleteGroup();
-            _handleValidation();
+            loadGroupTable();
+            deleteGroup();
+            initComponent();
         }
 
     };
 
 };
 
-jQuery(document).ready(function () {
-    AppGroup().init();
+$(document).ready(function () {
+    AppPermissionGroup().init();
 });
