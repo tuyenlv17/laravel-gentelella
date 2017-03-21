@@ -28,8 +28,8 @@ class PermissionController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $groups = Group::pluck('display_name', 'name')->toArray();
-        return view('admin.permission', array(
+        $groups = Group::pluck('display_name', 'id')->toArray();
+        return view('admin.permissions', array(
             'action' => 'add',
             'groups' => $groups,
         ));
@@ -61,9 +61,9 @@ class PermissionController extends Controller {
                 ->join('groups', 'groups.id', '=', 'group_id')
                 ->where(function ($query) use ($keyword) {
                     $query->where('permissions.name', 'LIKE', "%$keyword%")
-                        ->orWhere('permissions.display_name', 'LIKE', "%$keyword%")
-                        ->orWhere('permissions.description', 'LIKE', "%$keyword%")
-                        ->orWhere('groups.display_name', 'LIKE', "%$keyword%");
+                    ->orWhere('permissions.display_name', 'LIKE', "%$keyword%")
+                    ->orWhere('permissions.description', 'LIKE', "%$keyword%")
+                    ->orWhere('groups.display_name', 'LIKE', "%$keyword%");
                 })
                 ->count();
 
@@ -72,9 +72,9 @@ class PermissionController extends Controller {
                 ->join('groups', 'groups.id', '=', 'group_id')
                 ->where(function ($query) use ($keyword) {
                     $query->where('permissions.name', 'LIKE', "%$keyword%")
-                        ->orWhere('permissions.display_name', 'LIKE', "%$keyword%")
-                        ->orWhere('permissions.description', 'LIKE', "%$keyword%")
-                        ->orWhere('groups.display_name', 'LIKE', "%$keyword%");
+                    ->orWhere('permissions.display_name', 'LIKE', "%$keyword%")
+                    ->orWhere('permissions.description', 'LIKE', "%$keyword%")
+                    ->orWhere('groups.display_name', 'LIKE', "%$keyword%");
                 })
                 ->orderBy($order_by, $order_type)
                 ->skip($start)
@@ -117,7 +117,10 @@ class PermissionController extends Controller {
             return redirect('admin/permissions')
                             ->withErrors($validator);
         } else {
-            $group_id = DB::table('groups')->where('name', '=', Input::get('group'))->first()->id;
+            $group_id = DB::table('groups')->where('id', '=', Input::get('group'))->value('id');
+            if (!isset($group_id)) {
+                $group_id = DB::table('groups')->where('name', '=', 'other')->value('id');
+            }
             $permission = new Permission();
             $permission->name = $request->input('name');
             $permission->display_name = $request->input('display_name');
@@ -149,18 +152,11 @@ class PermissionController extends Controller {
      */
     public function edit($id) {
         $permission = Permission::findOrFail($id);
-        $groups = Group::get();
-        $groups_selection = array();
-        $current_group = NULL;
-        foreach ($groups as $group) {
-            $groups_selection[$group->name] = $group->display_name;
-            if ($group->id == $permission->group_id) {
-                $current_group = $group->name;
-            }
-        }
-        return view('admin.permissions.edit', array(
+        $groups = Group::pluck('display_name', 'id')->toArray();
+        return view('admin.permissions', array(
+            'action' => 'edit',
             'permission' => $permission,
-            'groups' => $groups_selection
+            'groups' => $groups
         ));
     }
 
@@ -178,14 +174,14 @@ class PermissionController extends Controller {
             'name' => 'required|max:64|unique:permissions,name,' . $permission->id,
             'display_name' => 'required',
         ]);
-        $group_id = DB::table('groups')->where('name', '=', Input::get('group'))->first()->id;
+        $group_id = DB::table('groups')->where('id', '=', Input::get('group'))->value('id');
+        if (!isset($group_id)) {
+            $group_id = DB::table('groups')->where('name', '=', 'other')->value('id');
+        }
         $permission->name = Input::get('name');
         $permission->display_name = Input::get('display_name');
         $permission->description = Input::get('description');
-        $group = Group::where('name', Input::get('group'))
-                ->get()
-                ->first();        
-        $permission->group_id = $group->id;
+        $permission->group_id = $group_id;
         $permission->save();
 
         Session::flash('message', 'Cập nhật quyền người dùng thành công!');

@@ -26,7 +26,7 @@ class GroupController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        return view('admin.group', array(
+        return view('admin.groups', array(
             'action' => 'add',
         ));
     }
@@ -139,7 +139,7 @@ class GroupController extends Controller {
      */
     public function edit($id) {
         $group = Group::findOrFail($id);
-        return view('admin.group', array(
+        return view('admin.groups', array(
             'action' => 'edit',
             'group'=> $group,
         ));

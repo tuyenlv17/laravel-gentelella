@@ -4,5 +4,11 @@
     @else
     {{ Form::label($name, $title, ['class' => 'control-label']) }}
     @endif 
-    {{ Form::password($name, array('class' => 'form-control')) }}
+    <?php
+        if (!isset($attributes['class'])) {
+            $attributes['class'] = '';
+        }
+        $attributes['class'] .= ' form-control';
+    ?>
+    {{ Form::password($name, $attributes) }}
 </div>

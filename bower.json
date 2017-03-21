@@ -42,7 +42,9 @@
     "datatables.net-scroller": "^1.4.1",
     "datatables.net-scroller-bs": "^1.4.1",
     "animate.css": "^3.5.1",
-    "DateJS": "^1.0.0-rc3"
+    "DateJS": "^1.0.0-rc3",
+    "iCheck": "icheck#^1.0.2",
+    "switchery": "^0.8.1"
   },
   "resolutions": {
     "jquery": "^2.2.3",

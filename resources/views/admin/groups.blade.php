@@ -1,6 +1,6 @@
 @extends('layouts.common')
 
-@section('title', trans('general.permissions_group'))
+@section('title', trans('general.groups'))
 
 @section('main-content')
 <div class="row">
@@ -9,6 +9,8 @@
             <div class="x_title">
                 <h2>{{trans("general.".$action)}}</h2>
                 <ul class="nav navbar-right panel_toolbox">
+                    <li><a href="{{url('/admin/rbac/groups')}}"><i class="fa fa-plus" title="{{trans('general.add')}}"></i></a>
+                    </li>
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>                    
                     <li><a class="close-link"><i class="fa fa-close"></i></a>
@@ -58,7 +60,7 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <table id="group-table" class="table table-striped table-bordered">
+                <table id="groups-table" class="table table-striped table-bordered">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -84,5 +86,5 @@
 <!-- Datatables -->
 <script src="{{asset('/resources/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('/resources/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
-<script src="{{asset('/resources/js/admin/group.js')}}"></script>
+<script src="{{asset('/resources/js/admin/rbac/groups.js')}}"></script>
 @stop

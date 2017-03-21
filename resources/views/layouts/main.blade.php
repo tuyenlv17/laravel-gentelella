@@ -48,7 +48,7 @@
         <script src="{{asset('/resources/vendors/bootstrap/dist/js/bootstrap.min.js')}}"></script>
         <!-- select2 -->
         <script src="{{asset('/resources/vendors/select2/dist/js/select2.full.min.js')}}"></script>
-        <!-- Custom Theme Scripts -->
+        <!-- Custom Scripts -->
         <script src="{{asset('/resources/js/app.js')}}"></script>
         @yield('assets_js')        
         <input type="hidden" id="site-meta"             

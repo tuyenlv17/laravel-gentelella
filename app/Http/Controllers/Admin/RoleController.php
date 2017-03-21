@@ -29,22 +29,19 @@ class RoleController extends Controller {
     }
 
     public function index() {
-        $groups = Group::select('name', 'display_name')
-                        ->get();
-        $permission_group = array();
-        foreach ($groups as $group) {
-            $permission_group[$group->name] = array();
-        }
-        $permissions = DB::table('permissions')
-                         ->join('groups', 'groups.id', '=', 'permissions.group_id')
-                         ->select('permissions.*', 'groups.name as group_name')
+        $permissions = DB::table('permissions')                         
+                         ->select('permissions.*', 'groups.display_name as group_name')
+                         ->rightJoin('groups', 'groups.id', '=', 'permissions.group_id')
+                         ->orderBy('group_id', 'asc')
                          ->get();
+        $permission_group = array();
         foreach ($permissions as $permission) {
             $permission_group[$permission->group_name][] = $permission;
         }
         
-        return view('admin.roles.index', array(
-            'permission_group' => $permission_group
+        return view('admin.roles', array(
+            'action' => 'add',
+            'permission_group' => $permission_group,
         ));
     }
 
@@ -157,31 +154,29 @@ class RoleController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        $role = Role::findOrFail($id);
-
-        $permission = Permission::get();
+        $role = Role::findOrFail($id);       
 
         $current_permisisons = DB::table("permission_role")
                                  ->where("permission_role.role_id", $id)
-                                 ->pluck('permission_role.permission_id');   
+                                 ->pluck('permission_role.permission_id')
+                                 ->toArray();   
         
-        $editForm = true;
-        
-        $groups = Group::select('name', 'display_name')
-                        ->get();
-        $permission_group = array();
-        foreach ($groups as $group) {
-            $permission_group[$group->name] = array();
-        }
-        $permissions = DB::table('permissions')
-                         ->join('groups', 'groups.id', '=', 'permissions.group_id')
-                         ->select('permissions.*', 'groups.name as group_name')
+        $permissions = DB::table('permissions')                         
+                         ->select('permissions.*', 'groups.display_name as group_name')
+                         ->rightJoin('groups', 'groups.id', '=', 'permissions.group_id')
+                         ->orderBy('group_id', 'asc')
                          ->get();
+        $permission_group = array();
         foreach ($permissions as $permission) {
             $permission_group[$permission->group_name][] = $permission;
-        }       
-
-        return view('admin.roles.edit', compact('role', 'permission', 'current_permisisons', 'editForm', 'permission_group'));
+        }
+        
+        return view('admin.roles', array(
+            'action' => 'edit',
+            'role' => $role,
+            'current_permisisons' => $current_permisisons,
+            'permission_group' => $permission_group,
+        ));
     }
 
     /**
@@ -202,6 +197,7 @@ class RoleController extends Controller {
         $role->name = Input::get('name');
         $role->display_name = Input::get('display_name');
         $role->description = Input::get('description');
+        $role->default_url = Input::get('default_url');
         $role->save();
 
         DB::table("permission_role")->where("permission_role.role_id", $id)

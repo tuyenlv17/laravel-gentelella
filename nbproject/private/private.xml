@@ -4,12 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/var/www/blabla.com/bower.json</file>
-            <file>file:/var/www/blabla.com/public/resources/js/admin/group.js</file>
-            <file>file:/var/www/blabla.com/app/Http/Controllers/Admin/GroupController.php</file>
-            <file>file:/var/www/blabla.com/resources/views/admin/groups/index.blade.php</file>
-            <file>file:/var/www/blabla.com/resources/lang/en/validation.php</file>
-            <file>file:/var/www/blabla.com/resources/views/components/common/alert.blade.php</file>
-            <file>file:/var/www/blabla.com/resources/views/layouts/main.blade.php</file>
+            <file>file:/var/www/blabla.com/public/resources/js/admin/rbac/users.js</file>
+            <file>file:/var/www/blabla.com/public/resources/less/app.less</file>
+            <file>file:/var/www/blabla.com/resources/views/admin/users.blade.php</file>
+            <file>file:/var/www/blabla.com/public/resources/js/admin/rbac/roles.js</file>
+            <file>file:/var/www/blabla.com/app/Http/Controllers/Admin/UserController.php</file>
         </group>
     </open-files>
 </project-private>

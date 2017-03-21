@@ -4,5 +4,11 @@
     @else
     {{ Form::label($name, $title, ['class' => 'control-label']) }}
     @endif 
-    {{ Form::text($name, $value, array_merge(['class' => 'form-control'], $attributes)) }}
+    <?php 
+        if(!isset($attributes['class'])) {
+            $attributes['class'] = '';
+        }
+        $attributes['class'] .= ' form-control';
+    ?>
+    {{ Form::text($name, $value, $attributes) }}
 </div>

@@ -2,20 +2,20 @@
  Role Module
  **/
 var AppRole = function () {
-    
+
     var baseUrl = jQuery('#site-meta').attr('data-base-url');
-    var table = null;
+    var roleTable = null;
     $.fn.select2.defaults.set("theme", "bootstrap");
     // private functions & variables
 
-    var _loadRoleTable = function () {
-        table = jQuery('#role-table').DataTable({
-            "dom": "<'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
+    function loadRoleTable() {
+        roleTable = jQuery('#roles-table').DataTable({
+            "dom": "<'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable table-responsive   't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
             "serverSide": true,
             "processing": true,
             "language": {
-                "processing": '<div class="loading-message"><img src="' + baseUrl + '/global/img/loading-spinner-grey.gif"/><span>&nbsp;&nbsp;&nbsp; Loading...</span></div>',
-                "infoEmpty": "No record found",                
+                "processing": '<div class="loading-message"><i class="fa fa-spinner fa-spin"></i><span>&nbsp;&nbsp;&nbsp; Loading...</span></div>',
+                "infoEmpty": "No record found",
             },
             "ajax": {
                 "url": baseUrl + '/admin/roles/listing',
@@ -62,10 +62,10 @@ var AppRole = function () {
             ]
         });
 
-        table.on('order.dt search.dt draw.dt', function () {
-            var info = table.page.info();
+        roleTable.on('order.dt search.dt draw.dt', function () {
+            var info = roleTable.page.info();
             var start = info.start;
-            table.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
+            roleTable.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
                 cell.innerHTML = i + 1 + start;
             });
         });
@@ -80,50 +80,35 @@ var AppRole = function () {
      * delete an Role
      * @returns {undefined}
      */
-    var _deleteRole = function () {
+    function deleteRole() {
         jQuery(document).on('click', '.delete-role', function () {
-            var btn = jQuery(this);
-            var id = btn.attr('data-id');
-
-            bootbox.dialog({
-                message: 'Are you sure to delete this record?',
-                title: 'Notification',
-                buttons: {
-                    success: {
-                        label: 'Cancel',
-                        className: 'btn btn-default'
+            if (confirm("Delete?")) {
+                var id = $(this).attr('data-id');
+                var btn = $(this);
+                jQuery.ajax({
+                    url: baseUrl + '/admin/roles/' + id,
+                    dataType: 'json',
+                    type: 'DELETE',
+                    data: {
                     },
-                    danger: {
-                        label: 'Delete',
-                        className: 'btn btn-primary',
-                        callback: function () {
-                            jQuery.ajax({
-                                url: baseUrl + '/admin/roles/' + id,
-                                dataType: 'json',
-                                type: 'DELETE',
-                                data: {
-                                },
-                                success: function (data, textStatus, jqXHR) {
-                                    if (data.code == 0) {
-                                        btn.parents('tr').addClass('hidden selected');
-                                        if (table != null) {
-                                            table.row('.selected')
-                                                    .remove()
-                                                    .draw(false);
-                                        }
-                                        toastr.success('Delete record successfully!', 'Norification');
-                                    } else {
-                                        toastr.error('Error, please try again later!', 'Norification');
-                                    }
-                                },
-                                error: function (jqXHR, textStatus, errorThrown) {
-                                    toastr.error('Error, please try again later!', 'Norification');
-                                }
-                            });
+                    success: function (data, textStatus, jqXHR) {
+                        if (data.code == 0) {
+                            btn.parents('tr').addClass('hidden selected');
+                            if (roleTable != null) {
+                                roleTable.row('.selected')
+                                        .remove()
+                                        .draw(false);
+                            }
+                            alert('success!');
+                        } else {
+                            alert('error!');
                         }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('error!');
                     }
-                }
-            });
+                });
+            }
         });
     };
 
@@ -131,7 +116,7 @@ var AppRole = function () {
      * handle validation form
      * @returns {undefined}
      */
-    var _handleValidation = function () {
+    function handleValidation() {
         var form = jQuery('#role-form');
         var error = jQuery('.alert-danger', form);
 
@@ -173,14 +158,22 @@ var AppRole = function () {
         });
     };
 
+    function initComponent() {
+        $('select').select2({});
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
+        });
+    }
 
     // public functions
     return {
         //main function
         init: function () {
-            _loadRoleTable();
-            _deleteRole();
-            _handleValidation();
+            loadRoleTable();
+            deleteRole();
+            initComponent();
         }
 
     };

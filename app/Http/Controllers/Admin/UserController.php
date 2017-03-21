@@ -29,13 +29,12 @@ class UserController extends Controller {
     }
 
     public function index() {
-        $roles = Role::all();
-        $roles_selection = array();
-        foreach ($roles as $role) {
-            $roles_selection[$role->name] = $role->display_name;
-        }
-        return view('admin.users.index', array(
-            'roles' => $roles_selection
+        $roles = DB::table('roles')
+                ->pluck('display_name', 'id')
+                ->toArray();
+        return view('admin.users', array(
+            'action' => 'add',
+            'roles' => $roles
         ));
     }
 
@@ -95,8 +94,8 @@ class UserController extends Controller {
      */
     public function store(Request $request) {
         $validator = Validator::make($request->all(), [
-                    'name' => 'required|max:32|unique:users,name',
-                    'email' => 'required|unique:users,email',
+                    'username' => 'required|max:32|unique:users,username',
+                    'fullname' => 'required|unique:users,fullname',
                     'password' => 'confirmed'
         ]);
 
@@ -105,8 +104,8 @@ class UserController extends Controller {
                             ->withErrors($validator);
         } else {
             $user = new User();
-            $user->name = $request->input('name');
-            $user->email = $request->input('email');            
+            $user->username = $request->input('username');
+            $user->fullname = $request->input('fullname');            
             $user->password = bcrypt(Input::get('password'));
             $user->save();
             
@@ -163,16 +162,16 @@ class UserController extends Controller {
         $user = User::findOrFail($id);
 
         $this->validate($request, [
-            'name' => 'required|max:32|unique:users,name,' . $user->id,
-            'email' => 'required|unique:users,email,' . $user->id,
+            'username' => 'required|max:32|unique:users,username,' . $user->id,
+            'fullname' => 'required|unique:users,email,' . $user->id,
             'password' => 'confirmed'
         ]);
 
         $role_name = Input::get('role');
         $role = Role::where('name', '=', $role_name)
                 ->firstOrFail();
-        $user->name = Input::get('name');
-        $user->email = Input::get('email');
+        $user->name = Input::get('username');
+        $user->fullname = Input::get('fullname');
         if (Input::get('password') != '') {
             $user->password = bcrypt(Input::get('password'));
         }
