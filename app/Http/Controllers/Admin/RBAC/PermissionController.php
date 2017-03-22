@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\RBAC;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -29,7 +29,7 @@ class PermissionController extends Controller {
      */
     public function index() {
         $groups = Group::pluck('display_name', 'id')->toArray();
-        return view('admin.permissions', array(
+        return view('admin.rbac.permissions', array(
             'action' => 'add',
             'groups' => $groups,
         ));
@@ -49,15 +49,15 @@ class PermissionController extends Controller {
         $columns = Input::get('columns');
 
         $num = $order[0]['column'];
-        $order_by = $columns[$num]['data'];
-        $order_type = $order[0]['dir'];
+        $orderBy = $columns[$num]['data'];
+        $orderType = $order[0]['dir'];
 
         $search = Input::get('search');
         $keyword = $search['value'];
 
         $total = Permission::count();
 
-        $total_filter = DB::table('permissions')
+        $totalFilter = DB::table('permissions')
                 ->join('groups', 'groups.id', '=', 'group_id')
                 ->where(function ($query) use ($keyword) {
                     $query->where('permissions.name', 'LIKE', "%$keyword%")
@@ -76,7 +76,7 @@ class PermissionController extends Controller {
                     ->orWhere('permissions.description', 'LIKE', "%$keyword%")
                     ->orWhere('groups.display_name', 'LIKE', "%$keyword%");
                 })
-                ->orderBy($order_by, $order_type)
+                ->orderBy($orderBy, $orderType)
                 ->skip($start)
                 ->take($length)
                 ->get();
@@ -86,7 +86,7 @@ class PermissionController extends Controller {
             'recordsTotal' => $total,
             'data' => $permissions,
             'draw' => $draw,
-            'recordsFiltered' => $total_filter
+            'recordsFiltered' => $totalFilter
         );
 
         return response()->json($arr);
@@ -122,9 +122,9 @@ class PermissionController extends Controller {
                 $group_id = DB::table('groups')->where('name', '=', 'other')->value('id');
             }
             $permission = new Permission();
-            $permission->name = $request->input('name');
-            $permission->display_name = $request->input('display_name');
-            $permission->description = $request->input('description');
+            $permission->name = Input::get('name');
+            $permission->display_name = Input::get('display_name');
+            $permission->description = Input::get('description');
             $permission->group_id = $group_id;
             $permission->save();
 
@@ -153,7 +153,7 @@ class PermissionController extends Controller {
     public function edit($id) {
         $permission = Permission::findOrFail($id);
         $groups = Group::pluck('display_name', 'id')->toArray();
-        return view('admin.permissions', array(
+        return view('admin.rbac.permissions', array(
             'action' => 'edit',
             'permission' => $permission,
             'groups' => $groups
@@ -209,8 +209,8 @@ class PermissionController extends Controller {
                 'message' => 'success'
             );
 
-            DB::table("role_permission")->where("role_permission.permission_id", $id)
-                    ->delete();
+//            DB::table("role_permission")->where("role_permission.permission_id", $id)
+//                    ->delete();
         }
 
         return response()->json($arr);

@@ -13,7 +13,17 @@
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
                         <li><a href="javascript:;"> {{trans('general.profile')}} </a></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> {{trans('general.logout')}}</a></li>
+                        <li>
+                            <a href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                               document.getElementById('logout-form').submit();">
+                                    <i class="fa fa-sign-out pull-right"></i> {{trans('general.logout')}}
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                        </li>
                     </ul>
                 </li>                
             </ul>

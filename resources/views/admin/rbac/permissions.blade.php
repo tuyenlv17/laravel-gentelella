@@ -21,7 +21,7 @@
             <div class="x_content">
                 @include('components.common.alert')
                 @if(strcmp($action,'add') === 0)
-                {{ Form::open(array('url' => 'admin/permissions', 'id' => 'permission-form')) }}
+                {{ Form::open(array('url' => 'admin/rbac/permissions', 'id' => 'permission-form')) }}
                 @else
                 {{ Form::model($permission, array('route' => ['permissions.update', $permission->id], 'method' => 'PATCH', 'id' => 'permission-form')) }}
                 @endif

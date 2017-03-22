@@ -21,29 +21,35 @@
             <div class="x_content">
                 @include('components.common.alert')
                 @if(strcmp($action,'add') === 0)
-                {{ Form::open(array('url' => 'admin/users', 'id' => 'group-form')) }}
+                {{ Form::open(array('url' => 'admin/rbac/users', 'id' => 'user-form')) }}
                 @else
-                {{ Form::model($group, array('route' => ['users.update', $group->id], 'method' => 'PATCH', 'id' => 'user-form')) }}
+                {{ Form::model($user, array('route' => ['users.update', $user->id], 'method' => 'PATCH', 'id' => 'user-form')) }}
                 @endif
-
+                {{old('username')}}
                 <div class="row">
                     <div class="col-sm-12">
-                        {{ Form::ctText('username', trans('general.username'), null, [], true) }}
+                        {{ Form::ctText('username', trans('general.username'), null, ['value' => old('username')], true) }}
                     </div>
                     <div class="col-sm-12">
                         {{ Form::ctText('fullname', trans('general.fullname'), null, [], true) }}
                     </div>
                     <div class="col-sm-12">
-                        {{ Form::ctText('description', trans('general.description'), null, [], false) }}
+                        {{ Form::ctText('email', trans('general.email'), null, [], false) }}
                     </div>
                     <div class="col-sm-12">
-                        {{ Form::ctPassword('password', 'Mật khẩu', null, [], isset($current_role) ? false : true) }}
+                        {{ Form::ctText('phone', trans('general.phone'), null, [], false) }}
                     </div>
                     <div class="col-sm-12">
-                        {{ Form::ctPassword('password_confirmation', 'Nhập lại mật khẩu', null, [], isset($current_role) ? false : true) }}
+                        {{ Form::ctText('birthday', trans('general.birthday'), null, ['class' => 'date-picker'], false) }}
                     </div>
                     <div class="col-sm-12">
-                        {{ Form::ctSelect('roles', trans('general.roles'), $roles, isset($current_role) ? $current_role : NULL, [], true) }}
+                        {{ Form::ctPassword('password', trans('general.password'), null, [], strcmp($action,'add') === 0) }}
+                    </div>
+                    <div class="col-sm-12">
+                        {{ Form::ctPassword('password_confirmation', trans('general.password_confirmation'), null, [], strcmp($action,'add') === 0) }}
+                    </div>
+                    <div class="col-sm-12">
+                        {{ Form::ctSelect('roles[]', trans('general.roles'), $roles, strcmp($action,'add') === 0 ? NULL:$current_roles, ['multiple' => 'multiple', 'class' =>'select2-mutiple'], true) }}
                     </div>
                     <div class="col-md-12">
                         {{ Form::submit(trans('general.submit'), array('class' => 'btn btn-primary')) }}
@@ -89,11 +95,15 @@
 @section('assets_css')
 <!-- Datatables -->
 <link href="{{asset('/resources/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
+<link href="{{asset('/resources/vendors/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
 @stop
 
 @section('assets_js')
 <!-- Datatables -->
 <script src="{{asset('/resources/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('/resources/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
-<script src="{{asset('/resources/js/admin/rbac/rbac/users.js')}}"></script>
+<!-- bootstrap-daterangepicker -->
+<script src="{{asset('/resources/vendors/moment/min/moment.min.js')}}"></script>
+<script src="{{asset('/resources/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{asset('/resources/js/admin/rbac/users.js')}}"></script>
 @stop

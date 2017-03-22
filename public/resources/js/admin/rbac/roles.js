@@ -18,7 +18,7 @@ var AppRole = function () {
                 "infoEmpty": "No record found",
             },
             "ajax": {
-                "url": baseUrl + '/admin/roles/listing',
+                "url": baseUrl + '/admin/rbac/roles/listing',
                 "type": 'POST',
                 "dataType": 'json'
             },
@@ -55,7 +55,7 @@ var AppRole = function () {
                 {
                     targets: [5],
                     render: function (data, type, row) {
-                        return '<a href="' + baseUrl + '/admin/roles/' + row['id'] + '/edit" class="table-action table-action-edit" title="Edit"><i class="fa fa-pencil"></i></a>'
+                        return '<a href="' + baseUrl + '/admin/rbac/roles/' + row['id'] + '/edit" class="table-action table-action-edit" title="Edit"><i class="fa fa-pencil"></i></a>'
                                 + '<a href="javascript:;" class="table-action table-action-delete delete-role" data-id="' + row['id'] + '" title="Delete"><i class="fa fa-trash-o"></i></a>';
                     }
                 }
@@ -86,7 +86,7 @@ var AppRole = function () {
                 var id = $(this).attr('data-id');
                 var btn = $(this);
                 jQuery.ajax({
-                    url: baseUrl + '/admin/roles/' + id,
+                    url: baseUrl + '/admin/rbac/roles/' + id,
                     dataType: 'json',
                     type: 'DELETE',
                     data: {

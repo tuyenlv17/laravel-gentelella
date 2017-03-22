@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\RBAC;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -39,7 +39,7 @@ class RoleController extends Controller {
             $permission_group[$permission->group_name][] = $permission;
         }
         
-        return view('admin.roles', array(
+        return view('admin.rbac.roles', array(
             'action' => 'add',
             'permission_group' => $permission_group,
         ));
@@ -59,15 +59,15 @@ class RoleController extends Controller {
         $columns = Input::get('columns');
 
         $num = $order[0]['column'];
-        $order_by = $columns[$num]['data'];
-        $order_type = $order[0]['dir'];
+        $orderBy = $columns[$num]['data'];
+        $orderType = $order[0]['dir'];
 
         $search = Input::get('search');
         $keyword = $search['value'];
 
         $total = Role::count();
 
-        $total_filter = Role::where('name', 'LIKE', "%$keyword%")
+        $totalFilter = Role::where('name', 'LIKE', "%$keyword%")
                 ->orWhere('display_name', 'LIKE', "%$keyword%")
                 ->orWhere('description', 'LIKE', "%$keyword%")
                 ->orWhere('default_url', 'LIKE', "%$keyword%")
@@ -77,7 +77,7 @@ class RoleController extends Controller {
                 ->orWhere('display_name', 'LIKE', "%$keyword%")
                 ->orWhere('description', 'LIKE', "%$keyword%")
                 ->orWhere('default_url', 'LIKE', "%$keyword%")
-                ->orderBy($order_by, $order_type)
+                ->orderBy($orderBy, $orderType)
                 ->skip($start)
                 ->take($length)
                 ->get();
@@ -86,7 +86,7 @@ class RoleController extends Controller {
             'recordsTotal' => $total,
             'data' => $roles,
             'draw' => $draw,
-            'recordsFiltered' => $total_filter
+            'recordsFiltered' => $totalFilter
         );
 
         return response()->json($arr);
@@ -119,15 +119,15 @@ class RoleController extends Controller {
                             ->withErrors($validator);
         } else {
             $role = new Role();
-            $role->name = $request->input('name');
-            $role->display_name = $request->input('display_name');
-            $role->description = $request->input('description');
+            $role->name = Input::get('name');
+            $role->display_name = Input::get('display_name');
+            $role->description = Input::get('description');
             $role->default_url = Input::get('default_url');
             $role->save();
             
             $permission = Input::get('permission');
              if (count($permission) > 0) {
-                foreach ($request->input('permission') as $key => $value) {
+                foreach (Input::get('permission') as $key => $value) {
                     $role->attachPermission($value);
                 }
             }
@@ -171,7 +171,7 @@ class RoleController extends Controller {
             $permission_group[$permission->group_name][] = $permission;
         }
         
-        return view('admin.roles', array(
+        return view('admin.rbac.roles', array(
             'action' => 'edit',
             'role' => $role,
             'current_permisisons' => $current_permisisons,
@@ -236,8 +236,8 @@ class RoleController extends Controller {
                 'message' => 'success'
             );
 
-            DB::table("permission_role")->where("permission_role.role_id", $id)
-                    ->delete();
+//            DB::table("permission_role")->where("permission_role.role_id", $id)
+//                    ->delete();
         }
 
         return response()->json($arr);

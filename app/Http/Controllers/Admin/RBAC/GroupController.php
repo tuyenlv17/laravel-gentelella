@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\RBAC;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -26,7 +26,7 @@ class GroupController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        return view('admin.groups', array(
+        return view('admin.rbac.groups', array(
             'action' => 'add',
         ));
     }
@@ -45,15 +45,15 @@ class GroupController extends Controller {
         $columns = Input::get('columns');
 
         $num = $order[0]['column'];
-        $order_by = $columns[$num]['data'];
-        $order_type = $order[0]['dir'];
+        $orderBy = $columns[$num]['data'];
+        $orderType = $order[0]['dir'];
 
         $search = Input::get('search');
         $keyword = $search['value'];
 
         $total = Group::count();
 
-        $total_filter = Group::
+        $totalFilter = Group::
                 where(function ($query) use ($keyword) {
                     $query->where('name', 'LIKE', "%$keyword%")
                         ->orWhere('display_name', 'LIKE', "%$keyword%")
@@ -67,7 +67,7 @@ class GroupController extends Controller {
                         ->orWhere('display_name', 'LIKE', "%$keyword%")
                         ->orWhere('description', 'LIKE', "%$keyword%");
                 })
-                ->orderBy($order_by, $order_type)
+                ->orderBy($orderBy, $orderType)
                 ->skip($start)
                 ->take($length)
                 ->get();
@@ -77,7 +77,7 @@ class GroupController extends Controller {
             'recordsTotal' => $total,
             'data' => $groups,
             'draw' => $draw,
-            'recordsFiltered' => $total_filter
+            'recordsFiltered' => $totalFilter
         );
 
         return response()->json($arr);
@@ -109,9 +109,9 @@ class GroupController extends Controller {
                             ->withErrors($validator);
         } else {
             $group = new Group();
-            $group->name = $request->input('name');
-            $group->display_name = $request->input('display_name');
-            $group->description = $request->input('description');
+            $group->name = Input::get('name');
+            $group->display_name = Input::get('display_name');
+            $group->description = Input::get('description');
 
             $group->save();
 
@@ -139,7 +139,7 @@ class GroupController extends Controller {
      */
     public function edit($id) {
         $group = Group::findOrFail($id);
-        return view('admin.groups', array(
+        return view('admin.rbac.groups', array(
             'action' => 'edit',
             'group'=> $group,
         ));

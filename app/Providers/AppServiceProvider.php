@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+//        Validator::extend('password-extended', function ($attribute, $value, $parameters, $validator) {
+//            $passwordRegex = '^((?=.*[a-zA-Z])(?=.*\d).{8,64})|()$';
+//            
+//        });
     }
 
     /**

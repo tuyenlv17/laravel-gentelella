@@ -17,7 +17,7 @@ var AppPermission = function () {
                 "infoEmpty": "No record found",                
             },
             "ajax": {
-                "url": baseUrl + '/admin/permissions/listing',
+                "url": baseUrl + '/admin/rbac/permissions/listing',
                 "type": 'POST',
                 "dataType": 'json'
             },
@@ -54,7 +54,7 @@ var AppPermission = function () {
                 {
                     targets: [5],
                     render: function (data, type, row) {
-                        return '<a href="' + baseUrl + '/admin/permissions/' + row['id'] + '/edit" class="table-action table-action-edit" title="Edit"><i class="fa fa-pencil"></i></a>'
+                        return '<a href="' + baseUrl + '/admin/rbac/permissions/' + row['id'] + '/edit" class="table-action table-action-edit" title="Edit"><i class="fa fa-pencil"></i></a>'
                                 + '<a href="javascript:;" class="table-action table-action-delete delete-permission" data-id="' + row['id'] + '" title="Delete"><i class="fa fa-trash-o"></i></a>';
                     }
                 }
@@ -85,7 +85,7 @@ var AppPermission = function () {
                 var id = $(this).attr('data-id');
                 var btn = $(this);
                 jQuery.ajax({
-                    url: baseUrl + '/admin/permissions/' + id,
+                    url: baseUrl + '/admin/rbac/permissions/' + id,
                     dataType: 'json',
                     type: 'DELETE',
                     data: {

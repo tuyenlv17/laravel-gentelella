@@ -21,7 +21,7 @@
             <div class="x_content">
                 @include('components.common.alert')
                 @if(strcmp($action,'add') === 0)
-                {{ Form::open(array('url' => 'admin/groups', 'id' => 'group-form')) }}
+                {{ Form::open(array('url' => 'admin/rbac/groups', 'id' => 'group-form')) }}
                 @else
                 {{ Form::model($group, array('route' => ['groups.update', $group->id], 'method' => 'PATCH', 'id' => 'group-form')) }}
                 @endif

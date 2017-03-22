@@ -21,7 +21,7 @@
             <div class="x_content">
                 @include('components.common.alert')
                 @if(strcmp($action,'add') === 0)
-                {{ Form::open(array('url' => 'admin/roles', 'id' => 'role-form')) }}
+                {{ Form::open(array('url' => 'admin/rbac/roles', 'id' => 'role-form')) }}
                 @else
                 {{ Form::model($role, array('route' => ['roles.update', $role->id], 'method' => 'PATCH', 'id' => 'role-form')) }}
                 @endif

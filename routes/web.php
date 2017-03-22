@@ -11,16 +11,12 @@
 |
 */
 
-
-Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 Auth::routes();
 
-Route::group(['namespace' => 'Admin', 'prefix'=>'/admin'], function() {        
-    Route::get('/roles/', 'RoleController@index');
+Route::group(['namespace' => 'Admin\RBAC', 'prefix'=>'/admin/rbac'], function() {       
     Route::post('/roles/listing', 'RoleController@listing');
     Route::resource('/roles', 'RoleController');
     
-    Route::get('/permissions/', 'PermissionController@index');
     Route::post('/permissions/listing', 'PermissionController@listing');
     Route::resource('/permissions', 'PermissionController'); 
     
@@ -29,10 +25,6 @@ Route::group(['namespace' => 'Admin', 'prefix'=>'/admin'], function() {
     
     Route::post('/groups/listing', 'GroupController@listing');
     Route::resource('/groups', 'GroupController'); 
-});
-
-Route::get('/welcome', function () {
-    return view('welcome');
 });
 
 Route::get('/', 'HomeController@index');;

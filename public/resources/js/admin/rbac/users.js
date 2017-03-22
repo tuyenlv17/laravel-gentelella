@@ -13,11 +13,11 @@ var AppUser = function () {
             "serverSide": true,
             "processing": true,
             "language": {
-                "processing": '<div class="loading-message"><img src="' + baseUrl + '/global/img/loading-spinner-grey.gif"/><span>&nbsp;&nbsp;&nbsp; Loading...</span></div>',
+                "processing": '<div class="loading-message"><i class="fa fa-spinner fa-spin"></i><span>&nbsp;&nbsp;&nbsp; Loading...</span></div>',
                 "infoEmpty": "No record found",
             },
             "ajax": {
-                "url": baseUrl + '/admin/users/listing',
+                "url": baseUrl + '/admin/rbac/users/listing',
                 "type": 'POST',
                 "dataType": 'json'
             },
@@ -29,10 +29,13 @@ var AppUser = function () {
                     'className': 'tb-no-sort tb-number'
                 },
                 {
-                    'data': 'name'
+                    'data': 'username'
                 },
                 {
-                    'data': 'email'
+                    'data': 'fullname'
+                },
+                {
+                    'data': 'roles'
                 },
                 {
                     'data': null,
@@ -42,10 +45,10 @@ var AppUser = function () {
             ],
             columnDefs: [
                 {
-                    targets: [3],
+                    targets: [4],
                     sortable: false,
                     render: function (data, type, row) {
-                        return '<a href="' + baseUrl + '/admin/users/' + row['id'] + '/edit" class="table-action table-action-edit" title="Edit"><i class="fa fa-pencil"></i></a>'
+                        return '<a href="' + baseUrl + '/admin/rbac/users/' + row['id'] + '/edit" class="table-action table-action-edit" title="Edit"><i class="fa fa-pencil"></i></a>'
                                 + '<a href="javascript:;" class="table-action table-action-delete delete-user" data-id="' + row['id'] + '" title="Delete"><i class="fa fa-trash-o"></i></a>';
                     }
                 }
@@ -78,7 +81,7 @@ var AppUser = function () {
 
             if (confirm("Delete?")) {
                 jQuery.ajax({
-                    url: baseUrl + '/admin/users/' + id,
+                    url: baseUrl + '/admin/rbac/users/' + id,
                     dataType: 'json',
                     type: 'DELETE',
                     data: {
@@ -164,11 +167,17 @@ var AppUser = function () {
     };
 
     function initComponent() {
-        $('select').select2({});
-        $('input').iCheck({
-            checkboxClass: 'icheckbox_square-blue',
-            radioClass: 'iradio_square-blue',
-            increaseArea: '20%' // optional
+        $('.select2-mutiple').select2({});
+
+        $('#birthday').daterangepicker({
+            singleDatePicker: true,
+            locale: {
+                format: 'YYYY-MM-DD'
+            },
+            singleClasses: "picker_2",
+            showDropdowns: true,
+        }, function (start, end, label) {
+
         });
     }
 
@@ -178,7 +187,7 @@ var AppUser = function () {
         init: function () {
             loadUserTable();
             deleteUser();
-            handleValidation();
+//            handleValidation();
             initComponent();
         }
 
