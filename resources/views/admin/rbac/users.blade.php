@@ -28,7 +28,7 @@
                 {{old('username')}}
                 <div class="row">
                     <div class="col-sm-12">
-                        {{ Form::ctText('username', trans('general.username'), null, ['value' => old('username')], true) }}
+                        {{ Form::ctText('username', trans('general.username'), null, [], true) }}
                     </div>
                     <div class="col-sm-12">
                         {{ Form::ctText('fullname', trans('general.fullname'), null, [], true) }}
@@ -49,7 +49,7 @@
                         {{ Form::ctPassword('password_confirmation', trans('general.password_confirmation'), null, [], strcmp($action,'add') === 0) }}
                     </div>
                     <div class="col-sm-12">
-                        {{ Form::ctSelect('roles[]', trans('general.roles'), $roles, strcmp($action,'add') === 0 ? NULL:$current_roles, ['multiple' => 'multiple', 'class' =>'select2-mutiple'], true) }}
+                        {{ Form::ctSelect('roles[]', trans('general.roles'), $roles, strcmp($action,'add') === 0 ? NULL:$currentRoles, ['multiple' => 'multiple', 'class' =>'select2-mutiple'], true) }}
                     </div>
                     <div class="col-md-12">
                         {{ Form::submit(trans('general.submit'), array('class' => 'btn btn-primary')) }}

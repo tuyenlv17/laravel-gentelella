@@ -16,6 +16,7 @@ class FormServiceProvider extends ServiceProvider {
     public function boot() {
         // Register the form components
         Form::component('ctText', 'components.form.text', ['name', 'title', 'value' => NULL, 'attributes' => [], 'required' => false]);        
+        Form::component('ctTextArea', 'components.form.textarea', ['name', 'title', 'value' => NULL, 'attributes' => [], 'required' => false]);        
         Form::component('ctPassword', 'components.form.password', ['name', 'title', 'value' => NULL, 'attributes' => [], 'required' => false]);
         Form::component('ctSelect', 'components.form.select', ['name', 'title', 'values', 'current_value' => NULL, 'attributes' => [], 'required' => false]);
         Form::component('ctPageBar', 'components.common.page-bar', ['name' => '']);

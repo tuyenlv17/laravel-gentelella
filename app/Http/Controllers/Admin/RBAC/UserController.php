@@ -118,7 +118,7 @@ class UserController extends Controller {
      */
     public function store(Request $request) {
         $validator = Validator::make($request->all(), [
-                    'username' => 'required|min:4|max:32|regex:/^[a-zA-Z1-9_]{4,32}$/|unique:users,username',
+                    'username' => 'required|min:4|max:32|regex:/^[a-zA-Z0-9_]{4,32}$/|unique:users,username',
                     'fullname' => 'required|min:4|max:255',
                     'password' => 'required|min:8|max:64|regex:/^(?=.*[a-zA-Z])(?=.*\d).{8,64}$/|confirmed',
                     'email' => 'required|email|unique:users,email',
@@ -180,7 +180,7 @@ class UserController extends Controller {
             'action' => 'edit',
             'user' => $user,
             'roles' => $roles,
-            'current_roles' => $currentRoles
+            'currentRoles' => $currentRoles
         ));
     }
 
@@ -201,7 +201,7 @@ class UserController extends Controller {
         }
         
         $validator = Validator::make($request->all(), [
-                    'username' => "required|min:4|max:32|regex:/^[a-zA-Z1-9_]{4,32}$/|unique:users,username,$id",
+                    'username' => "required|min:4|max:32|regex:/^[a-zA-Z0-9_]{4,32}$/|unique:users,username,$id",
                     'fullname' => 'required|min:4|max:255',
                     'password' => $passwordRules,
                     'email' => "required|email|unique:users,email,$id",

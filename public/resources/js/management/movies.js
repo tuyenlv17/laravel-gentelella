@@ -1,24 +1,25 @@
 /**
- Role Module
+ Movie Module
  **/
-var AppRole = function () {
+var AppMovie = function () {
 
     var baseUrl = jQuery('#site-meta').attr('data-base-url');
-    var roleTable = null;
-    $.fn.select2.defaults.set("theme", "bootstrap");
-    // private functions & variables
+    var movieTable = null;
 
-    function loadRoleTable() {
-        roleTable = jQuery('#roles-table').DataTable({
-            "dom": "<'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable table-responsive   't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
+    function loadMovieTable() {
+
+        movieTable = jQuery('#movies-table').DataTable({
+            "dom": "<'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable table-responsive't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
             "serverSide": true,
             "processing": true,
+            "bDestroy": true,
             "language": {
                 "processing": '<div class="loading-message"><i class="fa fa-spinner fa-spin"></i><span>&nbsp;&nbsp;&nbsp; Loading...</span></div>',
                 "infoEmpty": "No record found",
             },
             "ajax": {
-                "url": baseUrl + '/admin/rbac/roles/listing',
+                "url": baseUrl + '/management/movies/listing',
+                "data": {genres: $('.genres-filter').val()},
                 "type": 'POST',
                 "dataType": 'json'
             },
@@ -30,16 +31,22 @@ var AppRole = function () {
                     'className': 'tb-no-sort tb-number'
                 },
                 {
-                    'data': 'name'
+                    'data': 'title'
                 },
                 {
-                    'data': 'display_name'
+                    'data': 'year'
                 },
                 {
-                    'data': 'description'
+                    'data': 'price'
                 },
                 {
-                    'data': 'default_url'
+                    'data': 'dis_price'
+                },
+                {
+                    'data': 'plot'
+                },
+                {
+                    'data': 'genres'
                 },
                 {
                     'data': null,
@@ -49,23 +56,20 @@ var AppRole = function () {
             ],
             columnDefs: [
                 {
-                    targets: [0, 5],
-                    sortable: false
-                },
-                {
-                    targets: [5],
+                    targets: [7],
+                    sortable: false,
                     render: function (data, type, row) {
-                        return '<a href="' + baseUrl + '/admin/rbac/roles/' + row['id'] + '/edit" class="table-action table-action-edit" title="Edit"><i class="fa fa-pencil"></i></a>'
-                                + '<a href="javascript:;" class="table-action table-action-delete delete-role" data-id="' + row['id'] + '" title="Delete"><i class="fa fa-trash-o"></i></a>';
+                        return '<a href="' + baseUrl + '/management/movies/' + row['id'] + '/edit" class="table-action table-action-edit" title="Edit"><i class="fa fa-pencil"></i></a>'
+                                + '<a href="javascript:;" class="table-action table-action-delete delete-movie" data-id="' + row['id'] + '" title="Delete"><i class="fa fa-trash-o"></i></a>';
                     }
                 }
             ]
         });
 
-        roleTable.on('order.dt search.dt draw.dt', function () {
-            var info = roleTable.page.info();
+        movieTable.on('order.dt search.dt draw.dt', function () {
+            var info = movieTable.page.info();
             var start = info.start;
-            roleTable.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
+            movieTable.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
                 cell.innerHTML = i + 1 + start;
             });
         });
@@ -74,19 +78,21 @@ var AppRole = function () {
             minimumResultsForSearch: -1,
             width: '60px'
         });
-    };
+    }
+    ;
 
     /**
-     * delete an Role
+     * delete an Movie
      * @returns {undefined}
      */
-    function deleteRole() {
-        jQuery(document).on('click', '.delete-role', function () {
+    function deleteMovie() {
+        jQuery(document).on('click', '.delete-movie', function () {
+            var btn = jQuery(this);
+            var id = btn.attr('data-id');
+
             if (confirm("Delete?")) {
-                var id = $(this).attr('data-id');
-                var btn = $(this);
                 jQuery.ajax({
-                    url: baseUrl + '/admin/rbac/roles/' + id,
+                    url: baseUrl + '/management/movies/' + id,
                     dataType: 'json',
                     type: 'DELETE',
                     data: {
@@ -94,8 +100,8 @@ var AppRole = function () {
                     success: function (data, textStatus, jqXHR) {
                         if (data.code == 0) {
                             btn.parents('tr').addClass('hidden selected');
-                            if (roleTable != null) {
-                                roleTable.row('.selected')
+                            if (movieTable != null) {
+                                movieTable.row('.selected')
                                         .remove()
                                         .draw(false);
                             }
@@ -110,29 +116,42 @@ var AppRole = function () {
                 });
             }
         });
-    };
+    }
 
     /**
      * handle validation form
      * @returns {undefined}
      */
-    function handleValidation() {
-        var form = jQuery('#role-form');
+    var handleValidation = function () {
+        var form = jQuery('#movie-form');
         var error = jQuery('.alert-danger', form);
-
+        var isPwRequired = (jQuery('#is-adding-movie').val() === 'true');
         form.validate({
             errorElement: 'span',
             errorClass: 'help-block help-block-error',
             focusInvalid: false,
             ignore: "",
+            messages: {
+                password_confirmation: {
+                    equalTo: 'Password does not match!'
+                }
+            },
             rules: {
                 name: {
                     minlength: 2,
-                    maxlength: 64,
+                    maxlength: 32,
                     required: true
                 },
-                display_name: {
-                    required: true
+                email: {
+                    required: true,
+                    email: true
+                },
+                password: {
+                    required: isPwRequired
+                },
+                password_confirmation: {
+                    required: isPwRequired,
+                    equalTo: '[name=password]'
                 }
             },
             invalidHandler: function (event, validator) {
@@ -159,11 +178,9 @@ var AppRole = function () {
     };
 
     function initComponent() {
-        $('select').select2({});
-        $('input').iCheck({
-            checkboxClass: 'icheckbox_square-blue',
-            radioClass: 'iradio_square-blue',
-            increaseArea: '20%' // optional
+        $('.select2-mutiple').select2({});
+        $('.genres-filter').change(function () {
+            loadMovieTable();
         });
     }
 
@@ -171,8 +188,9 @@ var AppRole = function () {
     return {
         //main function
         init: function () {
-            loadRoleTable();
-            deleteRole();
+            loadMovieTable();
+            deleteMovie();
+//            handleValidation();
             initComponent();
         }
 
@@ -181,5 +199,5 @@ var AppRole = function () {
 };
 
 jQuery(document).ready(function () {
-    AppRole().init();
+    AppMovie().init();
 });

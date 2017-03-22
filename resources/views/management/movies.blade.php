@@ -10,7 +10,7 @@
                 <h2>{{trans("general.".$action)}}</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a href="{{url('/management/movies')}}"><i class="fa fa-plus" title="{{trans('general.add')}}"></i></a>
-                    </li>                    
+                    </li>
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>                    
                     <li><a class="close-link"><i class="fa fa-close"></i></a>
@@ -23,52 +23,27 @@
                 @if(strcmp($action,'add') === 0)
                 {{ Form::open(array('url' => 'management/movies', 'id' => 'movie-form')) }}
                 @else
-                {{ Form::model($movie, array('route' => ['movies.update', $role->id], 'method' => 'PATCH', 'id' => 'movie-form')) }}
+                {{ Form::model($movie, array('route' => ['movies.update', $movie->id], 'method' => 'PATCH', 'id' => 'movie-form')) }}
                 @endif
-
+                {{old('moviename')}}
                 <div class="row">
                     <div class="col-sm-12">
-                        {{ Form::ctText('name', trans('general.name'), null, [], true) }}
+                        {{ Form::ctText('title', trans('general.title'), null, [], true) }}
                     </div>
                     <div class="col-sm-12">
-                        {{ Form::ctText('display_name', trans('general.display_name'), null, [], true) }}
+                        {{ Form::ctText('year', trans('general.year'), null, [], true) }}
                     </div>
                     <div class="col-sm-12">
-                        {{ Form::ctText('description', trans('general.description'), null, [], false) }}
-                    </div>    
-                    <div class="col-sm-12">
-                        {{ Form::ctText('default_url', trans('general.default_url'), null, [], true) }}
+                        {{ Form::ctText('price', trans('general.price'), null, [], false) }}
                     </div>
-                    <div class="col-md-12">
-                        <div class="accordion" id="accordion accordion-role" role="tablist" aria-multiselectable="true">
-                            @foreach($permission_group as $group_name=>$permissions)
-                            <div class="panel">
-                                <a class="panel-heading collapsed" role="tab" id="group-header-{{$loop->index}}" data-parent="#accordion-role" data-toggle="collapse" href="#group-{{$loop->index}}" aria-expanded="false" aria-controls="#group-{{$loop->index}}">                                    
-                                    <h4 class="panel-title">
-                                        {{ Form::checkbox("group-header-".$loop->index, null, false, []) }}
-                                        {{$group_name}}
-                                    </h4>
-                                </a>
-                                <div id="group-{{$loop->index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="#group-header-{{$loop->index}}">                                    
-                                    <div class="panel-body">
-                                        @foreach($permissions as $permission)
-                                        @if(!isset($permission->id)) 
-                                            @continue
-                                        @endif
-                                        <div class="row" style="margin-bottom: 5px;">
-                                            @if(strcmp($action,'add') === 0)                                        
-                                            {{ Form::checkbox('permission[]', $permission->id, false, []) }}
-                                            @else
-                                            {{ Form::checkbox('permission[]', $permission->id, in_array($permission->id, $current_permisisons) ? true : false, []) }}
-                                            @endif                                    
-                                            {{ $permission->display_name }}
-                                        </div>                                            
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>                        
+                    <div class="col-sm-12">
+                        {{ Form::ctText('dis_price', trans('general.dis_price'), null, [], false) }}
+                    </div>       
+                    <div class="col-sm-12">
+                        {{ Form::ctTextArea('plot', trans('general.plot'), null, [], false) }}
+                    </div>
+                    <div class="col-sm-12">
+                        {{ Form::ctSelect('genres[]', trans('general.genres'), $genres, strcmp($action,'add') === 0 ? NULL:$currentGenres, ['multiple' => 'multiple', 'class' =>'select2-mutiple'], true) }}
                     </div>
                     <div class="col-md-12">
                         {{ Form::submit(trans('general.submit'), array('class' => 'btn btn-primary')) }}
@@ -94,14 +69,21 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <table id="roles-table" class="table table-striped table-bordered">
+                <div class="row">
+                    <div class="col-sm-4">
+                        {{ Form::ctSelect('genres_filter[]', trans('general.genres'), $genres, NULL, ['multiple' => 'multiple', 'class' =>'select2-mutiple genres-filter'], true) }}
+                    </div>
+                </div>                
+                <table id="movies-table" class="table table-striped table-bordered">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>{{trans('general.name')}}</th>
-                            <th>{{trans('general.display_name')}}</th>
-                            <th>{{trans('general.description')}}</th>
-                            <th>{{trans('general.default_url')}}</th>
+                            <th>{{trans('general.title')}}</th>
+                            <th>{{trans('general.year')}}</th>
+                            <th>{{trans('general.price')}}</th>
+                            <th>{{trans('general.dis_price')}}</th>                        
+                            <th>{{trans('general.plot')}}</th>                        
+                            <th>{{trans('general.genres')}}</th>                        
                             <th>{{trans('general.action')}}</th>                        
                         </tr>                        
                     </thead>
@@ -115,13 +97,15 @@
 @section('assets_css')
 <!-- Datatables -->
 <link href="{{asset('/resources/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
-<link href="{{asset('/resources/vendors/iCheck/skins/square/_all.css')}}" rel="stylesheet">
+<link href="{{asset('/resources/vendors/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
 @stop
 
 @section('assets_js')
 <!-- Datatables -->
 <script src="{{asset('/resources/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('/resources/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
-<script src="{{asset('/resources/vendors/iCheck/icheck.min.js')}}"></script>
-<script src="{{asset('/resources/js/admin/rbac/roles.js')}}"></script>
+<!-- bootstrap-daterangepicker -->
+<script src="{{asset('/resources/vendors/moment/min/moment.min.js')}}"></script>
+<script src="{{asset('/resources/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{asset('/resources/js/management/movies.js')}}"></script>
 @stop

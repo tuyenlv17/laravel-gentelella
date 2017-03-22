@@ -39,7 +39,7 @@
         <div id="register" class="animate form registration_form">
             <section class="login_content">
                 {{ Form::open(array('url' => 'register', 'id' => 'login-form')) }}
-                    <h1>{{trans('general.singup')}}</h1>
+                    <h1>{{trans('general.sign_up')}}</h1>
                     <div>
                         <input type="text" name="username" value="{{ old('username') }}" class="form-control" placeholder="{{trans('general.username')}}" required="" />
                     </div>
@@ -53,7 +53,7 @@
                         <input type="password" name="password_confirmation" class="form-control" placeholder="{{trans('general.password_confirmation')}}" required="" />
                     </div>
                     <div>
-                        <button type="submit" class="btn btn-default submit">{{trans('general.singup')}}</button>
+                        <button type="submit" class="btn btn-default submit">{{trans('general.sign_up')}}</button>
                     </div>
                     <div class="clearfix"></div>
                     <div class="separator">

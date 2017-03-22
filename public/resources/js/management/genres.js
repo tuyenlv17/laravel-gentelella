@@ -11,7 +11,6 @@ var AppGenre = function () {
             "dom": "<'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable table-responsive't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
             "serverSide": true,
             "processing": true,
-            responsive: true,
             "language": {
                 "processing": '<div class="loading-message"><i class="fa fa-spinner fa-spin"></i><span>&nbsp;&nbsp;&nbsp; Loading...</span></div>',
                 "infoEmpty": "No record found",                
@@ -32,7 +31,7 @@ var AppGenre = function () {
                     'data': 'name'
                 },
                 {
-                    'total_movies': 'total_movies'
+                    'data': 'total_movies'
                 },
                 {
                     'data': null,
@@ -42,11 +41,11 @@ var AppGenre = function () {
             ],
             columnDefs: [
                 {
-                    targets: [0, 4],
+                    targets: [0, 3],
                     sortable: false
                 },
                 {
-                    targets: [4],
+                    targets: [3],
                     render: function (data, type, row) {
                         return '<a href="' + baseUrl + '/management/genres/' + row['id'] + '/edit" class="table-action table-action-edit" title="Edit"><i class="fa fa-pencil"></i></a>'
                                 + '<a href="javascript:;" class="table-action table-action-delete delete-genre" data-id="' + row['id'] + '" title="Delete"><i class="fa fa-trash-o"></i></a>';

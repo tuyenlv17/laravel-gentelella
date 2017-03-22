@@ -58,12 +58,13 @@ class GenreController extends Controller {
                 ->count();
 
         $genres = DB::table('genres')
-                ->select('genres.*', DB::raw("COUNT(movies.id)"))
+                ->select('genres.*', DB::raw("COUNT(movies.id) as total_movies"))
                 ->leftJoin('movies_genres', 'genre_id', '=', 'genres.id')
                 ->leftJoin('movies', 'movies.id', '=', 'movie_id')
                 ->where(function ($query) use ($keyword) {
                     $query->where('genres.name', 'LIKE', "%$keyword%");
                 })
+                ->groupBy('genres.id')
                 ->orderBy($orderBy, $orderType)
                 ->skip($start)
                 ->take($length)

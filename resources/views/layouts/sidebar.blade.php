@@ -1,7 +1,7 @@
 <div class="left_col">
     <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
-            <a href="{{ url('/') }}" class="site_title"><i class="fa fa-resistance"></i> <span>Blabla</span></a>
+            <a href="{{ url('/') }}" class="site_title"><i class="fa fa-film"></i> <span>MoviesCreed</span></a>
         </div>
 
         <div class="clearfix"></div>
@@ -74,7 +74,7 @@
                     @if(Auth::user()->can('management-*'))
                     <li>
                         <a>
-                            <i class="fa fa-movies"></i>
+                            <i class="fa fa-film"></i>
                             {{trans('general.management')}}
                             <span class="fa fa-chevron-down"></span>
                         </a>
@@ -90,8 +90,8 @@
                             
                             @if(Auth::user()->can('management-genre-*'))
                             <li>
-                                <a href="{{ url('/management/movies') }}">
-                                    {{trans('general.movies')}}
+                                <a href="{{ url('/management/genres') }}">
+                                    {{trans('general.genres')}}
                                     <span class="fa fa-chevron-down"></span>
                                 </a>
                             </li>
@@ -99,8 +99,8 @@
                             
                             @if(Auth::user()->can('management-attribute-*'))
                             <li>
-                                <a href="{{ url('/management/movies') }}">
-                                    {{trans('general.movies')}}
+                                <a href="{{ url('/management/attributes') }}">
+                                    {{trans('general.attributes')}}
                                     <span class="fa fa-chevron-down"></span>
                                 </a>
                             </li>
