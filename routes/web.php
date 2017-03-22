@@ -27,6 +27,14 @@ Route::group(['namespace' => 'Admin\RBAC', 'prefix'=>'/admin/rbac'], function() 
     Route::resource('/groups', 'GroupController'); 
 });
 
+Route::group(['namespace' => 'Management', 'prefix'=>'/management'], function() {       
+    Route::post('/movies/listing', 'MovieController@listing');
+    Route::resource('/movies', 'MovieController');
+    
+    Route::post('/genres/listing', 'GenreController@listing');
+    Route::resource('/genres', 'GenreController');
+});
+
 Route::get('/', 'HomeController@index');;
 
 Route::group(['namespace' => 'Site', 'prefix' => '/site'], function() {    

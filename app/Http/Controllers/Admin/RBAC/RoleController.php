@@ -22,7 +22,7 @@ class RoleController extends Controller {
      */
     public function __construct() {
         $this->middleware('auth');
-//        $this->middleware('permission:rbac-role-crud', ['except' => []]);
+        $this->middleware('permission:rbac-role-crud', ['except' => []]);
     }
 
     public function index() {

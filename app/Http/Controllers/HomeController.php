@@ -26,7 +26,10 @@ class HomeController extends Controller {
      */
     public function index() {
         $user = Auth::user();
-        $role = $user->roles->first();        
+        $role = $user->roles->first();      
+        if(!isset($role->default_url)) {
+            App::abort(403);
+        }
         return redirect($role->default_url);
     }
 

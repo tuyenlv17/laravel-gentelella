@@ -27,37 +27,87 @@
                     @if(Auth::user()->can('rbac-*'))
                     <li>
                         <a>
-                            <i class="fa fa-home"></i>
-                            {{trans('general.permission_assign')}}
+                            <i class="fa fa-users"></i>
+                            {{trans('general.role_base')}}
                             <span class="fa fa-chevron-down"></span>
                         </a>
                         <ul class="nav child_menu">
-                            <li><a href="{{ url('/') }}">Dashboard</a></li>
-                            <li><a href="index2.html">Dashboard2</a></li>
-                            <li><a href="index3.html">Dashboard3</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a>
-                            <i class="fa fa-home"></i>
-                            {{trans('general.permission_assign')}}
-                            <span class="fa fa-chevron-down"></span>
-                        </a>
-                        <ul class="nav child_menu">
+                            @if(Auth::user()->can('rbac-user-*'))
                             <li>
-                                <a>Level One<span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li class="sub_menu"><a href="level2.html">Level Two</a>
-                                    </li>
-                                    <li><a href="#level2_1">Level Two</a>
-                                    </li>
-                                    <li><a href="#level2_2">Level Two</a>
-                                    </li>
-                                </ul>
+                                <a href="{{ url('/admin/rbac/users') }}">
+                                    {{trans('general.users')}}
+                                    <span class="fa fa-chevron-down"></span>
+                                </a>
                             </li>
+                            @endif
+                            
+                            @if(Auth::user()->can('rbac-role-*'))
+                            <li>
+                                <a href="{{ url('/admin/rbac/roles') }}">
+                                    {{trans('general.roles')}}
+                                    <span class="fa fa-chevron-down"></span>
+                                </a>
+                            </li>
+                            @endif
+                            
+                            @if(Auth::user()->can('rbac-permission-*'))
+                            <li>
+                                <a href="{{ url('/admin/rbac/permissions') }}">
+                                    {{trans('general.permissions')}}
+                                    <span class="fa fa-chevron-down"></span>
+                                </a>
+                            </li>
+                            @endif
+                            
+                            @if(Auth::user()->can('rbac-group-*'))
+                            <li>
+                                <a href="{{ url('/admin/rbac/groups') }}">
+                                    {{trans('general.groups')}}
+                                    <span class="fa fa-chevron-down"></span>
+                                </a>
+                            </li>
+                            @endif
                         </ul>
                     </li> 
-                    @endif                    
+                    @endif   
+                    
+                    @if(Auth::user()->can('management-*'))
+                    <li>
+                        <a>
+                            <i class="fa fa-movies"></i>
+                            {{trans('general.management')}}
+                            <span class="fa fa-chevron-down"></span>
+                        </a>
+                        <ul class="nav child_menu">
+                            @if(Auth::user()->can('management-movie-*'))
+                            <li>
+                                <a href="{{ url('/management/movies') }}">
+                                    {{trans('general.movies')}}
+                                    <span class="fa fa-chevron-down"></span>
+                                </a>
+                            </li>
+                            @endif
+                            
+                            @if(Auth::user()->can('management-genre-*'))
+                            <li>
+                                <a href="{{ url('/management/movies') }}">
+                                    {{trans('general.movies')}}
+                                    <span class="fa fa-chevron-down"></span>
+                                </a>
+                            </li>
+                            @endif
+                            
+                            @if(Auth::user()->can('management-attribute-*'))
+                            <li>
+                                <a href="{{ url('/management/movies') }}">
+                                    {{trans('general.movies')}}
+                                    <span class="fa fa-chevron-down"></span>
+                                </a>
+                            </li>
+                            @endif
+                        </ul>
+                    </li> 
+                    @endif 
                 </ul>
             </div>            
 
