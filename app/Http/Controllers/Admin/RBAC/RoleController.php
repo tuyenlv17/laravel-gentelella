@@ -22,10 +22,7 @@ class RoleController extends Controller {
      */
     public function __construct() {
         $this->middleware('auth');
-//        $this->middleware('permission:role-create', ['only' => ['index', 'store']]);
-//        $this->middleware('permission:role-edit', ['only' => ['update', 'edit']]);
-//        $this->middleware('permission:role-list', ['only' => ['listing']]);
-//        $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+//        $this->middleware('permission:rbac-role-crud', ['except' => []]);
     }
 
     public function index() {
@@ -34,14 +31,14 @@ class RoleController extends Controller {
                          ->rightJoin('groups', 'groups.id', '=', 'permissions.group_id')
                          ->orderBy('group_id', 'asc')
                          ->get();
-        $permission_group = array();
+        $permissionGroup = array();
         foreach ($permissions as $permission) {
-            $permission_group[$permission->group_name][] = $permission;
+            $permissionGroup[$permission->group_name][] = $permission;
         }
         
         return view('admin.rbac.roles', array(
             'action' => 'add',
-            'permission_group' => $permission_group,
+            'permission_group' => $permissionGroup,
         ));
     }
 
@@ -156,7 +153,7 @@ class RoleController extends Controller {
     public function edit($id) {
         $role = Role::findOrFail($id);       
 
-        $current_permisisons = DB::table("permission_role")
+        $currentPermisisons = DB::table("permission_role")
                                  ->where("permission_role.role_id", $id)
                                  ->pluck('permission_role.permission_id')
                                  ->toArray();   
@@ -166,16 +163,16 @@ class RoleController extends Controller {
                          ->rightJoin('groups', 'groups.id', '=', 'permissions.group_id')
                          ->orderBy('group_id', 'asc')
                          ->get();
-        $permission_group = array();
+        $permissionGroup = array();
         foreach ($permissions as $permission) {
-            $permission_group[$permission->group_name][] = $permission;
+            $permissionGroup[$permission->group_name][] = $permission;
         }
         
         return view('admin.rbac.roles', array(
             'action' => 'edit',
             'role' => $role,
-            'current_permisisons' => $current_permisisons,
-            'permission_group' => $permission_group,
+            'current_permisisons' => $currentPermisisons,
+            'permission_group' => $permissionGroup,
         ));
     }
 

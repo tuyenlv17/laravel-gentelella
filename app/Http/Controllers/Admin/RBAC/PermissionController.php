@@ -16,10 +16,7 @@ class PermissionController extends Controller {
 
     public function __construct() {
         $this->middleware('auth');
-//        $this->middleware('permission:permission-create', ['only' => ['index', 'store']]);
-//        $this->middleware('permission:permission-edit', ['only' => ['update', 'edit']]);
-//        $this->middleware('permission:permission-list', ['only' => ['listing']]);
-//        $this->middleware('permission:permission-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:rbac-permission-crud', ['except' => []]);
     }
 
     /**
@@ -117,15 +114,15 @@ class PermissionController extends Controller {
             return redirect('admin/permissions')
                             ->withErrors($validator);
         } else {
-            $group_id = DB::table('groups')->where('id', '=', Input::get('group'))->value('id');
-            if (!isset($group_id)) {
-                $group_id = DB::table('groups')->where('name', '=', 'other')->value('id');
+            $groupId = DB::table('groups')->where('id', '=', Input::get('group'))->value('id');
+            if (!isset($groupId)) {
+                $groupId = DB::table('groups')->where('name', '=', 'other')->value('id');
             }
             $permission = new Permission();
             $permission->name = Input::get('name');
             $permission->display_name = Input::get('display_name');
             $permission->description = Input::get('description');
-            $permission->group_id = $group_id;
+            $permission->group_id = $groupId;
             $permission->save();
 
             // redirect
@@ -174,14 +171,14 @@ class PermissionController extends Controller {
             'name' => 'required|max:64|unique:permissions,name,' . $permission->id,
             'display_name' => 'required',
         ]);
-        $group_id = DB::table('groups')->where('id', '=', Input::get('group'))->value('id');
-        if (!isset($group_id)) {
-            $group_id = DB::table('groups')->where('name', '=', 'other')->value('id');
+        $groupId = DB::table('groups')->where('id', '=', Input::get('group'))->value('id');
+        if (!isset($groupId)) {
+            $groupId = DB::table('groups')->where('name', '=', 'other')->value('id');
         }
         $permission->name = Input::get('name');
         $permission->display_name = Input::get('display_name');
         $permission->description = Input::get('description');
-        $permission->group_id = $group_id;
+        $permission->group_id = $groupId;
         $permission->save();
 
         Session::flash('message', 'Cập nhật quyền người dùng thành công!');

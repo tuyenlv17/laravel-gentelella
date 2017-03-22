@@ -13,11 +13,12 @@ use App\Group;
 class GroupController extends Controller {
 
     public function __construct() {
-//        $this->middleware('auth');
-//        $this->middleware('permission:group-create', ['only' => ['index', 'store']]);
-//        $this->middleware('permission:group-edit', ['only' => ['update', 'edit']]);
-//        $this->middleware('permission:group-list', ['only' => ['listing']]);
-//        $this->middleware('permission:group-delete', ['only' => ['destroy']]);
+        $this->middleware('auth');
+//        $this->middleware('permission:rbac-group-create', ['only' => ['index', 'store']]);
+//        $this->middleware('permission:rbac-group-update', ['only' => ['update', 'edit']]);
+//        $this->middleware('permission:rbac-group-read', ['only' => ['listing']]);
+//        $this->middleware('permission:rbac-group-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:rbac-group-crud', ['except' => []]);
     }
 
     /**
