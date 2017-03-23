@@ -33,6 +33,12 @@ Route::group(['namespace' => 'Management', 'prefix'=>'/management'], function() 
     
     Route::post('/genres/listing', 'GenreController@listing');
     Route::resource('/genres', 'GenreController');
+    
+    Route::post('/attributes/listing', 'AttributeController@listing');
+    Route::resource('/attributes', 'AttributeController');
+    
+    Route::post('/attribute_val/listing', 'AttributeValueController@listing');
+    Route::resource('/attribute_val', 'AttributeValueController');
 });
 
 Route::get('/', 'HomeController@index');;

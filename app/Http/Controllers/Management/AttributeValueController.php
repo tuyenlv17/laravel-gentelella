@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\RBAC;
+namespace App\Http\Controllers\Management;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -8,15 +8,15 @@ use App\Http\Controllers\Controller;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
-use App\Permission;
-use App\Group;
+use App\AttributeValue;
+use App\Attribute;
 use DB;
 
-class PermissionController extends Controller {
+class AttributeValueController extends Controller {
 
     public function __construct() {
         $this->middleware('auth');
-        $this->middleware('permission:rbac-permission-crud', ['except' => []]);
+        $this->middleware('permission:management-attribute-value-crud', ['except' => []]);
     }
 
     /**
@@ -25,10 +25,10 @@ class PermissionController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $groups = Group::pluck('display_name', 'id')->toArray();
-        return view('admin.rbac.permissions', array(
+        $attributes = Attribute::pluck('name', 'id')->toArray();
+        return view('management.attribute-value', array(
             'action' => 'add',
-            'groups' => $groups,
+            'attributes' => $attributes,
         ));
     }
 
@@ -52,26 +52,30 @@ class PermissionController extends Controller {
         $search = Input::get('search');
         $keyword = $search['value'];
 
-        $total = Permission::count();
+        $total = AttributeValue::count();
+        
+        $attribute_id = Input::get('attribute');
 
-        $totalFilter = DB::table('permissions')
-                ->join('groups', 'groups.id', '=', 'group_id')
+        $totalFilter = DB::table('attribute_val')
+                ->join('attributes', function($join) use ($attribute_id){
+                    $join->on('attributes.id', '=', 'attribute_id')
+                            ->where('attributes.id', '=', $attribute_id);
+                })
                 ->where(function ($query) use ($keyword) {
-                    $query->where('permissions.name', 'LIKE', "%$keyword%")
-                    ->orWhere('permissions.display_name', 'LIKE', "%$keyword%")
-                    ->orWhere('permissions.description', 'LIKE', "%$keyword%")
-                    ->orWhere('groups.display_name', 'LIKE', "%$keyword%");
+                    $query->where('attribute_val.name', 'LIKE', "%$keyword%")
+                          ->orWhere('attributes.name', 'LIKE', "%$keyword%");;
                 })
                 ->count();
 
-        $permissions = DB::table('permissions')
-                ->select('permissions.*', DB::raw('groups.display_name as group_name'))
-                ->join('groups', 'groups.id', '=', 'group_id')
+        $attribute_val = DB::table('attribute_val')
+                ->select('attribute_val.*', DB::raw('attributes.name as attribute_name'))
+                ->join('attributes', function($join) use ($attribute_id){
+                    $join->on('attributes.id', '=', 'attribute_id')                            
+                         ->where('attributes.id', '=', $attribute_id);;
+                })
                 ->where(function ($query) use ($keyword) {
-                    $query->where('permissions.name', 'LIKE', "%$keyword%")
-                    ->orWhere('permissions.display_name', 'LIKE', "%$keyword%")
-                    ->orWhere('permissions.description', 'LIKE', "%$keyword%")
-                    ->orWhere('groups.display_name', 'LIKE', "%$keyword%");
+                    $query->where('attribute_val.name', 'LIKE', "%$keyword%")
+                          ->orWhere('attributes.name', 'LIKE', "%$keyword%");
                 })
                 ->orderBy($orderBy, $orderType)
                 ->skip($start)
@@ -81,7 +85,7 @@ class PermissionController extends Controller {
 
         $arr = array(
             'recordsTotal' => $total,
-            'data' => $permissions,
+            'data' => $attribute_val,
             'draw' => $draw,
             'recordsFiltered' => $totalFilter
         );
@@ -106,24 +110,21 @@ class PermissionController extends Controller {
      */
     public function store(Request $request) {
         $validator = Validator::make($request->all(), [
-                    'name' => 'required|max:64|unique:permissions,name',
-                    'display_name' => 'required'
+                    'name' => 'required|max:32|unique:attribute_val,name',
         ]);
 
         if ($validator->fails()) {
-            return redirect('admin/permissions')
+            return redirect('management/attribute_val')
                             ->withErrors($validator);
         } else {
-            $groupId = DB::table('groups')->where('id', '=', Input::get('group'))->value('id');
-            if (!isset($groupId)) {
-                $groupId = DB::table('groups')->where('name', '=', 'other')->value('id');
+            $attributeId = DB::table('attributes')->where('id', '=', Input::get('attribute'))->value('id');
+            if (!isset($attributeId)) {
+                return redirect()->back()->withInput()->withErrors(trans('general.invalid_attribute'));
             }
-            $permission = new Permission();
-            $permission->name = Input::get('name');
-            $permission->display_name = Input::get('display_name');
-            $permission->description = Input::get('description');
-            $permission->group_id = $groupId;
-            $permission->save();
+            $attributeValue = new AttributeValue();
+            $attributeValue->name = Input::get('name');
+            $attributeValue->attribute_id = $attributeId;
+            $attributeValue->save();
 
             return redirect()->back()->with('message', trans('general.add_successfully'));
         }
@@ -146,12 +147,12 @@ class PermissionController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        $permission = Permission::findOrFail($id);
-        $groups = Group::pluck('display_name', 'id')->toArray();
-        return view('admin.rbac.permissions', array(
+        $attributeValue = AttributeValue::findOrFail($id);
+        $attributes = Attribute::pluck('name', 'id')->toArray();
+        return view('management.attribute-value', array(
             'action' => 'edit',
-            'permission' => $permission,
-            'groups' => $groups
+            'attributeValue' => $attributeValue,
+            'attributes' => $attributes
         ));
     }
 
@@ -163,21 +164,18 @@ class PermissionController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        $permission = Permission::findOrFail($id);
+        $attributeValue = AttributeValue::findOrFail($id);
 
         $this->validate($request, [
-            'name' => 'required|max:64|unique:permissions,name,' . $permission->id,
-            'display_name' => 'required',
+            'name' => 'required|max:32|unique:attribute_val,name,' . $attributeValue->id,
         ]);
-        $groupId = DB::table('groups')->where('id', '=', Input::get('group'))->value('id');
-        if (!isset($groupId)) {
-            $groupId = DB::table('groups')->where('name', '=', 'other')->value('id');
+        $attributeId = DB::table('attributes')->where('id', '=', Input::get('attribute'))->value('id');
+        if (!isset($attributeId)) {
+            return redirect()->back()->withInput()->withErrors(trans('general.invalid_attribute'));
         }
-        $permission->name = Input::get('name');
-        $permission->display_name = Input::get('display_name');
-        $permission->description = Input::get('description');
-        $permission->group_id = $groupId;
-        $permission->save();
+        $attributeValue->name = Input::get('name');
+        $attributeValue->attribute_id = $attributeId;
+        $attributeValue->save();
 
         return redirect()->back()->with('message', trans('general.update_successfully'));
     }
@@ -189,21 +187,18 @@ class PermissionController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        $permission = Permission::findOrFail($id);
+        $attributeValue = AttributeValue::findOrFail($id);
 
         $arr = array(
             'code' => 1,
             'message' => 'error'
         );
 
-        if (DB::table("permissions")->where('id', $id)->delete()) {
+        if (DB::table("attribute_val")->where('id', $id)->delete()) {
             $arr = array(
                 'code' => 0,
                 'message' => 'success'
             );
-
-//            DB::table("role_permission")->where("role_permission.permission_id", $id)
-//                    ->delete();
         }
 
         return response()->json($arr);

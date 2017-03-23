@@ -38,7 +38,7 @@ class RoleController extends Controller {
         
         return view('admin.rbac.roles', array(
             'action' => 'add',
-            'permission_group' => $permissionGroup,
+            'permissionGroup' => $permissionGroup,
         ));
     }
 
@@ -128,9 +128,7 @@ class RoleController extends Controller {
                     $role->attachPermission($value);
                 }
             }
-            // redirect
-            Session::flash('message', 'Thêm nhóm người dùng thành công!');
-            return redirect()->back();
+            return redirect()->back()->with('message', trans('general.add_successfully'));
         }
     }
 
@@ -171,8 +169,8 @@ class RoleController extends Controller {
         return view('admin.rbac.roles', array(
             'action' => 'edit',
             'role' => $role,
-            'current_permisisons' => $currentPermisisons,
-            'permission_group' => $permissionGroup,
+            'currentPermisisons' => $currentPermisisons,
+            'permissionGroup' => $permissionGroup,
         ));
     }
 
@@ -208,9 +206,7 @@ class RoleController extends Controller {
             }
         }
 
-        Session::flash('message', 'Cập nhật nhóm người dùng thành công!');
-
-        return redirect()->back();
+        return redirect()->back()->with('message', trans('general.update_successfully'));
     }
 
     /**

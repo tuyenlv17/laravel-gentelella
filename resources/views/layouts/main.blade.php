@@ -8,7 +8,7 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title> Blabla | @yield('title', 'blabla')</title>
+        <title> MoviesCreed | @yield('title', 'blabla')</title>
 
         <!-- Bootstrap -->
         <link href="{{asset('/resources/vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">

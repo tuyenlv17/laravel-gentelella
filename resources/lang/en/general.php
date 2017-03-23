@@ -26,6 +26,8 @@ return [
     'description' => 'Description',
     'default_url' => 'Default url',
     'group' => 'Group',
+    'update_successfully' => 'Update successfully!',
+    'add_successfully' => 'Add successfully!',
     
     //management
     'management' => 'Management',
@@ -38,6 +40,9 @@ return [
     'year' => 'Year',
     'total_movies' => 'Total movies',   
     'invalid_dis_price' => 'Discount price must smaller than price',
+    'attributes' => 'Attributes',
+    'attribute' => 'Attribute',
+    'attribute_val' => 'Attribute value',
 
     //common
     'add' => 'Add',

@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use DB;
 use App\Movie;
 use App\Genre;
+use App\Attribute;
+use App\AttributeValue;
 use Validator;
 
 class MovieController extends Controller {
@@ -29,9 +31,18 @@ class MovieController extends Controller {
         $genres = DB::table('genres')
                 ->pluck('name', 'id')
                 ->toArray();
+        $query = DB::table('attribute_val')
+                ->select('attribute_val.id', 'attribute_val.name', 'attributes.name as attribute')
+                ->join('attributes', 'attribute_id', '=', 'attributes.id')
+                ->get();
+        $attributes = array();
+        foreach($query as $item) {
+            $attributes[$item->attribute][] = $item;
+        }
         return view('management.movies', array(
             'action' => 'add',
-            'genres' => $genres
+            'genres' => $genres,
+            'attributes' => $attributes,
         ));
     }
 
@@ -156,9 +167,6 @@ class MovieController extends Controller {
             $movie->dis_price = $disPrice;
             
             $movie->save();
-
-            echo $movie->id;
-            return;
             
             $genreIdArr = Input::get('genres');
             if (!is_array($genreIdArr)) {
@@ -169,6 +177,19 @@ class MovieController extends Controller {
             
             foreach($genres as $genre) {
                 DB::statement("INSERT INTO movies_genres(movie_id,genre_id) VALUES($movie->id, $genre->id)");
+            }
+            
+            //attribute-value                        
+            $attributeVal = Input::get('attribute_val');
+            
+            if (!is_array($attributeVal)) {
+                $attributeVal = [];
+            }
+            $attributeVals = AttributeValue::whereIn('id', $attributeVal)
+                    ->get();
+            
+            foreach($attributeVals as $attributeVal) {
+                DB::statement("INSERT INTO movie_attribute_val(movie_id,attribute_val_id) VALUES($movie->id, $attributeVal->id)");
             }
 
             return redirect()->back()->with('message', trans('general.add_successfully'));
@@ -205,11 +226,31 @@ class MovieController extends Controller {
                 ->pluck('genres.id')
                 ->toArray();
                 
+                
+        $query = DB::table('attribute_val')
+                ->select('attribute_val.id', 'attribute_val.name', 'attributes.name as attribute')
+                ->join('attributes', 'attribute_id', '=', 'attributes.id')
+                ->get();
+        $attributes = array();
+        foreach($query as $item) {
+            $attributes[$item->attribute][] = $item;
+        }
+        
+        $currentAttributeVals = DB::table('attribute_val')
+                ->join('movie_attribute_val', function($join) use ($movie) {
+                    $join->on('attribute_val_id', '=', 'attribute_val.id')
+                         ->where('movie_id', '=', $movie->id);                    
+                })
+                ->pluck('attribute_val.id')
+                ->toArray();
+                
         return view('management.movies', array(
             'action' => 'edit',
             'movie' => $movie,
             'genres' => $genres,
-            'currentGenres' => $currentGenres
+            'currentGenres' => $currentGenres,
+            'attributes' => $attributes,
+            'currentAttributeVals' => $currentAttributeVals,
         ));
     }
 
@@ -256,7 +297,7 @@ class MovieController extends Controller {
             $movie->dis_price = $disPrice;
             
             $movie->save();
-            
+            //genres
             DB::table('movies_genres')
                     ->where('movie_id', '=', $movie->id)
                     ->delete();            
@@ -270,6 +311,23 @@ class MovieController extends Controller {
             
             foreach($genres as $genre) {
                 DB::statement("INSERT INTO movies_genres(movie_id,genre_id) VALUES($movie->id, $genre->id)");
+            }
+            
+            //attribute-value
+            DB::table('movie_attribute_val')
+                    ->where('movie_id', '=', $movie->id)
+                    ->delete();            
+            
+            $attributeVal = Input::get('attribute_val');
+            
+            if (!is_array($attributeVal)) {
+                $attributeVal = [];
+            }
+            $attributeVals = AttributeValue::whereIn('id', $attributeVal)
+                    ->get();
+            
+            foreach($attributeVals as $attributeVal) {
+                DB::statement("INSERT INTO movie_attribute_val(movie_id,attribute_val_id) VALUES($movie->id, $attributeVal->id)");
             }
 
             return redirect()->back()->with('message', trans('general.update_successfully'));

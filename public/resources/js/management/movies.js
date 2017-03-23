@@ -57,6 +57,7 @@ var AppMovie = function () {
             columnDefs: [
                 {
                     targets: [7],
+                    width: '60px',
                     sortable: false,
                     render: function (data, type, row) {
                         return '<a href="' + baseUrl + '/management/movies/' + row['id'] + '/edit" class="table-action table-action-edit" title="Edit"><i class="fa fa-pencil"></i></a>'
@@ -181,6 +182,11 @@ var AppMovie = function () {
         $('.select2-mutiple').select2({});
         $('.genres-filter').change(function () {
             loadMovieTable();
+        });
+        $('input[type=checkbox]').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
         });
     }
 

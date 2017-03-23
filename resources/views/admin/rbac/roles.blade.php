@@ -41,12 +41,12 @@
                     </div>
                     <div class="col-md-12">
                         <div class="accordion" id="accordion accordion-role" role="tablist" aria-multiselectable="true">
-                            @foreach($permission_group as $group_name=>$permissions)
+                            @foreach($permissionGroup as $groupName=>$permissions)
                             <div class="panel">
                                 <a class="panel-heading collapsed" role="tab" id="group-header-{{$loop->index}}" data-parent="#accordion-role" data-toggle="collapse" href="#group-{{$loop->index}}" aria-expanded="false" aria-controls="#group-{{$loop->index}}">                                    
                                     <h4 class="panel-title">
                                         {{ Form::checkbox("group-header-".$loop->index, null, false, []) }}
-                                        {{$group_name}}
+                                        {{$groupName}}
                                     </h4>
                                 </a>
                                 <div id="group-{{$loop->index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="#group-header-{{$loop->index}}">                                    
@@ -59,7 +59,7 @@
                                             @if(strcmp($action,'add') === 0)                                        
                                             {{ Form::checkbox('permission[]', $permission->id, false, []) }}
                                             @else
-                                            {{ Form::checkbox('permission[]', $permission->id, in_array($permission->id, $current_permisisons) ? true : false, []) }}
+                                            {{ Form::checkbox('permission[]', $permission->id, in_array($permission->id, $currentPermisisons) ? true : false, []) }}
                                             @endif                                    
                                             {{ $permission->display_name }}
                                         </div>                                            

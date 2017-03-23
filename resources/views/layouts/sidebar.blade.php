@@ -36,7 +36,6 @@
                             <li>
                                 <a href="{{ url('/admin/rbac/users') }}">
                                     {{trans('general.users')}}
-                                    <span class="fa fa-chevron-down"></span>
                                 </a>
                             </li>
                             @endif
@@ -45,7 +44,6 @@
                             <li>
                                 <a href="{{ url('/admin/rbac/roles') }}">
                                     {{trans('general.roles')}}
-                                    <span class="fa fa-chevron-down"></span>
                                 </a>
                             </li>
                             @endif
@@ -54,7 +52,6 @@
                             <li>
                                 <a href="{{ url('/admin/rbac/permissions') }}">
                                     {{trans('general.permissions')}}
-                                    <span class="fa fa-chevron-down"></span>
                                 </a>
                             </li>
                             @endif
@@ -63,7 +60,6 @@
                             <li>
                                 <a href="{{ url('/admin/rbac/groups') }}">
                                     {{trans('general.groups')}}
-                                    <span class="fa fa-chevron-down"></span>
                                 </a>
                             </li>
                             @endif
@@ -83,7 +79,6 @@
                             <li>
                                 <a href="{{ url('/management/movies') }}">
                                     {{trans('general.movies')}}
-                                    <span class="fa fa-chevron-down"></span>
                                 </a>
                             </li>
                             @endif
@@ -92,7 +87,6 @@
                             <li>
                                 <a href="{{ url('/management/genres') }}">
                                     {{trans('general.genres')}}
-                                    <span class="fa fa-chevron-down"></span>
                                 </a>
                             </li>
                             @endif
@@ -101,7 +95,14 @@
                             <li>
                                 <a href="{{ url('/management/attributes') }}">
                                     {{trans('general.attributes')}}
-                                    <span class="fa fa-chevron-down"></span>
+                                </a>
+                            </li>
+                            @endif
+                            
+                            @if(Auth::user()->can('management-attribute-value-*'))
+                            <li>
+                                <a href="{{ url('/management/attribute_val') }}">
+                                    {{trans('general.attribute_val')}}
                                 </a>
                             </li>
                             @endif

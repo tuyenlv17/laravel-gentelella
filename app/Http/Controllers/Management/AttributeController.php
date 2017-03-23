@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\RBAC;
+namespace App\Http\Controllers\Management;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -8,17 +8,13 @@ use App\Http\Controllers\Controller;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
-use App\Group;
+use App\Attribute;
 
-class GroupController extends Controller {
+class AttributeController extends Controller {
 
     public function __construct() {
         $this->middleware('auth');
-//        $this->middleware('permission:rbac-group-create', ['only' => ['index', 'store']]);
-//        $this->middleware('permission:rbac-group-update', ['only' => ['update', 'edit']]);
-//        $this->middleware('permission:rbac-group-read', ['only' => ['listing']]);
-//        $this->middleware('permission:rbac-group-delete', ['only' => ['destroy']]);
-        $this->middleware('permission:rbac-group-crud', ['except' => []]);
+        $this->middleware('permission:management-attribute-crud', ['except' => []]);
     }
 
     /**
@@ -27,7 +23,7 @@ class GroupController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        return view('admin.rbac.groups', array(
+        return view('management.attributes', array(
             'action' => 'add',
         ));
     }
@@ -52,21 +48,17 @@ class GroupController extends Controller {
         $search = Input::get('search');
         $keyword = $search['value'];
 
-        $total = Group::count();
+        $total = Attribute::count();
 
-        $totalFilter = Group::
+        $totalFilter = Attribute::
                 where(function ($query) use ($keyword) {
-                    $query->where('name', 'LIKE', "%$keyword%")
-                        ->orWhere('display_name', 'LIKE', "%$keyword%")
-                        ->orWhere('description', 'LIKE', "%$keyword%");
+                    $query->where('name', 'LIKE', "%$keyword%");
                 })
                 ->count();
 
-        $groups = Group::
+        $attributes = Attribute::
                 where(function ($query) use ($keyword) {
-                    $query->where('name', 'LIKE', "%$keyword%")
-                        ->orWhere('display_name', 'LIKE', "%$keyword%")
-                        ->orWhere('description', 'LIKE', "%$keyword%");
+                    $query->where('name', 'LIKE', "%$keyword%");
                 })
                 ->orderBy($orderBy, $orderType)
                 ->skip($start)
@@ -76,7 +68,7 @@ class GroupController extends Controller {
 
         $arr = array(
             'recordsTotal' => $total,
-            'data' => $groups,
+            'data' => $attributes,
             'draw' => $draw,
             'recordsFiltered' => $totalFilter
         );
@@ -101,21 +93,19 @@ class GroupController extends Controller {
      */
     public function store(Request $request) {
         $validator = Validator::make($request->all(), [
-                    'name' => 'required|max:48|unique:groups,name',
-                    'display_name' => 'required'
+                    'name' => 'required|max:32|unique:attributes,name',
         ]);
 
         if ($validator->fails()) {
-            return redirect('admin/rbac/groups')
-                            ->withInput()
+            return redirect('management/attributes')
                             ->withErrors($validator);
         } else {
-            $group = new Group();
-            $group->name = Input::get('name');
-            $group->display_name = Input::get('display_name');
-            $group->description = Input::get('description');
+            $attribute = new Attribute();
+            $attribute->name = Input::get('name');
+//            $attribute->display_name = Input::get('display_name');
+            $attribute->description = Input::get('description');
 
-            $group->save();
+            $attribute->save();
 
             return redirect()->back()->with('message', trans('general.add_successfully'));
         }
@@ -138,10 +128,10 @@ class GroupController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        $group = Group::findOrFail($id);
-        return view('admin.rbac.groups', array(
+        $attribute = Attribute::findOrFail($id);
+        return view('management.attributes', array(
             'action' => 'edit',
-            'group'=> $group,
+            'attribute'=> $attribute,
         ));
     }
 
@@ -153,21 +143,19 @@ class GroupController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        $group = Group::findOrFail($id);
+        $attribute = Attribute::findOrFail($id);
 
         $this->validate($request, [
-            'name' => 'required|max:48|unique:groups,name,' . $group->id,
-            'display_name' => 'required',
+            'name' => 'required|max:32|unique:attributes,name,' . $attribute->id,
+//            'display_name' => 'required',
         ]);
 
-        $group->name = Input::get('name');
-        $group->display_name = Input::get('display_name');
-        $group->description = Input::get('description');
-        $group->save();
+        $attribute->name = Input::get('name');
+//        $attribute->display_name = Input::get('display_name');
+        $attribute->description = Input::get('description');
+        $attribute->save();
 
         return redirect()->back()->with('message', trans('general.update_successfully'));
-
-        return redirect()->back();
     }
 
     /**
@@ -177,14 +165,14 @@ class GroupController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        $group = Group::findOrFail($id);
+        $attribute = Attribute::findOrFail($id);
 
         $arr = array(
             'code' => 1,
             'message' => 'error'
         );
 
-        if ($group->delete()) {
+        if ($attribute->delete()) {
             $arr = array(
                 'code' => 0,
                 'message' => 'success'
