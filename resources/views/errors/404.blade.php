@@ -1,6 +1,6 @@
 @extends('layouts.error')
 
-@section('title', trans('general.error_404_pt'))
+@section('title', trans('general.error_404_title'))
 
 @section('error-page-detail')
 <h1 class="error-number"> 404 </h1>

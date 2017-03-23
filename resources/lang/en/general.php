@@ -17,6 +17,18 @@ return [
     'profile' => 'Profile',
     'logout' => 'Log out',
     
+    //error
+    'error_403_title' => 'Access denied',
+    'error_404_title' => 'Page not found',    
+    'error_500_title' => 'Internal Server Error',
+    'error_503_title' => 'Service Unavailable',
+    'error_403_detail' => 'Access denied',
+    'error_404_detail' => 'This page you are looking for does not exist.',    
+    'error_500_detail' => 'We track these errors automatically, but if the problem persists feel free to contact us. In the meantime, try refreshing.',
+    'error_503_detail' => 'We track these errors automatically, but if the problem persists feel free to contact us. In the meantime, try refreshing.',
+    'report_this' => 'Report this?',
+    '403_login' => 'You don\'t have permission to do that',
+    
     //role_base
     'role_base' => 'Role base',
     'users' => 'Users',

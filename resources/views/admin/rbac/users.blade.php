@@ -25,7 +25,6 @@
                 @else
                 {{ Form::model($user, array('route' => ['users.update', $user->id], 'method' => 'PATCH', 'id' => 'user-form')) }}
                 @endif
-                {{old('username')}}
                 <div class="row">
                     <div class="col-sm-12">
                         {{ Form::ctText('username', trans('general.username'), null, [], true) }}

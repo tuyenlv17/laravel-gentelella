@@ -12,7 +12,7 @@
                         <span class=" fa fa-angle-down"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
-                        <li><a href="javascript:;"> {{trans('general.profile')}} </a></li>
+                        <li><a href="{{'/site/profile'}}"> {{trans('general.profile')}} </a></li>
                         <li>
                             <a href="{{ route('logout') }}"
                                onclick="event.preventDefault();

@@ -1,6 +1,6 @@
 @extends('layouts.error')
 
-@section('title', trans('general.error_500_pt'))
+@section('title', trans('general.error_500_title'))
 
 @section('error-page-detail')
 <h1 class="error-number"> 500 </h1>

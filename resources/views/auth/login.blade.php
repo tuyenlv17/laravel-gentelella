@@ -11,6 +11,7 @@
             <section class="login_content">
                 {{ Form::open(array('url' => 'login', 'id' => 'login-form')) }}
                     <h1>{{trans('general.login')}}</h1>
+                    @include('components.common.alert')
                     <div>
                         <input type="text" name="username" value="{{ old('username') }}" class="form-control" placeholder="{{trans('general.username')}}" required="" />
                     </div>

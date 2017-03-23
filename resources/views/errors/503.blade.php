@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', trans('general.error_503_pt'))
+@section('title', trans('general.error_503_title'))
 
 @section('error-page-detail')
 <h1 class="error-number"> 503 </h1>
