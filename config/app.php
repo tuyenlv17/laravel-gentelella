@@ -68,6 +68,7 @@ return [
      */
     'locale' => 'en',
     'locales' => ['en' => 'English', 'vn' => 'Tiếng Việt'],
+    'locales_flag' => ['en' => 'england.png', 'vn' => 'vn.png'],
     /*
       |--------------------------------------------------------------------------
       | Application Fallback Locale

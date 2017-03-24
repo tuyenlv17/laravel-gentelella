@@ -27,11 +27,11 @@ class SiteController extends Controller {
             'code' => 0,
             'message' => 'success'
         );
-        $selected_locale = Input::get('locale');
-        if(!array_key_exists($selected_locale, config('app.locales'))) {
-            $selected_locale = config('app.fallback_locale');
+        $selectedLocale = Input::get('locale');
+        if(!array_key_exists($selectedLocale, config('app.locales'))) {
+            $selectedLocale = config('app.fallback_locale');
         }
-        Session::set('locale', $selected_locale);
+        Session::put('locale', $selectedLocale);
         return response()->json($msg);
     }
 

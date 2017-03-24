@@ -6,6 +6,7 @@
             </div>
 
             <ul class="nav navbar-nav navbar-right">
+                
                 <li class="">
                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         <img src="{{asset('/resources/images/user.png')}}" alt=""> {{Auth::user()->username}}
@@ -25,7 +26,29 @@
                             </form>
                         </li>
                     </ul>
-                </li>                
+                </li>       
+                
+                <li class="">
+                    <?php
+                        $locale = Session::get('locale', Config::get('app.fallback_locale'));                        
+                        $flags = Config::get('app.locales_flag');
+                        $locates = Config::get('app.locales');
+                    ?>
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                        <img alt="" class="lang-img" src="{{ asset('/resources/images/flags/' . $flags[$locale]) }}" />
+                        <span class="langname"> {{ $locates[$locale] }} </span>
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-default">
+                        @foreach($locates as $key=>$val)
+                        <li>
+                            <a class="lang-option" data-lang-name="{{$val}}" data-locale="{{$key}}" href="javascript:;">
+                                <img src="{{ asset('/resources/images/flags/' . $flags[$key]) }}"> {{$val}}
+                            </a>
+                        </li>     
+                        @endforeach
+                    </ul>
+                </li>                                           
             </ul>
         </nav>
     </div>

@@ -37,14 +37,6 @@ use AuthenticatesUsers;
 
     public function username() {
         return 'username';
-    }
-    
-//    public function redirectPath() {
-//        return 'site/profile';
-//    }
-
-    protected function redirectTo() {
-        return redirect()->intended($this->redirectPath());
-    }
+    }    
 
 }

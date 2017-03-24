@@ -280,13 +280,33 @@ if (typeof NProgress != 'undefined') {
     });
 }
 
-
 //common-component
-$(document).ready(function () {    
+$(document).ready(function () {
+    var baseUrl = $('#site-meta').attr('data-base-url');
+    
     $.ajaxSetup({
         headers: {
             'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
         }
+    });
+
+    $('.lang-option').click(function () {
+        var locale = $(this).attr('data-locale');
+//        var imgSrc = $(this).children('img').attr('src');
+//        var langName = $(this).text().trim();        
+//        $('.lang-img').attr('src', imgSrc);
+//        $('.langname').html(langName);
+        $.ajax({
+            url: baseUrl + '/site/change_language',
+            type: 'POST',
+            data: {locale: locale},
+            success: function (data, textStatus, jqXHR) {
+                window.location.reload();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error!!!');
+            }
+        });
     });
 });
 //common-component

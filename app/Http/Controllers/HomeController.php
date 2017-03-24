@@ -29,7 +29,7 @@ class HomeController extends Controller {
         $user = Auth::user();
         $role = $user->roles->first();      
         if(!isset($role->default_url)) {
-            App::abort(403); 
+            return redirect('/site/profile');
         }
         return redirect($role->default_url);
     }

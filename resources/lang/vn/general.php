@@ -1,19 +1,70 @@
 <?php
 
 return [
+    //auth
+    'login' => 'Login',
+    'forgot_pass' => 'Forgot password?',
+    'new_to_site' => 'New member?',
+    'sign_up' => 'Sign up',
+    'already_member' => 'Already member?',
+    'username' => 'Tên người dùng',
+    'fullname' => 'Fullname',
+    'email' => 'Email',
+    'password' => 'Password',
+    'password_confirmation' => 'Confirm password',    
+    'phone' => 'Phone',
+    'birthday' => 'birthday',
+    'profile' => 'Profile',
+    'logout' => 'Log out',
+    
+    //error
+    'error_403_title' => 'Access denied',
+    'error_404_title' => 'Page not found',    
+    'error_500_title' => 'Internal Server Error',
+    'error_503_title' => 'Service Unavailable',
+    'error_403_detail' => 'Access denied',
+    'error_404_detail' => 'This page you are looking for does not exist.',    
+    'error_500_detail' => 'We track these errors automatically, but if the problem persists feel free to contact us. In the meantime, try refreshing.',
+    'error_503_detail' => 'We track these errors automatically, but if the problem persists feel free to contact us. In the meantime, try refreshing.',
+    'report_this' => 'Report this?',
+    '403_login' => 'You don\'t have permission to do that',
+    
+    //role_base
+    'role_base' => 'Role base',
+    'users' => 'Users',
+    'roles' => 'Roles',
+    'permissions' => 'Permissions',
+    'groups' => 'Groups',  
+    'description' => 'Description',
+    'default_url' => 'Default url',
+    'group' => 'Group',
+    'update_successfully' => 'Update successfully!',
+    'add_successfully' => 'Thêm thành công!',
+    
+    //management
+    'management' => 'Management',
+    'movies' => 'Movies',
+    'genres' => 'Genres',
+    'title' => 'Title',
+    'price' => 'Price',
+    'dis_price' => 'Discouted price',
+    'plot' => 'Plot',
+    'year' => 'Year',
+    'total_movies' => 'Total movies',   
+    'invalid_dis_price' => 'Discount price must smaller than price',
+    'attributes' => 'Attributes',
+    'attribute' => 'Attribute',
+    'attribute_val' => 'Attribute value',
 
-    /*
-    |--------------------------------------------------------------------------
-    | Authentication Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines are used during authentication for various
-    | messages that we need to display to the user. You are free to modify
-    | these language lines according to your application's requirements.
-    |
-    */
-
-    'failed' => 'These credentials do not match our records.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-
+    //common
+    'add' => 'Add',
+    'edit' => 'Edit',
+    'name' => 'Name',
+    'display_name' => 'Display name',
+    'submit' => 'Submit',
+    'cancel' => 'Cancel',
+    'list' => 'List',
+    'action' => 'Action',
+    'welcome' => 'Welcome',
+    'search_for' => 'Search for',
 ];

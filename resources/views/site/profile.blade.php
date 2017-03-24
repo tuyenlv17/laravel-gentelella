@@ -51,14 +51,10 @@
 
 @section('assets_css')
 <!-- Datatables -->
-<link href="{{asset('/resources/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
 <link href="{{asset('/resources/vendors/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
 @stop
 
 @section('assets_js')
-<!-- Datatables -->
-<script src="{{asset('/resources/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('/resources/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <!-- bootstrap-daterangepicker -->
 <script src="{{asset('/resources/vendors/moment/min/moment.min.js')}}"></script>
 <script src="{{asset('/resources/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>

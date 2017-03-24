@@ -10,5 +10,5 @@
         }
         $attributes['class'] .= ' form-control';
     ?>
-    {{ Form::select($name, $values, $current_value,  $attributes)}}
+    {{ Form::select($name, $values, $currentValue,  $attributes)}}
 </div>
