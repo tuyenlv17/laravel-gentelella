@@ -45,6 +45,7 @@ Route::get('/', 'HomeController@index');;
 
 Route::group(['namespace' => 'Site', 'prefix' => '/site'], function() {    
     Route::post('/change_language', 'SiteController@change_language');
+    Route::post('/reloadCaptcha', 'SiteController@reloadCaptcha');
     Route::get('/profile', 'ProfileController@index');
     Route::post('/profile', 'ProfileController@update');
 });

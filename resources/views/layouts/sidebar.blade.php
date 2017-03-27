@@ -6,7 +6,7 @@
 
         <div class="clearfix"></div>
         <!-- menu profile quick info -->
-        <div class="profile">
+        <div class="profile" onclick="window.location='{{asset('/site/profile')}}'">
             <div class="profile_pic">
                 <img src="{{asset('/resources/images/user.png')}}" alt="..." class="img-circle profile_img">
             </div>

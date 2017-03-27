@@ -28,7 +28,7 @@ class HomeController extends Controller {
     public function index() {
         $user = Auth::user();
         $role = $user->roles->first();      
-        if(!isset($role->default_url)) {
+        if(!isset($role->default_url) || strcmp($role->default_url, '/') === 0) {
             return redirect('/site/profile');
         }
         return redirect($role->default_url);

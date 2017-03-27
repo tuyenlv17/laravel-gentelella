@@ -3,23 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/resources/views/management/movies.blade.php</file>
             <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/app/Http/Controllers/Admin/RBAC/UserController.php</file>
-            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/public/index.php</file>
-            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/resources/views/site/profile.blade.php</file>
-            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/resources/views/layouts/sidebar.blade.php</file>
+            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/public/resources/js/app.js</file>
+            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/config/app.php</file>
+            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/resources/views/layouts/header.blade.php</file>
             <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/resources/lang/en/general.php</file>
-            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/resources/views/errors/500.blade.php</file>
-            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/public/resources/js/site/profile.js</file>
-            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/public/resources/js/management/movies.js</file>
-            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/app/Http/Controllers/HomeController.php</file>
-            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/app/Http/Controllers/Admin/RBAC/RoleController.php</file>
-            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/resources/views/auth/login.blade.php</file>
-            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/app/Http/Controllers/Management/MovieController.php</file>
-            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/resources/views/errors/404.blade.php</file>
-            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/public/resources/js/admin/rbac/roles.js</file>
-            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/routes/web.php</file>
-            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/app/Http/Controllers/Site/ProfileController.php</file>
+            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/app/Http/Controllers/Site/SiteController.php</file>
+            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/public/resources/js/admin/rbac/users.js</file>
+            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/app/Http/Middleware/Locale.php</file>
+            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/resources/lang/vn/general.php</file>
         </group>
     </open-files>
 </project-private>

@@ -156,7 +156,9 @@ return [
         App\Providers\RouteServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-        App\Providers\FormServiceProvider::class
+        App\Providers\FormServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
+        Mews\Captcha\CaptchaServiceProvider::class,
     ],
     /*
       |--------------------------------------------------------------------------
@@ -206,5 +208,8 @@ return [
         'Entrust' => Zizaco\Entrust\EntrustFacade::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Captcha' => Mews\Captcha\Facades\Captcha::class,
     ],
 ];

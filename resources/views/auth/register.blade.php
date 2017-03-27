@@ -1,76 +1,69 @@
-@extends('layouts.app')
+@extends('layouts.main')
 
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
-                        {{ csrf_field() }}
+@section('title', trans('general.login'))
 
-                        <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
-                            <label for="username" class="col-md-4 control-label">username</label>
-
-                            <div class="col-md-6">
-                                <input id="username" type="text" class="form-control" name="username" value="{{ old('username') }}" required autofocus>
-
-                                @if ($errors->has('username'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('username') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+@section('page-content')
+<div>
+    <a class="hiddenanchor" id="signup"></a>
+    <a class="hiddenanchor" id="signin"></a>
+    <div class="login_wrapper">
+        <div class="animate form login_form">
+            <section class="login_content">
+                {{ Form::open(array('url' => 'register', 'id' => 'register-form')) }}
+                    <h1>{{trans('general.sign_up')}}</h1>
+                    @include('components.common.alert')
+                    <div>
+                        <input type="text" name="username" value="{{ old('username') }}" class="form-control" placeholder="{{trans('general.username')}}" required="" />
+                    </div>
+                    <div>
+                        <input type="text" name="fullname" value="{{ old('fullname') }}" class="form-control" placeholder="{{trans('general.fullname')}}" required="" />
+                    </div>
+                    <div>
+                        <input type="text" name="email" value="{{ old('email') }}" class="form-control" placeholder="{{trans('general.email')}}" required="" />
+                    </div>
+                    <div>
+                        <input type="text" name="phone" value="{{ old('phone') }}" class="form-control" placeholder="{{trans('general.phone')}}" required="" />
+                    </div>
+                    <div>
+                        <input type="text" name="birthday" value="{{ old('birthday') }}" class="form-control" placeholder="{{trans('general.birthday')}}" required="" />
+                    </div>
+                    <div>
+                        <input type="password" name="password" class="form-control" placeholder="{{trans('general.password')}}" required="" />
+                    </div>
+                    <div>
+                        <input type="password" name="password_confirmation" class="form-control" placeholder="{{trans('general.password_confirmation')}}" required="" />
+                    </div>
+                    <div class="captcha">
+                        <i id="captcha-reload" class="fa fa-refresh"></i>
+                        <img id="captcha-img" alt="captcha" src="{{captcha_src()}}" onclick="this.src='/captcha/default?'+Math.random()">
+                        <div class="captcha-input">
+                            <input type="text" name="captcha" class="form-control" placeholder="{{trans('general.captcha')}}" required="" />
+                        </div>                        
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-default submit">{{trans('general.sign_up')}}</button>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="separator">
+                        <p class="change_link">{{trans('general.already_member')}}
+                            <a href="{{url('/login')}}" class="to_login"> {{trans('general.login')}} </a>
+                        </p>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div>
+                            <h1><i class="fa fa-resistance"></i> MoviesCreed </h1>
+                            <p>©2016 All Rights Reserved.</p>
                         </div>
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Register
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                    </div>
+                {{ Form::close() }}
+            </section>
         </div>
     </div>
 </div>
 @endsection
+
+@section('assets_js')
+<script src="{{asset('/resources/vendors/moment/min/moment.min.js')}}"></script>
+<script src="{{asset('/resources/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{asset('/resources/js/site/login.js')}}"></script>
+@stop

@@ -35,4 +35,9 @@ class SiteController extends Controller {
         return response()->json($msg);
     }
 
+    public function reloadCaptcha() {
+        return response()->json([
+            'url' => captcha_src(),
+        ]);
+    }
 }

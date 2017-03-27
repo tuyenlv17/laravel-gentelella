@@ -13,7 +13,7 @@ return [
     'password' => 'Password',
     'password_confirmation' => 'Confirm password',    
     'phone' => 'Phone',
-    'birthday' => 'birthday',
+    'birthday' => 'Birthday',
     'profile' => 'Profile',
     'logout' => 'Log out',
     
@@ -28,6 +28,7 @@ return [
     'error_503_detail' => 'We track these errors automatically, but if the problem persists feel free to contact us. In the meantime, try refreshing.',
     'report_this' => 'Report this?',
     '403_login' => 'You don\'t have permission to do that',
+    'back_to_home' => 'Back to home',
     
     //role_base
     'role_base' => 'Role base',

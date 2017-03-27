@@ -15,6 +15,7 @@ class ProfileController extends Controller {
 
     public function __construct() {
         $this->middleware('auth');
+        $this->middleware('permission:profile-update', ['except' => []]);
     }
 
     public function index() {
@@ -38,7 +39,7 @@ class ProfileController extends Controller {
                     'password' => $passwordRules,
                     'email' => "required|email|unique:users,email,$user->id",
                     'phone' => "required|digits_between:7,16|unique:users,phone,$user->id",
-                    'birthday' => 'required|date_format:Y-m-d',
+                    'birthday' => 'required|date_format:Y-m-d|before:-13 years',
         ]);
 
         if ($validator->fails()) {

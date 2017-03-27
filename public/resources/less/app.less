@@ -205,7 +205,7 @@
     text-align: left !important;
 }
 .nav-sm .profile {
-    display: none;
+    display: none;    
 }
 .menu_section {
     margin-bottom: 35px;
@@ -3329,6 +3329,23 @@ a.hiddenanchor {
     margin-top: 5%;
     max-width: 350px;
     position: relative;
+    
+    .captcha {
+        position: relative;
+        & > img {
+            float: left;
+        }
+        & > .fa-refresh {
+            top: 0;
+            left: 122px;
+            position: absolute;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        & > .captcha-input {
+            margin-left: 140px;
+        }
+    }
 }
 .registration_form, .login_form {
     position: absolute;
@@ -3475,10 +3492,6 @@ a.hiddenanchor {
 #password {
     background-position: 10px -53px !important;
 }
-.login_content form div a {
-    font-size: 12px;
-    margin: 10px 15px 0 0;
-}
 .reset_pass {
     margin-top: 10px !important;
 }
@@ -3521,6 +3534,10 @@ a.hiddenanchor {
 }
 header {
     width: 100%;
+}
+
+#register-form {
+    
 }
 
 /** signup **/
@@ -4165,5 +4182,9 @@ table.dataTable td.sorting_1, table.dataTable td.sorting_2, table.dataTable td.s
 }
 .lang-img {
     margin-bottom: 4px;
+}
+
+.profile {
+    cursor: pointer;
 }
 /** sidebar **/
