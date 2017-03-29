@@ -18,6 +18,9 @@
                     <div>
                         <input type="password" name="password" class="form-control"  placeholder="{{trans('general.password')}}" required="" />                        
                     </div>
+                    <div class="text-left" style="margin-bottom: 10px;">
+                        {{ Form::checkbox('remember', null, false, []) }} {{trans('general.remember_me')}}
+                    </div>
                     <div>
                         <button type="submit" class="btn btn-default submit">{{trans('general.login')}}</button>
                         <a class="reset_pass" href="#">{{trans('general.forgot_pass')}}</a>
@@ -41,8 +44,14 @@
 </div>
 @endsection
 
+@section('assets_css')
+<!-- Datatables -->
+<link href="{{asset('/resources/vendors/iCheck/skins/square/_all.css')}}" rel="stylesheet">
+@stop
+
 @section('assets_js')
 <script src="{{asset('/resources/vendors/moment/min/moment.min.js')}}"></script>
 <script src="{{asset('/resources/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{asset('/resources/vendors/iCheck/icheck.min.js')}}"></script>
 <script src="{{asset('/resources/js/site/login.js')}}"></script>
 @stop

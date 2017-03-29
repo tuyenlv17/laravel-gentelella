@@ -32,7 +32,7 @@ CREATE TABLE `groups` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `groups` (
 
 LOCK TABLES `groups` WRITE;
 /*!40000 ALTER TABLE `groups` DISABLE KEYS */;
-INSERT INTO `groups` VALUES (1,'other','Other','Other permissions','2017-03-20 18:04:37','2017-03-20 18:19:13'),(13,'rbac','Role-Base Access controll','Role-Base Access controll','2017-03-22 08:48:25','2017-03-22 08:48:25');
+INSERT INTO `groups` VALUES (1,'other','Other','Other permissions','2017-03-20 18:04:37','2017-03-20 18:19:13'),(13,'rbac','Role-Base Access controll','Role-Base Access controll','2017-03-22 08:48:25','2017-03-22 08:48:25'),(14,'site','Site','Site ralte permissions','2017-03-27 15:05:43','2017-03-27 15:05:43');
 /*!40000 ALTER TABLE `groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -118,7 +118,7 @@ CREATE TABLE `permission_role` (
 
 LOCK TABLES `permission_role` WRITE;
 /*!40000 ALTER TABLE `permission_role` DISABLE KEYS */;
-INSERT INTO `permission_role` VALUES (26,2),(27,2),(28,2),(29,2);
+INSERT INTO `permission_role` VALUES (26,2),(27,2),(28,2),(29,2),(30,2),(30,3);
 /*!40000 ALTER TABLE `permission_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -141,7 +141,7 @@ CREATE TABLE `permissions` (
   UNIQUE KEY `permissions_name_unique` (`name`),
   KEY `fk_permissions_1_idx` (`group_id`),
   CONSTRAINT `fk_permissions_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -150,7 +150,7 @@ CREATE TABLE `permissions` (
 
 LOCK TABLES `permissions` WRITE;
 /*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
-INSERT INTO `permissions` VALUES (26,'rbac-user-crud','rbac-user-crud','rbac-user-crud','2017-03-22 08:49:02','2017-03-22 08:56:53',13),(27,'rbac-role-crud','rbac-role-crud','rbac-role-crud','2017-03-22 08:49:22','2017-03-22 08:49:22',13),(28,'rbac-permission-crud','rbac-permission-crud','rbac-permission-crud','2017-03-22 08:49:33','2017-03-22 08:49:33',13),(29,'rbac-group-crud','rbac-group-crud','rbac-group-crud','2017-03-22 08:50:01','2017-03-22 08:50:20',13);
+INSERT INTO `permissions` VALUES (26,'rbac-user-crud','rbac-user-crud','rbac-user-crud','2017-03-22 08:49:02','2017-03-22 08:56:53',13),(27,'rbac-role-crud','rbac-role-crud','rbac-role-crud','2017-03-22 08:49:22','2017-03-22 08:49:22',13),(28,'rbac-permission-crud','rbac-permission-crud','rbac-permission-crud','2017-03-22 08:49:33','2017-03-22 08:49:33',13),(29,'rbac-group-crud','rbac-group-crud','rbac-group-crud','2017-03-22 08:50:01','2017-03-22 08:50:20',13),(30,'profile-update','profile-update','profile-update','2017-03-27 15:11:36','2017-03-27 15:11:36',14);
 /*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -177,6 +177,7 @@ CREATE TABLE `role_user` (
 
 LOCK TABLES `role_user` WRITE;
 /*!40000 ALTER TABLE `role_user` DISABLE KEYS */;
+INSERT INTO `role_user` VALUES (200004,2),(200009,3),(200010,3),(200011,3);
 /*!40000 ALTER TABLE `role_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -198,7 +199,7 @@ CREATE TABLE `roles` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `roles_name_unique` (`name`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -207,7 +208,7 @@ CREATE TABLE `roles` (
 
 LOCK TABLES `roles` WRITE;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` VALUES (2,'admin','Admin','Administrator','2017-03-21 17:40:53','2017-03-21 17:51:21','/admin/rbac/users');
+INSERT INTO `roles` VALUES (2,'admin','Admin','Administrator','2017-03-21 17:40:53','2017-03-21 17:51:21','/admin/rbac/users'),(3,'guest','guest','guest','2017-03-27 15:13:24','2017-03-27 15:13:24','/');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -236,6 +237,40 @@ LOCK TABLES `user_sessions` WRITE;
 /*!40000 ALTER TABLE `user_sessions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user_sessions` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `fullname` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `birthday` date DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `username_UNIQUE` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=200012 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (200004,'admin','$2y$10$GfRi5VxgMXcDcoiRsnMEsu3QbkLr/6I19jxMZ32.IaJxht3313wRa','b1Mt1l7pvD9IaaGgjP1WyZ8nypVgtKGounOSlp2i4lCpuMoqQBhncNMZT0N3','Admin','2000-03-10','admin@mail.com','0123456789','2017-03-21 19:25:26','2017-03-27 18:34:26'),(200009,'blabla','$2y$10$WgmdTLeOmUj6QIEgRcsqse6xlTYh0pPbwVONcCmuO7G5FJGo25fU2','JCSEIKYkjtyR8BMMKHFeBhJgxkng44gaAMA9PXfCYzHSy02NTyXtB26CHSiF','Blabla','2017-03-28','blabla.ptit@gmail.com','01234567891','2017-03-27 17:35:19','2017-03-27 17:35:19'),(200010,'blabla1','$2y$10$hpE0hE5VFKCPpVvPSMS5iey5WgIUx5npIZvAM3RIpMJh0yK294OWa','HtxDtzROudmx64zPHI7nn779qelYbd4DVq3ksKRpxV3nPFmxJxwg3WeuwSpt','Blabla','2017-03-01','blabla.ptit@gmail.com1','10123132023','2017-03-27 18:05:24','2017-03-27 18:05:24'),(200011,'blabla2','$2y$10$FfSE8nCq71BgRCSpUtQjB.jDHWYDnVgcXKNO1r2Ll..c6CeckKT1m','kUatfGR0u2JTQkcVCl6g90S2yeGcSNYPB8nuD7rNcfxW1mqEuDRcaAvOlicl','Blabla','2017-03-28','blablalist3@gmail.com','01231231231','2017-03-27 18:29:33','2017-03-27 18:29:33');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -246,4 +281,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-22 21:47:58
+-- Dump completed on 2017-03-28 20:30:19

@@ -16,6 +16,7 @@ return [
     'birthday' => 'Birthday',
     'profile' => 'Profile',
     'logout' => 'Log out',
+    'remember_me' => 'Remember me',
     
     //error
     'error_403_title' => 'Access denied',

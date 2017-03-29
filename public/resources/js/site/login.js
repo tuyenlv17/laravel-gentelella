@@ -16,7 +16,12 @@ var AppLogin = function () {
             singleClasses: "picker_2",
             showDropdowns: true,
         }, function (start, end, label) {
-
+            console.log(start + ' ' + end);
+        });
+        
+        $('input[type=checkbox]').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
         });
     }
     
