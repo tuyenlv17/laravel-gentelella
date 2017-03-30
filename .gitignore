@@ -8,4 +8,4 @@ Homestead.json
 Homestead.yaml
 .env
 /public/vendors/
-/www/resources/vendors
+/public/resources/vendors

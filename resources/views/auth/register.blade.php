@@ -62,8 +62,14 @@
 </div>
 @endsection
 
+@section('assets_css')
+<!-- Datatables -->
+<link href="{{asset('/resources/vendors/iCheck/skins/square/_all.css')}}" rel="stylesheet">
+@stop
+
 @section('assets_js')
 <script src="{{asset('/resources/vendors/moment/min/moment.min.js')}}"></script>
 <script src="{{asset('/resources/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{asset('/resources/vendors/iCheck/icheck.min.js')}}"></script>
 <script src="{{asset('/resources/js/site/login.js')}}"></script>
 @stop
