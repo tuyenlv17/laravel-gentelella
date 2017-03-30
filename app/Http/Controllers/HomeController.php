@@ -17,7 +17,7 @@ class HomeController extends Controller {
      * @return void
      */
     public function __construct() {
-        $this->middleware('auth');
+//        $this->middleware('auth');
     }
 
     /**
@@ -26,12 +26,13 @@ class HomeController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $user = Auth::user();
-        $role = $user->roles->first();      
-        if(!isset($role->default_url) || strcmp($role->default_url, '/') === 0) {
-            return redirect('/site/profile');
-        }
-        return redirect($role->default_url);
+        echo "home index\n";
+//        $user = Auth::user();
+//        $role = $user->roles->first();      
+//        if(!isset($role->default_url) || strcmp($role->default_url, '/') === 0) {
+//            return redirect('/site/profile');
+//        }
+//        return redirect($role->default_url);
     }
 
 }
