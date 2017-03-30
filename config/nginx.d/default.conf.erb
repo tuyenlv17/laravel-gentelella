@@ -35,6 +35,10 @@ server {
 
     # Handle any other URI
     location / {
-        try_files $uri $uri/ =404;
+        try_files $uri $uri/ @ci_index;
+    }
+
+    location @ci_index{
+            rewrite ^(.*) /index.php?$1 last;
     }
 }
