@@ -33,12 +33,12 @@ server {
         log_not_found off;
     }
 
-    # Handle any other URI
     location / {
-        try_files $uri $uri/ @ci_index;
-    }
-
-    location @ci_index{
-            rewrite ^(.*) /index.php?$1 last;
+        if (!-e $request_filename){
+            rewrite ^/(.*)/$ /$1 redirect;
+        }
+        if (!-e $request_filename){
+            rewrite ^(.*)$ /index.php break;
+        }
     }
 }
