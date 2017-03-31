@@ -10,3 +10,6 @@ build_config
 cd $OPENSHIFT_REPO_DIR; composer install
 #npm install bower
 #./node_modules/.bin/bower install
+
+cp .env.example .env
+php artisan key:generate
