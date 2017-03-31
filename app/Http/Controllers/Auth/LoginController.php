@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Debugbar;
+use Cache;
 
 class LoginController extends Controller {
     /*
@@ -27,6 +28,8 @@ use AuthenticatesUsers;
      * @var string
      */
     protected $redirectTo = '/site/profile';
+    protected $maxAttemps = 5;
+    protected $lockoutMinutes = 10;
 
     /**
      * Create a new controller instance.
@@ -43,30 +46,34 @@ use AuthenticatesUsers;
 
     protected function hasTooManyLoginAttempts(Request $request) {
         return $this->limiter()->tooManyAttempts(
-                        $this->throttleKey($request), 1, 1
+                        $this->throttleKey($request), $this->maxAttemps, $this->lockoutMinutes
         );
     }
 
     public function login(Request $request) {
         $this->validateLogin($request);
 
-        // If the class is using the ThrottlesLogins trait, we can automatically throttle
-        // the login attempts for this application. We'll key this by the username and
-        // the IP address of the client making these requests into this application.
         if ($this->hasTooManyLoginAttempts($request)) {
-            DebugBar::addMessage('hasTooManyLoginAttempts ' . time(), 'login');
+
             $this->fireLockoutEvent($request);
 
-            return $this->sendLockoutResponse($request);
+            if (Cache::has('captcha_login')) {
+                $this->validate($request, [
+                    'captcha' => 'required|captcha',
+                ]);
+            } else {
+                Cache::put('captcha_login', true, $this->lockoutMinutes);
+                return redirect()->back()
+                            ->withInput($request->only($this->username(), 'remember'))
+                            ->withErrors(['captcha_login' => trans('general.captcha_login')]);
+            }
         }
-
+                
         if ($this->attemptLogin($request)) {
+            Cache::forget('captcha_login');
             return $this->sendLoginResponse($request);
         }
 
-        // If the login attempt was unsuccessful we will increment the number of attempts
-        // to login and redirect the user back to the login form. Of course, when this
-        // user surpasses their maximum number of attempts they will get locked out.
         $this->incrementLoginAttempts($request);
 
         return $this->sendFailedLoginResponse($request);

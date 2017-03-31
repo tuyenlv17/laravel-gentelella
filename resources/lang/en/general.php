@@ -16,7 +16,8 @@ return [
     'birthday' => 'Birthday',
     'profile' => 'Profile',
     'logout' => 'Log out',
-    'remember_me' => 'Remember me',
+    'remember_me' => 'Remember me?',
+    'captcha_login' => 'Too many login attempts. Please enter captcha to continue',
     
     //error
     'error_403_title' => 'Access denied',

@@ -18,6 +18,15 @@
                     <div>
                         <input type="password" name="password" class="form-control"  placeholder="{{trans('general.password')}}" required="" />                        
                     </div>
+                    @if(Cache::has('captcha_login'))
+                    <div class="captcha">
+                        <i id="captcha-reload" class="fa fa-refresh"></i>
+                        <img id="captcha-img" alt="captcha" src="{{captcha_src()}}" onclick="this.src='/captcha/default?'+Math.random()">
+                        <div class="captcha-input">
+                            <input type="text" name="captcha" class="form-control" placeholder="{{trans('general.captcha')}}"/>
+                        </div>                        
+                    </div>
+                    @endif
                     <div class="text-left" style="margin-bottom: 10px;">
                         {{ Form::checkbox('remember', null, false, []) }} {{trans('general.remember_me')}}
                     </div>
