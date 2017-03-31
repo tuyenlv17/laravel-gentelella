@@ -6,3 +6,5 @@ build_config
 # Uncomment the following line to use Composer and automatically install dependencies on deploy.
 #
 cd $OPENSHIFT_REPO_DIR; composer install
+npm install bower
+./node_modules/.bin/bower install
