@@ -86,6 +86,7 @@ return [
     'uploaded'             => 'The :attribute failed to upload.',
     'url'                  => 'The :attribute format is invalid.',
     'captcha'              => 'Field :attribute does not match.',
+    'smallest_age'         => 'You must be at least :age years old',
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

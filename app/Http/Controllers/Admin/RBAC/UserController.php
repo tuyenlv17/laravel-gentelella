@@ -124,8 +124,8 @@ class UserController extends Controller {
                     'password' => 'required|min:8|max:64|regex:/^(?=.*[a-zA-Z])(?=.*\d).{8,64}$/|confirmed',
                     'email' => 'required|email|unique:users,email',
                     'phone' => 'required|digits_between:7,16|unique:users,phone',
-                    'birthday' => 'required|date_format:Y-m-d',
-        ]);
+                    'birthday' => 'required|date_format:Y-m-d|before:-13 years',
+        ], ['before' => trans('validation.smallest_age', ['age' => 13])]);
 
         if ($validator->fails()) {
             return redirect()->back()
@@ -207,8 +207,8 @@ class UserController extends Controller {
                     'password' => $passwordRules,
                     'email' => "required|email|unique:users,email,$id",
                     'phone' => "required|digits_between:7,16|unique:users,phone,$id",
-                    'birthday' => 'required|date_format:Y-m-d',
-        ]);        
+                    'birthday' => 'required|date_format:Y-m-d,before:-13 years',
+        ], ['before' => trans('validation.smallest_age', ['age' => 13])]);        
         
         if ($validator->fails()) {
             return redirect()->back()

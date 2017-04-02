@@ -56,7 +56,7 @@
 
 @section('assets_js')
 <!-- bootstrap-daterangepicker -->
-<script src="{{asset('/resources/vendors/moment/min/moment.min.js')}}"></script>
 <script src="{{asset('/resources/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{asset('/resources/vendors/locales/bootstrap-datepicker.vi.min.js')}}"></script>
 <script src="{{asset('/resources/js/site/profile.js')}}"></script>
 @stop

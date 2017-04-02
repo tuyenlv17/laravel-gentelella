@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ config('app.locale') }}">
+<html lang="{{ Session::get('locale', Config::get('app.fallback_locale')) }}">
     <head>
         <!-- Meta, title, CSS, favicons, etc. -->
         <meta charset="utf-8">
@@ -50,7 +50,12 @@
         <script src="{{asset('/resources/vendors/bootstrap/dist/js/bootstrap.min.js')}}"></script>
         <!-- select2 -->
         <script src="{{asset('/resources/vendors/select2/dist/js/select2.full.min.js')}}"></script>
-        <!-- App Scripts -->
+        <!-- moment -->
+        <script src="{{asset('/resources/vendors/moment/min/moment-with-locales.min.js')}}"></script>
+        <script>          
+            moment.locale($('html').attr('lang'));
+        </script>
+        <!-- App Scripts -->        
         <script src="{{asset('/resources/js/app.js')}}"></script>
         @yield('assets_js')       
         <!-- Custom Scripts -->

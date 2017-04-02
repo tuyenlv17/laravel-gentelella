@@ -59,7 +59,7 @@
 @stop
 
 @section('assets_js')
-<script src="{{asset('/resources/vendors/moment/min/moment.min.js')}}"></script>
+
 <script src="{{asset('/resources/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 <script src="{{asset('/resources/vendors/iCheck/icheck.min.js')}}"></script>
 <script src="{{asset('/resources/js/site/login.js')}}"></script>

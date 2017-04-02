@@ -4,17 +4,13 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/public/resources/js/lang/en.js</file>
-            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/resources/views/admin/rbac/users.blade.php</file>
-            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/resources/views/admin/rbac/groups.blade.php</file>
+            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/public/resources/js/app.js</file>
             <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/resources/views/admin/rbac/roles.blade.php</file>
             <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/resources/views/layouts/main.blade.php</file>
-            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/public/resources/js/custom.js</file>
-            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/public/resources/less/app.less</file>
-            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/resources/views/admin/rbac/permissions.blade.php</file>
+            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/resources/lang/en/general.php</file>
             <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/public/resources/js/admin/rbac/roles.js</file>
             <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/public/resources/js/admin/rbac/users.js</file>
-            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/routes/web.php</file>
-            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/public/resources/js/admin/rbac/permissions.js</file>
+            <file>file:/home/tuyenlv/data/programing/www-data/blabla.com/public/resources/js/lang/vn.js</file>
         </group>
     </open-files>
 </project-private>

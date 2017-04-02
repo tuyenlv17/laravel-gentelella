@@ -10,11 +10,11 @@ var AppProfile = function () {
 
         $('#birthday').daterangepicker({
             singleDatePicker: true,
-            locale: {
-                format: 'YYYY-MM-DD'
-            },
             singleClasses: "picker_2",
             showDropdowns: true,
+            minDate: moment().add(-40, 'y'),
+            maxDate: moment().add(-13, 'y'),
+//            yearRange: "-0:+0",
         }, function (start, end, label) {
 
         });

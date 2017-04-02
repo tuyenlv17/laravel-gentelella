@@ -146,7 +146,7 @@
 <script src="{{asset('/resources/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('/resources/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <!-- bootstrap-daterangepicker -->
-<script src="{{asset('/resources/vendors/moment/min/moment.min.js')}}"></script>
+
 <script src="{{asset('/resources/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 <script src="{{asset('/resources/vendors/iCheck/icheck.min.js')}}"></script>
 <script src="{{asset('/resources/js/management/movies.js')}}"></script>

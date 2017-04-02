@@ -66,9 +66,9 @@ return [
       | to any of the locales which will be supported by the application.
       |
      */
-    'locale' => 'en',
-    'locales' => ['en' => 'English', 'vn' => 'Tiếng Việt'],
-    'locales_flag' => ['en' => 'england.png', 'vn' => 'vn.png'],
+    'locale' => 'en-gb',
+    'locales' => ['en-gb' => 'English', 'vi' => 'Tiếng Việt'],
+    'locales_flag' => ['en-gb' => 'england.png', 'vi' => 'vn.png'],
     /*
       |--------------------------------------------------------------------------
       | Application Fallback Locale
@@ -79,7 +79,7 @@ return [
       | the language folders that are provided through your application.
       |
      */
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'en-gb',
     /*
       |--------------------------------------------------------------------------
       | Encryption Key

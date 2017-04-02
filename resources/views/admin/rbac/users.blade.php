@@ -104,7 +104,7 @@
 <script src="{{asset('/resources/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('/resources/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <!-- bootstrap-daterangepicker -->
-<script src="{{asset('/resources/vendors/moment/min/moment.min.js')}}"></script>
+
 <script src="{{asset('/resources/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 <script src="{{asset('/resources/vendors/jquery-confirm2/dist/jquery-confirm.min.js')}}"></script>
 <script src="{{asset('/resources/vendors/toastr/toastr.min.js')}}"></script>

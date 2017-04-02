@@ -15,6 +15,8 @@ var AppLogin = function () {
             },
             singleClasses: "picker_2",
             showDropdowns: true,
+            minDate: moment().add(-40, 'y'),
+            maxDate: moment().add(-13, 'y'),
         }, function (start, end, label) {
             console.log(start + ' ' + end);
         });
