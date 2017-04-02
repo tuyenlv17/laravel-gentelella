@@ -309,7 +309,7 @@ $(document).ready(function () {
         var id = $(parentObject).attr('data-id');
         var total = $('.cbg-child-' + id + ':checked').length;
         $(parentObject).attr('data-total', total);
-        $(parentObject).closest('.panel-title').find('.cbg-total').html((Lang.Other.nSelected).format(total));
+        $(parentObject).closest('.cbg-wrapper').find('.cbg-total').html((Lang.Other.nSelected).format(total));
         if ($('.cbg-child-' + id).length !== 0
                 && $('.cbg-child-' + id + ':not(:checked)').length === 0) {
             $(parentObject).iCheck('check');

@@ -44,7 +44,7 @@
                             @foreach($permissionGroup as $groupName=>$permissions)
                             <div class="panel">   
                                 <a class="panel-heading collapsed" role="tab" id="group-header-{{$loop->index}}" data-parent="#accordion-role" data-toggle="collapse" href="#group-{{$loop->index}}" aria-expanded="false" aria-controls="#group-{{$loop->index}}">                                    
-                                    <h4 class="panel-title">
+                                    <h4 class="panel-title cbg-wrapper">
                                         {{ Form::checkbox("group-header-".$loop->index, null, false, ['class' => 'cbg-parent cbg-parent-' . $loop->index, 'data-id' => $loop->index, 'data-total' => 0]) }}
                                         {{$groupName}} <span class="cbg-total"></span>
                                     </h4>
