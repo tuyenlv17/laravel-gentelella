@@ -3,13 +3,13 @@
  **/
 var AppRole = function () {
 
-    var baseUrl = jQuery('#site-meta').attr('data-base-url');
+    var baseUrl = $('#site-meta').attr('data-base-url');
     var roleTable = null;
 //    $.fn.select2.defaults.set("theme", "bootstrap");
     // private functions & variables
 
     function loadRoleTable() {
-        roleTable = jQuery('#roles-table').DataTable({
+        roleTable = $('#roles-table').DataTable({
             "dom": "<'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable table-responsive   't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
             "serverSide": true,
             "processing": true,
@@ -70,55 +70,33 @@ var AppRole = function () {
             });
         });
 
-        jQuery(".dataTables_length select").select2({
+        $(".dataTables_length select").select2({
             minimumResultsForSearch: -1,
             width: '60px'
         });
-    };
+    }
+    ;
 
     /**
      * delete an Role
      * @returns {undefined}
      */
     function deleteRole() {
-        jQuery(document).on('click', '.delete-role', function () {
-            if (confirm("Delete?")) {
-                var id = $(this).attr('data-id');
-                var btn = $(this);
-                jQuery.ajax({
-                    url: baseUrl + '/admin/rbac/roles/' + id,
-                    dataType: 'json',
-                    type: 'DELETE',
-                    data: {
-                    },
-                    success: function (data, textStatus, jqXHR) {
-                        if (data.code == 0) {
-                            btn.parents('tr').addClass('hidden selected');
-                            if (roleTable != null) {
-                                roleTable.row('.selected')
-                                        .remove()
-                                        .draw(false);
-                            }
-                            alert('success!');
-                        } else {
-                            alert('error!');
-                        }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        alert('error!');
-                    }
-                });
-            }
+        $(document).on('click', '.delete-role', function () {
+            var id = $(this).attr('data-id');
+            var btn = $(this);
+            Custom.deleteRecord(btn, baseUrl + '/admin/rbac/roles/' + id, roleTable);
         });
-    };
+    }
+    ;
 
     /**
      * handle validation form
      * @returns {undefined}
      */
     function handleValidation() {
-        var form = jQuery('#role-form');
-        var error = jQuery('.alert-danger', form);
+        var form = $('#role-form');
+        var error = $('.alert-danger', form);
 
         form.validate({
             errorElement: 'span',
@@ -140,11 +118,11 @@ var AppRole = function () {
                 App.scrollTo(error, -200);
             },
             highlight: function (element) {
-                jQuery(element)
+                $(element)
                         .closest('.form-group').addClass('has-error');
             },
             unhighlight: function (element) {
-                jQuery(element)
+                $(element)
                         .closest('.form-group').removeClass('has-error');
             },
             success: function (label) {
@@ -156,7 +134,8 @@ var AppRole = function () {
                 form.submit();
             }
         });
-    };
+    }
+    ;
 
     function initComponent() {
         $('select').select2({});
@@ -179,6 +158,6 @@ var AppRole = function () {
 
 };
 
-jQuery(document).ready(function () {
+$(document).ready(function () {
     AppRole().init();
 });

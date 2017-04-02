@@ -81,33 +81,9 @@ var AppPermission = function () {
      */
     var deletePermission = function () {
         $(document).on('click', '.delete-permission', function () {
-            if (confirm("Delete?")) {
-                var id = $(this).attr('data-id');
-                var btn = $(this);
-                jQuery.ajax({
-                    url: baseUrl + '/admin/rbac/permissions/' + id,
-                    dataType: 'json',
-                    type: 'DELETE',
-                    data: {
-                    },
-                    success: function (data, textStatus, jqXHR) {
-                        if (data.code == 0) {
-                            btn.parents('tr').addClass('hidden selected');
-                            if (permissionTable != null) {
-                                permissionTable.row('.selected')
-                                        .remove()
-                                        .draw(false);
-                            }
-                            alert('success!');
-                        } else {
-                            alert('error!');
-                        }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        alert('error!');
-                    }
-                });
-            }
+            var id = $(this).attr('data-id');
+            var btn = $(this);
+            Custom.deleteRecord(btn, baseUrl + '/admin/rbac/permissions/' + id, permissionTable);
         });
     };
 

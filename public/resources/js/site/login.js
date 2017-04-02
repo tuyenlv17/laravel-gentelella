@@ -3,7 +3,7 @@
  **/
 var AppLogin = function () {
 
-    var baseUrl = jQuery('#site-meta').attr('data-base-url');
+    var baseUrl = $('#site-meta').attr('data-base-url');
     
     function initComponent() {
         $('.select2-mutiple').select2({});

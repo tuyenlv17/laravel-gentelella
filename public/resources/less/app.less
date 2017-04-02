@@ -686,9 +686,9 @@ a:hover, a:focus {
     color: #fff;
 }
 .nav.side-menu > li.active > a {
-/*    text-shadow: rgba(0, 0, 0, 0.25) 0 -1px 0;
-    background: linear-gradient(#334556, #2C4257), #2A3F54;
-    box-shadow: rgba(0, 0, 0, 0.25) 0 1px 0, inset rgba(255, 255, 255, 0.16) 0 1px 0;*/
+    /*    text-shadow: rgba(0, 0, 0, 0.25) 0 -1px 0;
+        background: linear-gradient(#334556, #2C4257), #2A3F54;
+        box-shadow: rgba(0, 0, 0, 0.25) 0 1px 0, inset rgba(255, 255, 255, 0.16) 0 1px 0;*/
 }
 .navbar-brand, .navbar-nav > li > a {
     font-weight: 500;
@@ -3329,7 +3329,7 @@ a.hiddenanchor {
     margin-top: 5%;
     max-width: 350px;
     position: relative;
-    
+
     .captcha {
         position: relative;
         & > img {
@@ -3537,7 +3537,7 @@ header {
 }
 
 #register-form {
-    
+
 }
 
 /** signup **/
@@ -4100,7 +4100,7 @@ ul.notifications {
 
 /** /iCheck **/
 [class^="icheckbox_square"] {
-    width: 24px;
+    width: 23px;
 }
 /** /iCheck **/
 
@@ -4123,6 +4123,19 @@ ul.notifications {
 }
 
 /** /Dropzone.js **/
+
+/** toast **/
+div[class^="toast-"] {
+    div.toast {
+        box-shadow: none ! important;
+        border-radius: 0 ! important;
+        &:hover {
+            opacity: 0.9 ! important;
+        }        
+    }
+}
+
+/** /toast **/
 
 /** datatable **/
 table.dataTable thead{

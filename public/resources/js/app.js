@@ -41,7 +41,7 @@
  * and open the template in the editor.
  */
 
-var CURRENT_URL = window.location.href.split('#')[0].split('?')[0],
+var CURRENT_URL = window.location.href.split('#')[0].split('?')[0].split(/\/\d/)[0],
         $BODY = $('body'),
         $MENU_TOGGLE = $('#menu_toggle'),
         $SIDEBAR_MENU = $('#sidebar-menu'),
@@ -106,7 +106,6 @@ $(document).ready(function () {
 
         setContentHeight();
     });
-
     // check active menu
     $SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').parent('li').addClass('current-page');
 
@@ -283,7 +282,7 @@ if (typeof NProgress != 'undefined') {
 //common-component
 $(document).ready(function () {
     var baseUrl = $('#site-meta').attr('data-base-url');
-    
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
@@ -292,10 +291,6 @@ $(document).ready(function () {
 
     $('.lang-option').click(function () {
         var locale = $(this).attr('data-locale');
-//        var imgSrc = $(this).children('img').attr('src');
-//        var langName = $(this).text().trim();        
-//        $('.lang-img').attr('src', imgSrc);
-//        $('.langname').html(langName);
         $.ajax({
             url: baseUrl + '/site/change_language',
             type: 'POST',
@@ -307,6 +302,41 @@ $(document).ready(function () {
                 alert('Error!!!');
             }
         });
+    });
+
+    //ichecker-group    
+    function checkParentState (parentObject) {
+        var id = $(parentObject).attr('data-id');
+        var total = $('.cbg-child-' + id + ':checked').length;
+        $(parentObject).attr('data-total', total);
+        $(parentObject).closest('.panel-title').find('.cbg-total').html((Lang.Other.nSelected).format(total));
+        if ($('.cbg-child-' + id).length !== 0
+                && $('.cbg-child-' + id + ':not(:checked)').length === 0) {
+            $(parentObject).iCheck('check');
+        } else {
+            $(parentObject).iCheck('uncheck');
+        }
+    };
+    
+    $('.cbg-parent').each(function(index, object) {
+        checkParentState(object);
+    });   
+    
+    $('.cbg-parent').on('ifClicked', function () {
+        var id = $(this).attr('data-id');
+        //check old status
+        if($(this).is(':checked')) {
+            $('.cbg-child-' + id).iCheck('uncheck');
+        } else {
+            $('.cbg-child-' + id).iCheck('check');
+        }
+        checkParentState(this);
+    });
+    
+    $('.cbg-child').on('ifClicked', function () {        
+        var id = $(this).attr('data-id');
+        $(this).iCheck($(this).is(':checked') ? 'uncheck' : 'check');
+        checkParentState($('.cbg-parent-' + id));
     });
 });
 //common-component

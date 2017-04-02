@@ -34,8 +34,7 @@ class RoleController extends Controller {
         $permissionGroup = array();
         foreach ($permissions as $permission) {
             $permissionGroup[$permission->group_name][] = $permission;
-        }
-        
+        }        
         return view('admin.rbac.roles', array(
             'action' => 'add',
             'permissionGroup' => $permissionGroup,
@@ -164,7 +163,7 @@ class RoleController extends Controller {
         $permissionGroup = array();
         foreach ($permissions as $permission) {
             $permissionGroup[$permission->group_name][] = $permission;
-        }
+        }        
         
         return view('admin.rbac.roles', array(
             'action' => 'edit',

@@ -42,30 +42,28 @@
                     <div class="col-md-12">
                         <div class="accordion" id="accordion accordion-role" role="tablist" aria-multiselectable="true">
                             @foreach($permissionGroup as $groupName=>$permissions)
-                            <div class="panel">
+                            <div class="panel">   
                                 <a class="panel-heading collapsed" role="tab" id="group-header-{{$loop->index}}" data-parent="#accordion-role" data-toggle="collapse" href="#group-{{$loop->index}}" aria-expanded="false" aria-controls="#group-{{$loop->index}}">                                    
                                     <h4 class="panel-title">
-                                        {{ Form::checkbox("group-header-".$loop->index, null, false, []) }}
-                                        {{$groupName}}
+                                        {{ Form::checkbox("group-header-".$loop->index, null, false, ['class' => 'cbg-parent cbg-parent-' . $loop->index, 'data-id' => $loop->index, 'data-total' => 0]) }}
+                                        {{$groupName}} <span class="cbg-total"></span>
                                     </h4>
                                 </a>
+                                
                                 <div id="group-{{$loop->index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="#group-header-{{$loop->index}}">                                    
                                     <div class="panel-body">
                                         @foreach($permissions as $permission)
                                         @if(!isset($permission->id)) 
                                             @continue
-                                        @endif
-                                        <div class="row" style="margin-bottom: 5px;">
-                                            @if(strcmp($action,'add') === 0)                                        
-                                            {{ Form::checkbox('permission[]', $permission->id, false, []) }}
-                                            @else
-                                            {{ Form::checkbox('permission[]', $permission->id, in_array($permission->id, $currentPermisisons) ? true : false, []) }}
-                                            @endif                                    
+                                        @endif                                        
+                                        <div class="row" style="margin-bottom: 5px;">                                            
+                                            {{ Form::checkbox('permission[]', $permission->id, 
+                                                        strcmp($action,'add') !== 0 && in_array($permission->id, $currentPermisisons) ? true : false, ['class' => 'cbg-child cbg-child-' . $loop->parent->index, 'data-id' => $loop->parent->index]) }}                                             
                                             {{ $permission->display_name }}
                                         </div>                                            
                                         @endforeach
                                     </div>
-                                </div>
+                                </div>                                
                             </div>
                             @endforeach
                         </div>                        
@@ -116,6 +114,8 @@
 <!-- Datatables -->
 <link href="{{asset('/resources/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
 <link href="{{asset('/resources/vendors/iCheck/skins/square/_all.css')}}" rel="stylesheet">
+<link href="{{asset('/resources/vendors/jquery-confirm2/dist/jquery-confirm.min.css')}}" rel="stylesheet">
+<link href="{{asset('/resources/vendors/toastr/toastr.min.css')}}" rel="stylesheet">
 @stop
 
 @section('assets_js')
@@ -123,5 +123,7 @@
 <script src="{{asset('/resources/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('/resources/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <script src="{{asset('/resources/vendors/iCheck/icheck.min.js')}}"></script>
+<script src="{{asset('/resources/vendors/jquery-confirm2/dist/jquery-confirm.min.js')}}"></script>
+<script src="{{asset('/resources/vendors/toastr/toastr.min.js')}}"></script>
 <script src="{{asset('/resources/js/admin/rbac/roles.js')}}"></script>
 @stop

@@ -95,6 +95,8 @@
 <!-- Datatables -->
 <link href="{{asset('/resources/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
 <link href="{{asset('/resources/vendors/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
+<link href="{{asset('/resources/vendors/jquery-confirm2/dist/jquery-confirm.min.css')}}" rel="stylesheet">
+<link href="{{asset('/resources/vendors/toastr/toastr.min.css')}}" rel="stylesheet">
 @stop
 
 @section('assets_js')
@@ -104,5 +106,7 @@
 <!-- bootstrap-daterangepicker -->
 <script src="{{asset('/resources/vendors/moment/min/moment.min.js')}}"></script>
 <script src="{{asset('/resources/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{asset('/resources/vendors/jquery-confirm2/dist/jquery-confirm.min.js')}}"></script>
+<script src="{{asset('/resources/vendors/toastr/toastr.min.js')}}"></script>
 <script src="{{asset('/resources/js/admin/rbac/users.js')}}"></script>
 @stop

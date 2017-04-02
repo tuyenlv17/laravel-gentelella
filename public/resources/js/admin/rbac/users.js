@@ -3,12 +3,12 @@
  **/
 var AppUser = function () {
 
-    var baseUrl = jQuery('#site-meta').attr('data-base-url');
+    var baseUrl = $('#site-meta').attr('data-base-url');
     var userTable = null;
 
     function loadUserTable() {
 
-        userTable = jQuery('#users-table').DataTable({
+        userTable = $('#users-table').DataTable({
             "dom": "<'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable table-responsive't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
             "serverSide": true,
             "processing": true,
@@ -63,7 +63,7 @@ var AppUser = function () {
             });
         });
 
-        jQuery(".dataTables_length select").select2({
+        $(".dataTables_length select").select2({
             minimumResultsForSearch: -1,
             width: '60px'
         });
@@ -75,35 +75,10 @@ var AppUser = function () {
      * @returns {undefined}
      */
     function deleteUser() {
-        jQuery(document).on('click', '.delete-user', function () {
-            var btn = jQuery(this);
+        $(document).on('click', '.delete-user', function () {
+            var btn = $(this);
             var id = btn.attr('data-id');
-
-            if (confirm("Delete?")) {
-                jQuery.ajax({
-                    url: baseUrl + '/admin/rbac/users/' + id,
-                    dataType: 'json',
-                    type: 'DELETE',
-                    data: {
-                    },
-                    success: function (data, textStatus, jqXHR) {
-                        if (data.code == 0) {
-                            btn.parents('tr').addClass('hidden selected');
-                            if (userTable != null) {
-                                userTable.row('.selected')
-                                        .remove()
-                                        .draw(false);
-                            }
-                            alert('success!');
-                        } else {
-                            alert('error!');
-                        }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        alert('error!');
-                    }
-                });
-            }
+            Custom.deleteRecord(btn, baseUrl + '/admin/rbac/users/' + id, userTable);
         });
     }
 
@@ -112,9 +87,9 @@ var AppUser = function () {
      * @returns {undefined}
      */
     var handleValidation = function () {
-        var form = jQuery('#user-form');
-        var error = jQuery('.alert-danger', form);
-        var isPwRequired = (jQuery('#is-adding-user').val() === 'true');
+        var form = $('#user-form');
+        var error = $('.alert-danger', form);
+        var isPwRequired = ($('#is-adding-user').val() === 'true');
         form.validate({
             errorElement: 'span',
             errorClass: 'help-block help-block-error',
@@ -148,11 +123,11 @@ var AppUser = function () {
                 App.scrollTo(error, -200);
             },
             highlight: function (element) {
-                jQuery(element)
+                $(element)
                         .closest('.form-group').addClass('has-error');
             },
             unhighlight: function (element) {
-                jQuery(element)
+                $(element)
                         .closest('.form-group').removeClass('has-error');
             },
             success: function (label) {
@@ -195,6 +170,6 @@ var AppUser = function () {
 
 };
 
-jQuery(document).ready(function () {
+$(document).ready(function () {
     AppUser().init();
 });

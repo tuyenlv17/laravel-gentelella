@@ -42,15 +42,19 @@
             ]) !!}
             ;
         </script>
+        <!-- js-languege -->
+        <script src="{{asset('/resources/js/lang/' . Session::get('locale', Config::get('app.fallback_locale')) . '.js')}}"></script>        
         <!-- jQuery -->
         <script src="{{asset('/resources/vendors/jquery/dist/jquery.min.js')}}"></script>
         <!-- Bootstrap -->
         <script src="{{asset('/resources/vendors/bootstrap/dist/js/bootstrap.min.js')}}"></script>
         <!-- select2 -->
         <script src="{{asset('/resources/vendors/select2/dist/js/select2.full.min.js')}}"></script>
-        <!-- Custom Scripts -->
+        <!-- App Scripts -->
         <script src="{{asset('/resources/js/app.js')}}"></script>
-        @yield('assets_js')        
+        @yield('assets_js')       
+        <!-- Custom Scripts -->
+        <script src="{{asset('/resources/js/custom.js')}}"></script>
         <input type="hidden" id="site-meta"             
                data-base-url="{{ url('/') }}"/>
     </body>
