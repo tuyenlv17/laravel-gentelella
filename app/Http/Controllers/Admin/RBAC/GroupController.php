@@ -106,7 +106,7 @@ class GroupController extends Controller {
         ]);
 
         if ($validator->fails()) {
-            return redirect('admin/rbac/groups')
+            return redirect()->back()
                             ->withInput()
                             ->withErrors($validator);
         } else {

@@ -111,8 +111,7 @@ class RoleController extends Controller {
         ]);
 
         if ($validator->fails()) {
-            return redirect('admin/roles')
-                            ->withErrors($validator);
+            return redirect()->back()->withErrors($validator);
         } else {
             $role = new Role();
             $role->name = Input::get('name');

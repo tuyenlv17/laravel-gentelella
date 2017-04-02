@@ -56,7 +56,7 @@
                                         @if(!isset($permission->id)) 
                                             @continue
                                         @endif                                        
-                                        <div class="row" style="margin-bottom: 5px;">                                            
+                                        <div class="" style="margin: 0 10px 5px;">                                            
                                             {{ Form::checkbox('permission[]', $permission->id, 
                                                         strcmp($action,'add') !== 0 && in_array($permission->id, $currentPermisisons) ? true : false, ['class' => 'cbg-child cbg-child-' . $loop->parent->index, 'data-id' => $loop->parent->index]) }}                                             
                                             {{ $permission->display_name }}

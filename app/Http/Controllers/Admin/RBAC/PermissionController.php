@@ -111,8 +111,7 @@ class PermissionController extends Controller {
         ]);
 
         if ($validator->fails()) {
-            return redirect('admin/permissions')
-                            ->withErrors($validator);
+            return redirect()->back()->withErrors($validator);
         } else {
             $groupId = DB::table('groups')->where('id', '=', Input::get('group'))->value('id');
             if (!isset($groupId)) {
