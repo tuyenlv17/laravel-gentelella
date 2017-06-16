@@ -12,9 +12,11 @@ use App\Permission;
 use App\Group;
 use DB;
 
-class PermissionController extends Controller {
+class PermissionController extends Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
         $this->middleware('permission:rbac-permission-crud', ['except' => []]);
     }
@@ -24,7 +26,8 @@ class PermissionController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index()
+    {
         $groups = Group::pluck('display_name', 'id')->toArray();
         return view('admin.rbac.permissions', array(
             'action' => 'add',
@@ -37,7 +40,8 @@ class PermissionController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function listing() {
+    public function listing()
+    {
         $start = Input::get('start');
         $length = Input::get('length');
         $draw = Input::get('draw');
@@ -55,28 +59,28 @@ class PermissionController extends Controller {
         $total = Permission::count();
 
         $totalFilter = DB::table('permissions')
-                ->join('groups', 'groups.id', '=', 'group_id')
-                ->where(function ($query) use ($keyword) {
-                    $query->where('permissions.name', 'LIKE', "%$keyword%")
+            ->join('groups', 'groups.id', '=', 'group_id')
+            ->where(function ($query) use ($keyword) {
+                $query->where('permissions.name', 'LIKE', "%$keyword%")
                     ->orWhere('permissions.display_name', 'LIKE', "%$keyword%")
                     ->orWhere('permissions.description', 'LIKE', "%$keyword%")
                     ->orWhere('groups.display_name', 'LIKE', "%$keyword%");
-                })
-                ->count();
+            })
+            ->count();
 
         $permissions = DB::table('permissions')
-                ->select('permissions.*', DB::raw('groups.display_name as group_name'))
-                ->join('groups', 'groups.id', '=', 'group_id')
-                ->where(function ($query) use ($keyword) {
-                    $query->where('permissions.name', 'LIKE', "%$keyword%")
+            ->select('permissions.*', DB::raw('groups.display_name as group_name'))
+            ->join('groups', 'groups.id', '=', 'group_id')
+            ->where(function ($query) use ($keyword) {
+                $query->where('permissions.name', 'LIKE', "%$keyword%")
                     ->orWhere('permissions.display_name', 'LIKE', "%$keyword%")
                     ->orWhere('permissions.description', 'LIKE', "%$keyword%")
                     ->orWhere('groups.display_name', 'LIKE', "%$keyword%");
-                })
-                ->orderBy($orderBy, $orderType)
-                ->skip($start)
-                ->take($length)
-                ->get();
+            })
+            ->orderBy($orderBy, $orderType)
+            ->skip($start)
+            ->take($length)
+            ->get();
 
 
         $arr = array(
@@ -94,20 +98,22 @@ class PermissionController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
-        
+    public function create()
+    {
+
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $validator = Validator::make($request->all(), [
-                    'name' => 'required|max:64|unique:permissions,name',
-                    'display_name' => 'required'
+            'name' => 'required|max:64|unique:permissions,name',
+            'display_name' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -131,20 +137,22 @@ class PermissionController extends Controller {
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show($id)
+    {
         //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         $permission = Permission::findOrFail($id);
         $groups = Group::pluck('display_name', 'id')->toArray();
         return view('admin.rbac.permissions', array(
@@ -157,11 +165,12 @@ class PermissionController extends Controller {
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $permission = Permission::findOrFail($id);
 
         $this->validate($request, [
@@ -184,10 +193,11 @@ class PermissionController extends Controller {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $permission = Permission::findOrFail($id);
 
         $arr = array(

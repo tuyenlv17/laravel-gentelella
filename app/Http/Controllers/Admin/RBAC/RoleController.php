@@ -13,28 +13,31 @@ use App\Permission;
 use App\Group;
 use DB;
 
-class RoleController extends Controller {
+class RoleController extends Controller
+{
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
         $this->middleware('permission:rbac-role-crud', ['except' => []]);
     }
 
-    public function index() {
-        $permissions = DB::table('permissions')                         
-                         ->select('permissions.*', 'groups.display_name as group_name')
-                         ->rightJoin('groups', 'groups.id', '=', 'permissions.group_id')
-                         ->orderBy('group_id', 'asc')
-                         ->get();
+    public function index()
+    {
+        $permissions = DB::table('permissions')
+            ->select('permissions.*', 'groups.display_name as group_name')
+            ->rightJoin('groups', 'groups.id', '=', 'permissions.group_id')
+            ->orderBy('group_id', 'asc')
+            ->get();
         $permissionGroup = array();
         foreach ($permissions as $permission) {
             $permissionGroup[$permission->group_name][] = $permission;
-        }        
+        }
         return view('admin.rbac.roles', array(
             'action' => 'add',
             'permissionGroup' => $permissionGroup,
@@ -46,7 +49,8 @@ class RoleController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function listing() {
+    public function listing()
+    {
         $start = Input::get('start');
         $length = Input::get('length');
         $draw = Input::get('draw');
@@ -64,19 +68,19 @@ class RoleController extends Controller {
         $total = Role::count();
 
         $totalFilter = Role::where('name', 'LIKE', "%$keyword%")
-                ->orWhere('display_name', 'LIKE', "%$keyword%")
-                ->orWhere('description', 'LIKE', "%$keyword%")
-                ->orWhere('default_url', 'LIKE', "%$keyword%")
-                ->count();
+            ->orWhere('display_name', 'LIKE', "%$keyword%")
+            ->orWhere('description', 'LIKE', "%$keyword%")
+            ->orWhere('default_url', 'LIKE', "%$keyword%")
+            ->count();
 
         $roles = Role::where('name', 'LIKE', "%$keyword%")
-                ->orWhere('display_name', 'LIKE', "%$keyword%")
-                ->orWhere('description', 'LIKE', "%$keyword%")
-                ->orWhere('default_url', 'LIKE', "%$keyword%")
-                ->orderBy($orderBy, $orderType)
-                ->skip($start)
-                ->take($length)
-                ->get();
+            ->orWhere('display_name', 'LIKE', "%$keyword%")
+            ->orWhere('description', 'LIKE', "%$keyword%")
+            ->orWhere('default_url', 'LIKE', "%$keyword%")
+            ->orderBy($orderBy, $orderType)
+            ->skip($start)
+            ->take($length)
+            ->get();
 
         $arr = array(
             'recordsTotal' => $total,
@@ -93,21 +97,23 @@ class RoleController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
-        
+    public function create()
+    {
+
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $validator = Validator::make($request->all(), [
-                    'name' => 'required|max:64|unique:roles,name',
-                    'display_name' => 'required',
-                    'default_url' => 'required'
+            'name' => 'required|max:64|unique:roles,name',
+            'display_name' => 'required',
+            'default_url' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -119,9 +125,9 @@ class RoleController extends Controller {
             $role->description = Input::get('description');
             $role->default_url = Input::get('default_url');
             $role->save();
-            
+
             $permission = Input::get('permission');
-             if (count($permission) > 0) {
+            if (count($permission) > 0) {
                 foreach (Input::get('permission') as $key => $value) {
                     $role->attachPermission($value);
                 }
@@ -133,37 +139,39 @@ class RoleController extends Controller {
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show($id)
+    {
         //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
-        $role = Role::findOrFail($id);       
+    public function edit($id)
+    {
+        $role = Role::findOrFail($id);
 
         $currentPermisisons = DB::table("permission_role")
-                                 ->where("permission_role.role_id", $id)
-                                 ->pluck('permission_role.permission_id')
-                                 ->toArray();   
-        
-        $permissions = DB::table('permissions')                         
-                         ->select('permissions.*', 'groups.display_name as group_name')
-                         ->rightJoin('groups', 'groups.id', '=', 'permissions.group_id')
-                         ->orderBy('group_id', 'asc')
-                         ->get();
+            ->where("permission_role.role_id", $id)
+            ->pluck('permission_role.permission_id')
+            ->toArray();
+
+        $permissions = DB::table('permissions')
+            ->select('permissions.*', 'groups.display_name as group_name')
+            ->rightJoin('groups', 'groups.id', '=', 'permissions.group_id')
+            ->orderBy('group_id', 'asc')
+            ->get();
         $permissionGroup = array();
         foreach ($permissions as $permission) {
             $permissionGroup[$permission->group_name][] = $permission;
-        }        
-        
+        }
+
         return view('admin.rbac.roles', array(
             'action' => 'edit',
             'role' => $role,
@@ -175,11 +183,12 @@ class RoleController extends Controller {
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $role = Role::findOrFail($id);
 
         $this->validate($request, [
@@ -194,7 +203,7 @@ class RoleController extends Controller {
         $role->save();
 
         DB::table("permission_role")->where("permission_role.role_id", $id)
-                ->delete();
+            ->delete();
 
         $permission = Input::get('permission');
 
@@ -210,10 +219,11 @@ class RoleController extends Controller {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $role = Role::findOrFail($id);
 
         $arr = array(

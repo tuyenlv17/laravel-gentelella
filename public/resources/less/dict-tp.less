@@ -1,0 +1,25 @@
+html.dicts-creed {
+  div.dict-sb-wrapper {
+    position: fixed;
+    top: -111px;
+    right: 0;
+    bottom: 0;
+    display: none;
+    iframe {
+      width: 95%;
+      margin-left: 5%;
+    }
+    &.dict-active {
+      display: block;
+    };
+    iframe.dict-cambridge {
+      overflow-x: hidden;
+      height: 500px;
+      .cdo-hdr__pre clrd {
+        display: none;
+      }
+    }
+    iframe.dict-vdict {
+    }
+  }
+}

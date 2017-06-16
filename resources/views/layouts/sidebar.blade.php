@@ -65,50 +65,24 @@
                             @endif
                         </ul>
                     </li> 
-                    @endif   
-                    
-                    @if(Auth::user()->can('management-*'))
-                    <li>
-                        <a>
-                            <i class="fa fa-film"></i>
-                            {{trans('general.management')}}
-                            <span class="fa fa-chevron-down"></span>
-                        </a>
-                        <ul class="nav child_menu">
-                            @if(Auth::user()->can('management-movie-*'))
-                            <li>
-                                <a href="{{ url('/management/movies') }}">
-                                    {{trans('general.movies')}}
-                                </a>
-                            </li>
-                            @endif
-                            
-                            @if(Auth::user()->can('management-genre-*'))
-                            <li>
-                                <a href="{{ url('/management/genres') }}">
-                                    {{trans('general.genres')}}
-                                </a>
-                            </li>
-                            @endif
-                            
-                            @if(Auth::user()->can('management-attribute-*'))
-                            <li>
-                                <a href="{{ url('/management/attributes') }}">
-                                    {{trans('general.attributes')}}
-                                </a>
-                            </li>
-                            @endif
-                            
-                            @if(Auth::user()->can('management-attribute-value-*'))
-                            <li>
-                                <a href="{{ url('/management/attribute_val') }}">
-                                    {{trans('general.attribute_val')}}
-                                </a>
-                            </li>
-                            @endif
-                        </ul>
-                    </li> 
-                    @endif 
+                    @endif
+
+                    @if(Auth::check())
+                        <li>
+                            <a>
+                                <i class="fa fa-film"></i>
+                                {{trans('general.utilities')}}
+                                <span class="fa fa-chevron-down"></span>
+                            </a>
+                            <ul class="nav child_menu">
+                                <li>
+                                    <a href="{{ url('/utilities/pdf_reader') }}">
+                                        {{trans('general.pdf_reader')}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    @endif
                 </ul>
             </div>            
 

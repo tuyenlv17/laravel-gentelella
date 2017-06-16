@@ -9,14 +9,16 @@ use App\Role;
 use Illuminate\Support\Facades\Auth;
 use App;
 
-class HomeController extends Controller {
+class HomeController extends Controller
+{
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
@@ -25,10 +27,11 @@ class HomeController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index()
+    {
         $user = Auth::user();
-        $role = $user->roles->first();      
-        if(!isset($role->default_url) || strcmp($role->default_url, '/') === 0) {
+        $role = $user->roles->first();
+        if (!isset($role->default_url) || strcmp($role->default_url, '/') === 0) {
             return redirect('/site/profile');
         }
         return redirect($role->default_url);

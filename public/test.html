@@ -1,0 +1,45 @@
+<html>
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+	<script type="text/javascript">
+		function message_broadcast(message) {
+		    localStorage.setItem('message',JSON.stringify(message));
+		    localStorage.removeItem('message');
+		    console.log(JSON.stringify(message));
+		}
+		function message_receive(ev) {
+		    console.log("message receive " + JSON.stringify(message));
+		    if (ev.originalEvent.key!='message') return;
+		    var message=JSON.parse(ev.originalEvent.newValue);
+		    if (!message) return;
+		    if (message.command == 'doit') alert(message.data);
+		}
+
+		$( document ).ready(function() {
+		    // $(document).bind('copy', function() {
+		    //     var text = "";
+		    //     if (window.getSelection) {
+		    //         text = window.getSelection().toString();
+		    //     } else if (document.selection && document.selection.type != "Control") {
+		    //         text = document.selection.createRange().text;
+		    //     }
+		    //     //{ 'command': 'doit', 'data': 'abcd' }		        
+		    // });
+		    $(window).bind('storage', function (e) {
+			     console.log("storage event " + localStorage.getItem('value2'));
+			 });   
+		    localStorage.setItem('value2', new Date() + " ");
+		    // console.log(localStorage.getItem('value2'));
+		    // $('#send-msg').on('click', function () {
+		    // 	message_broadcast({ 'command': 'doit', 'data': 'abcd' });
+		    // });
+		    // alert(localStorage.getItem('value1'));
+		    
+		    
+		    
+		});
+	</script>
+	<body>
+		<button id="send-msg">Send</button>
+		<iframe src="https://vdict.com/"></iframe>
+	</body>
+</html>

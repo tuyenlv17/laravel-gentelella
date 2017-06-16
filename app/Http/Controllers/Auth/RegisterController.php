@@ -9,7 +9,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
-class RegisterController extends Controller {
+class RegisterController extends Controller
+{
     /*
       |--------------------------------------------------------------------------
       | Register Controller
@@ -21,7 +22,7 @@ class RegisterController extends Controller {
       |
      */
 
-use RegistersUsers;
+    use RegistersUsers;
 
     /**
      * Where to redirect users after registration.
@@ -35,35 +36,38 @@ use RegistersUsers;
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('guest');
     }
 
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data) {
+    protected function validator(array $data)
+    {
         return Validator::make($data, [
-                    'username' => 'required|min:4|max:32|regex:/^[a-zA-Z0-9_]{4,32}$/|unique:users,username',
-                    'fullname' => 'required|min:4|max:255',
-                    'password' => 'required|min:8|max:64|regex:/^(?=.*[a-zA-Z])(?=.*\d).{8,64}$/|confirmed',
-                    'email' => 'required|email|unique:users,email',
-                    'phone' => 'required|digits_between:7,16|unique:users,phone',
-                    'birthday' => 'required|date_format:Y-m-d',
-                    'captcha' => 'required|captcha',
+            'username' => 'required|min:4|max:32|regex:/^[a-zA-Z0-9_]{4,32}$/|unique:users,username',
+            'fullname' => 'required|min:4|max:255',
+            'password' => 'required|min:8|max:64|regex:/^(?=.*[a-zA-Z])(?=.*\d).{8,64}$/|confirmed',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|digits_between:7,16|unique:users,phone',
+            'birthday' => 'required|date_format:Y-m-d',
+            'captcha' => 'required|captcha',
         ]);
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return User
      */
-    protected function create(array $data) {
+    protected function create(array $data)
+    {
 
         $user = new User();
         $user->username = $data['username'];
@@ -73,17 +77,18 @@ use RegistersUsers;
         $user->birthday = $data['birthday'];
         $user->password = bcrypt($data['password']);
 
-        DB::transaction(function() use ($user) {
+        DB::transaction(function () use ($user) {
             $user->save();
             $roles = Role::whereIn('name', ['guest'])
-                    ->get();
+                ->get();
             $user->attachRoles($roles);
         });
-        
+
         return $user;
     }
 
-    public function showRegistrationForm() {
+    public function showRegistrationForm()
+    {
         return view('auth.register', [
             'register' => TRUE,
         ]);

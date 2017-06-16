@@ -147,11 +147,18 @@
     width: 70px;
 }
 .nav-sm .navbar.nav_title a span {
-    display: none;
+    display: none;    
 }
 .nav-sm .navbar.nav_title a i {
     font-size: 27px;
     margin: 13px 0 0 3px;
+}
+.nav-sm {
+    .side-menu {
+        .fa-chevron-down {
+            display: none;
+        }
+    }    
 }
 .site_title i {
     border: 1px solid #EAEAEA;
@@ -1182,8 +1189,8 @@ table.countries_list td {
 }
 .dataTables_paginate a {
     padding: 6px 9px !important;
-    background: #ddd !important;
-    border-color: #ddd !important;
+/*    background: #ddd !important;
+    border-color: #ddd !important;*/
 }
 .paging_full_numbers a.paginate_active {
     background-color: rgba(38, 185, 154, 0.59) !important;
@@ -3142,18 +3149,6 @@ ul.project_files li a i {
 .view-first:hover p {
     transition-delay: 0.1s;
 }
-
-/* *********  /media gallery  **************************** */
-
-/* *********  verticle tabs  **************************** */
-
-/*!
- * bootstrap-vertical-tabs - v1.2.1
- * https://dbtek.github.io/bootstrap-vertical-tabs
- * 2014-11-07
- * Copyright (c) 2014 İsmail Demirbilek
- * License: MIT
- */
 .tabs-left, .tabs-right {
     border-bottom: none;
     padding-top: 2px;

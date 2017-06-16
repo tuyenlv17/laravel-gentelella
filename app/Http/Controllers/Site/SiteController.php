@@ -14,28 +14,34 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\App;
-class SiteController extends Controller {
 
-    public function __construct() {        
+class SiteController extends Controller
+{
+
+    public function __construct()
+    {
     }
 
-    public function index() {
+    public function index()
+    {
     }
 
-    public function change_language() {
+    public function change_language()
+    {
         $msg = array(
             'code' => 0,
             'message' => 'success'
         );
         $selectedLocale = Input::get('locale');
-        if(!array_key_exists($selectedLocale, config('app.locales'))) {
+        if (!array_key_exists($selectedLocale, config('app.locales'))) {
             $selectedLocale = config('app.fallback_locale');
         }
         Session::put('locale', $selectedLocale);
         return response()->json($msg);
     }
 
-    public function reloadCaptcha() {
+    public function reloadCaptcha()
+    {
         return response()->json([
             'url' => captcha_src(),
         ]);

@@ -10,14 +10,12 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use App\Group;
 
-class GroupController extends Controller {
+class GroupController extends Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
-//        $this->middleware('permission:rbac-group-create', ['only' => ['index', 'store']]);
-//        $this->middleware('permission:rbac-group-update', ['only' => ['update', 'edit']]);
-//        $this->middleware('permission:rbac-group-read', ['only' => ['listing']]);
-//        $this->middleware('permission:rbac-group-delete', ['only' => ['destroy']]);
         $this->middleware('permission:rbac-group-crud', ['except' => []]);
     }
 
@@ -26,7 +24,8 @@ class GroupController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index()
+    {
         return view('admin.rbac.groups', array(
             'action' => 'add',
         ));
@@ -37,7 +36,8 @@ class GroupController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function listing() {
+    public function listing()
+    {
         $start = Input::get('start');
         $length = Input::get('length');
         $draw = Input::get('draw');
@@ -55,23 +55,23 @@ class GroupController extends Controller {
         $total = Group::count();
 
         $totalFilter = Group::
-                where(function ($query) use ($keyword) {
-                    $query->where('name', 'LIKE', "%$keyword%")
-                        ->orWhere('display_name', 'LIKE', "%$keyword%")
-                        ->orWhere('description', 'LIKE', "%$keyword%");
-                })
-                ->count();
+        where(function ($query) use ($keyword) {
+            $query->where('name', 'LIKE', "%$keyword%")
+                ->orWhere('display_name', 'LIKE', "%$keyword%")
+                ->orWhere('description', 'LIKE', "%$keyword%");
+        })
+            ->count();
 
         $groups = Group::
-                where(function ($query) use ($keyword) {
-                    $query->where('name', 'LIKE', "%$keyword%")
-                        ->orWhere('display_name', 'LIKE', "%$keyword%")
-                        ->orWhere('description', 'LIKE', "%$keyword%");
-                })
-                ->orderBy($orderBy, $orderType)
-                ->skip($start)
-                ->take($length)
-                ->get();
+        where(function ($query) use ($keyword) {
+            $query->where('name', 'LIKE', "%$keyword%")
+                ->orWhere('display_name', 'LIKE', "%$keyword%")
+                ->orWhere('description', 'LIKE', "%$keyword%");
+        })
+            ->orderBy($orderBy, $orderType)
+            ->skip($start)
+            ->take($length)
+            ->get();
 
 
         $arr = array(
@@ -89,26 +89,28 @@ class GroupController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create()
+    {
         //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $validator = Validator::make($request->all(), [
-                    'name' => 'required|max:48|unique:groups,name',
-                    'display_name' => 'required'
+            'name' => 'required|max:48|unique:groups,name',
+            'display_name' => 'required'
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()
-                            ->withInput()
-                            ->withErrors($validator);
+                ->withInput()
+                ->withErrors($validator);
         } else {
             $group = new Group();
             $group->name = Input::get('name');
@@ -124,35 +126,38 @@ class GroupController extends Controller {
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
-        
+    public function show($id)
+    {
+
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         $group = Group::findOrFail($id);
         return view('admin.rbac.groups', array(
             'action' => 'edit',
-            'group'=> $group,
+            'group' => $group,
         ));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $group = Group::findOrFail($id);
 
         $this->validate($request, [
@@ -173,10 +178,11 @@ class GroupController extends Controller {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $group = Group::findOrFail($id);
 
         $arr = array(

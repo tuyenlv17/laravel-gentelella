@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 use Debugbar;
 use Cache;
 
-class LoginController extends Controller {
+class LoginController extends Controller
+{
     /*
       |--------------------------------------------------------------------------
       | Login Controller
@@ -20,7 +21,7 @@ class LoginController extends Controller {
       |
      */
 
-use AuthenticatesUsers;
+    use AuthenticatesUsers;
 
     /**
      * Where to redirect users after login.
@@ -36,21 +37,25 @@ use AuthenticatesUsers;
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('guest', ['except' => 'logout']);
     }
 
-    public function username() {
+    public function username()
+    {
         return 'username';
     }
 
-    protected function hasTooManyLoginAttempts(Request $request) {
+    protected function hasTooManyLoginAttempts(Request $request)
+    {
         return $this->limiter()->tooManyAttempts(
-                        $this->throttleKey($request), $this->maxAttemps, $this->lockoutMinutes
+            $this->throttleKey($request), $this->maxAttemps, $this->lockoutMinutes
         );
     }
 
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         $this->validateLogin($request);
 
         if ($this->hasTooManyLoginAttempts($request)) {
@@ -64,11 +69,11 @@ use AuthenticatesUsers;
             } else {
                 Cache::put('captcha_login', true, $this->lockoutMinutes);
                 return redirect()->back()
-                            ->withInput($request->only($this->username(), 'remember'))
-                            ->withErrors(['captcha_login' => trans('general.captcha_login')]);
+                    ->withInput($request->only($this->username(), 'remember'))
+                    ->withErrors(['captcha_login' => trans('general.captcha_login')]);
             }
         }
-                
+
         if ($this->attemptLogin($request)) {
             Cache::forget('captcha_login');
             return $this->sendLoginResponse($request);

@@ -11,21 +11,25 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 
-class ProfileController extends Controller {
+class ProfileController extends Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
         $this->middleware('permission:profile-update', ['except' => []]);
     }
 
-    public function index() {
+    public function index()
+    {
         $user = Auth::user();
         return view('site.profile', array(
             'user' => $user,
         ));
     }
 
-    public function update(Request $request) {
+    public function update(Request $request)
+    {
 
         $user = Auth::user();
 
@@ -35,19 +39,19 @@ class ProfileController extends Controller {
         }
 
         $validator = Validator::make($request->all(), [
-                    'fullname' => 'required|min:4|max:255',
-                    'password' => $passwordRules,
-                    'email' => "required|email|unique:users,email,$user->id",
-                    'phone' => "required|digits_between:7,16|unique:users,phone,$user->id",
-                    'birthday' => 'required|date_format:Y-m-d|before:-13 years',                    
-                    
+            'fullname' => 'required|min:4|max:255',
+            'password' => $passwordRules,
+            'email' => "required|email|unique:users,email,$user->id",
+            'phone' => "required|digits_between:7,16|unique:users,phone,$user->id",
+            'birthday' => 'required|date_format:Y-m-d|before:-13 years',
+
         ], ['before' => trans('validation.smallest_age', ['age' => 13])]);
 
         if ($validator->fails()) {
             return redirect()->back()
-                            ->withInput(
-                                    $request->except('password')
-                            )->withErrors($validator);
+                ->withInput(
+                    $request->except('password')
+                )->withErrors($validator);
         } else {
             $user->fullname = Input::get('fullname');
             if (Input::get('password') != '') {

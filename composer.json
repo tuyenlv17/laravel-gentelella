@@ -7,11 +7,13 @@
     "require": {
         "php": ">=5.6.4",
         "barryvdh/laravel-debugbar": "^2.3",
+        "laravel/dusk": "^1.1",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.3.0",
         "mews/captcha": "^2.1",
         "predis/predis": "^1.1",
+        "tymon/jwt-auth": "^0.5.12",
         "zizaco/entrust": "5.2.x-dev"
     },
     "require-dev": {
