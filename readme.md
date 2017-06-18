@@ -7,7 +7,15 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
+<<<<<<< HEAD
 ## About Laravel
+=======
+> Looking for Laravel 5.2? Check out my [Laravel 5.2 QuickStart](https://github.com/luciddreamz/laravel-ex) for OpenShift 3.
+
+The simplest way to install this application is to use the [OpenShift
+QuickStart](https://hub.openshift.com/quickstarts/115-laravel-5-0). If 
+you'd like to install it manually, follow [these directions](#manual-installation).
+>>>>>>> 192e282... Adds note about Laravel 5.2
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
 

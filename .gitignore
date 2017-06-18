@@ -3,8 +3,13 @@
 /public/hot
 /storage/*.key
 /vendor
-/.idea
 Homestead.json
 Homestead.yaml
 .env
-/public/vendors
+/public/resources/vendors
+#ide
+/nbproject/private/
+/.idea
+#tools
+*.swp
+*.swo
