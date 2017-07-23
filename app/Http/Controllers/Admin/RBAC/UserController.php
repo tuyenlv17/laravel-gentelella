@@ -121,7 +121,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $this->validate($request, [
             'username' => 'required|min:4|max:32|regex:/^[a-zA-Z0-9_]{4,32}$/|unique:users,username',
             'fullname' => 'required|min:4|max:255',
             'password' => 'required|min:8|max:64|regex:/^(?=.*[a-zA-Z])(?=.*\d).{8,64}$/|confirmed',
@@ -130,32 +130,26 @@ class UserController extends Controller
             'birthday' => 'required|date_format:Y-m-d|before:-13 years',
         ], ['before' => trans('validation.smallest_age', ['age' => 13])]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withInput(
-                    $request->except('password')
-                )->withErrors($validator);
-        } else {
-            $user = new User();
-            $user->username = Input::get('username');
-            $user->fullname = Input::get('fullname');
-            $user->password = bcrypt(Input::get('password'));
-            $user->email = Input::get('email');
-            $user->birthday = Input::get('birthday');
-            $user->phone = Input::get('phone');
+        $user = new User();
+        $user->username = Input::get('username');
+        $user->fullname = Input::get('fullname');
+        $user->password = bcrypt(Input::get('password'));
+        $user->email = Input::get('email');
+        $user->birthday = Input::get('birthday');
+        $user->phone = Input::get('phone');
 
-            $user->save();
+        $user->save();
 
-            $roleIdArr = Input::get('roles');
-            if (!is_array($roleIdArr)) {
-                $roleIdArr = [];
-            }
-            $roles = Role::whereIn('id', $roleIdArr)
-                ->get();
-            $user->attachRoles($roles);
-
-            return redirect()->back()->with('message', trans('general.add_successfully'));
+        $roleIdArr = Input::get('roles');
+        if (!is_array($roleIdArr)) {
+            $roleIdArr = [];
         }
+        $roles = Role::whereIn('id', $roleIdArr)
+            ->get();
+        $user->attachRoles($roles);
+
+        return redirect()->back()->with('message', trans('general.add_successfully'));
+
     }
 
     /**
@@ -206,9 +200,8 @@ class UserController extends Controller
         if (Input::get('password') == '') {
             $passwordRules = 'confirmed';
         }
-
-        $validator = Validator::make($request->all(), [
-            'username' => "required|min:4|max:32|regex:/^[a-zA-Z0-9_]{4,32}$/|unique:users,username,$id",
+        $this->validate($request, [
+            'username' => "required|min:4|unique:users,id," . $user->id,
             'fullname' => 'required|min:4|max:255',
             'password' => $passwordRules,
             'email' => "required|email|unique:users,email,$id",
@@ -216,34 +209,27 @@ class UserController extends Controller
             'birthday' => 'required|date_format:Y-m-d,before:-13 years',
         ], ['before' => trans('validation.smallest_age', ['age' => 13])]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withInput(
-                    $request->except('password')
-                )->withErrors($validator);
-        } else {
-            $user->username = Input::get('username');
-            $user->fullname = Input::get('fullname');
-            if (Input::get('password') != '') {
-                $user->password = bcrypt(Input::get('password'));
-            }
-            $user->email = Input::get('email');
-            $user->birthday = Input::get('birthday');
-            $user->phone = Input::get('phone');
-
-            $user->save();
-
-            $roleIdArr = Input::get('roles');
-            if (!is_array($roleIdArr)) {
-                $roleIdArr = [];
-            }
-            $roles = Role::whereIn('id', $roleIdArr)
-                ->get();
-            $user->detachRoles($user->roles);
-            $user->attachRoles($roles);
-
-            return redirect()->back()->with('message', trans('general.update_successfully'));
+        $user->username = Input::get('username');
+        $user->fullname = Input::get('fullname');
+        if (Input::get('password') != '') {
+            $user->password = bcrypt(Input::get('password'));
         }
+        $user->email = Input::get('email');
+        $user->birthday = Input::get('birthday');
+        $user->phone = Input::get('phone');
+
+        $user->save();
+
+        $roleIdArr = Input::get('roles');
+        if (!is_array($roleIdArr)) {
+            $roleIdArr = [];
+        }
+        $roles = Role::whereIn('id', $roleIdArr)
+            ->get();
+        $user->detachRoles($user->roles);
+        $user->attachRoles($roles);
+
+        return redirect()->back()->with('message', trans('general.update_successfully'));
     }
 
     /**
@@ -266,9 +252,6 @@ class UserController extends Controller
                 'code' => 0,
                 'message' => 'success'
             );
-
-//            DB::table("role_user")->where("role_user.user_id", $id)
-//                    ->delete();
         }
 
         return response()->json($arr);

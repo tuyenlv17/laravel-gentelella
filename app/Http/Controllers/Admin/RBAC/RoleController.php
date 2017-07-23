@@ -110,30 +110,26 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $this->validate($request, [
             'name' => 'required|max:64|unique:roles,name',
             'display_name' => 'required',
             'default_url' => 'required'
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
-        } else {
-            $role = new Role();
-            $role->name = Input::get('name');
-            $role->display_name = Input::get('display_name');
-            $role->description = Input::get('description');
-            $role->default_url = Input::get('default_url');
-            $role->save();
+        $role = new Role();
+        $role->name = Input::get('name');
+        $role->display_name = Input::get('display_name');
+        $role->description = Input::get('description');
+        $role->default_url = Input::get('default_url');
+        $role->save();
 
-            $permission = Input::get('permission');
-            if (count($permission) > 0) {
-                foreach (Input::get('permission') as $key => $value) {
-                    $role->attachPermission($value);
-                }
+        $permission = Input::get('permission');
+        if (count($permission) > 0) {
+            foreach (Input::get('permission') as $key => $value) {
+                $role->attachPermission($value);
             }
-            return redirect()->back()->with('message', trans('general.add_successfully'));
         }
+        return redirect()->back()->with('message', trans('general.add_successfully'));
     }
 
     /**
@@ -236,9 +232,6 @@ class RoleController extends Controller
                 'code' => 0,
                 'message' => 'success'
             );
-
-//            DB::table("permission_role")->where("permission_role.role_id", $id)
-//                    ->delete();
         }
 
         return response()->json($arr);

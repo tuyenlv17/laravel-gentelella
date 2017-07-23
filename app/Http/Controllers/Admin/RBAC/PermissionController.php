@@ -111,27 +111,22 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $this->validate($request, [
             'name' => 'required|max:64|unique:permissions,name',
             'display_name' => 'required'
         ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
-        } else {
-            $groupId = DB::table('groups')->where('id', '=', Input::get('group'))->value('id');
-            if (!isset($groupId)) {
-                $groupId = DB::table('groups')->where('name', '=', 'other')->value('id');
-            }
-            $permission = new Permission();
-            $permission->name = Input::get('name');
-            $permission->display_name = Input::get('display_name');
-            $permission->description = Input::get('description');
-            $permission->group_id = $groupId;
-            $permission->save();
-
-            return redirect()->back()->with('message', trans('general.add_successfully'));
+        $groupId = DB::table('groups')->where('id', '=', Input::get('group'))->value('id');
+        if (!isset($groupId)) {
+            $groupId = DB::table('groups')->where('name', '=', 'other')->value('id');
         }
+        $permission = new Permission();
+        $permission->name = Input::get('name');
+        $permission->display_name = Input::get('display_name');
+        $permission->description = Input::get('description');
+        $permission->group_id = $groupId;
+        $permission->save();
+
+        return redirect()->back()->with('message', trans('general.add_successfully'));
     }
 
     /**
@@ -210,9 +205,6 @@ class PermissionController extends Controller
                 'code' => 0,
                 'message' => 'success'
             );
-
-//            DB::table("role_permission")->where("role_permission.permission_id", $id)
-//                    ->delete();
         }
 
         return response()->json($arr);

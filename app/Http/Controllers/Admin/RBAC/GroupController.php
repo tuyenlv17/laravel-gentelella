@@ -102,25 +102,18 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $this->validate($request, [
             'name' => 'required|max:48|unique:groups,name',
             'display_name' => 'required'
         ]);
+        $group = new Group();
+        $group->name = Input::get('name');
+        $group->display_name = Input::get('display_name');
+        $group->description = Input::get('description');
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withInput()
-                ->withErrors($validator);
-        } else {
-            $group = new Group();
-            $group->name = Input::get('name');
-            $group->display_name = Input::get('display_name');
-            $group->description = Input::get('description');
+        $group->save();
 
-            $group->save();
-
-            return redirect()->back()->with('message', trans('general.add_successfully'));
-        }
+        return redirect()->back()->with('message', trans('general.add_successfully'));
     }
 
     /**
