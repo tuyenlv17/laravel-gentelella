@@ -143,11 +143,11 @@ var AppUser = function () {
 
     function initComponent() {
         $('.select2-mutiple').select2({});
-
+        console.log(moment().localeData().longDateFormat('L'));
         $('#birthday').daterangepicker({
             singleDatePicker: true,
             locale: {
-                format: 'YYYY-MM-DD'
+                format: moment().localeData().longDateFormat('L'),
             },
             singleClasses: "picker_2",
             showDropdowns: true,

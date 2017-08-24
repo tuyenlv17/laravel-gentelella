@@ -10,6 +10,9 @@ var AppProfile = function () {
 
         $('#birthday').daterangepicker({
             singleDatePicker: true,
+            locale: {
+                format: moment().localeData().longDateFormat('L'),
+            },
             singleClasses: "picker_2",
             showDropdowns: true,
             minDate: moment().add(-40, 'y'),
