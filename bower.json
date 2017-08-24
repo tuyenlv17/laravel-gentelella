@@ -25,7 +25,7 @@
     "jquery": "^2.2.3",
     "bootstrap": "^3.3.7",
     "font-awesome": "fontawesome#^4.6.1",
-    "bootstrap-daterangepicker": "git@github.com:christianesperar/bootstrap-daterangepicker.git#master",
+    "bootstrap-daterangepicker": "https://github.com/christianesperar/bootstrap-daterangepicker.git#master",
     "select2": "^4.0.2",
     "normalize-css": "^4.1.1",
     "validator": "https://github.com/yairEO/validator.git#^1.0.6",
