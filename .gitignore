@@ -13,3 +13,4 @@ Homestead.yaml
 #tools
 *.swp
 *.swo
+composer.phar
