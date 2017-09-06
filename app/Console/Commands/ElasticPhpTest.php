@@ -1,0 +1,105 @@
+<?php
+
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+use Elasticsearch\ClientBuilder;
+use DB;
+class ElasticPhpTest extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'test:elastic';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Command description';
+
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function handle()
+    {
+        $client = ClientBuilder::create()->build();
+        //index a document
+//        $params = [
+//            'index' => 'my_index',
+//            'type' => 'my_type',
+//            'body' => ['testField' => 'abc1']
+//        ];
+//        $response = $client->index($params);
+//        print_r($response);
+        //get document
+//        $params = [
+//            'index' => 'my_index',
+//            'type' => 'my_type',
+//            'id' => 'my_id'
+//        ];
+//
+//        $response = $client->get($params);
+//        print_r($response);
+
+        //get source only
+//        $params = [
+//            'index' => 'my_index',
+//            'type' => 'my_type',
+//            'id' => 'my_id'
+//        ];
+//
+//        $source = $client->getSource($params);
+//        print_r($source);
+        $lastId = -1;
+        $total = $calls = DB::table(DB::raw("`stackoverflow.com`.posts"))->count();
+        $cnt = 0;
+        while(true) {
+            $calls = DB::table(DB::raw("`stackoverflow.com`.posts"))
+                ->orderBy('Id', 'asc')
+                ->where('Id', '>', $lastId)
+                ->limit(200)
+                ->get();
+            if(count($calls) == 0) {
+                break;
+            }
+            $params['body'] = [];
+            foreach ($calls as $call) {
+	            $cnt++;
+                $params['body'][] = [
+                    'index' => [
+                        '_index' => 'stackoverflow',
+                        '_type' => 'posts',
+                        '_id' => $call->Id,
+                    ]
+                ];
+                $callArr = (array) $call;
+                unset($callArr['Id']);
+                $params['body'][] = $callArr;
+                echo "\r" . number_format((float) $cnt / $total * 100, 3, '.', '');
+                $lastId = $call->Id;
+            }
+            if($cnt < 4000000) {
+                continue;
+            }
+            $client->bulk($params);            
+        }
+        //search
+
+    }
+}
