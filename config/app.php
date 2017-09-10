@@ -159,6 +159,7 @@ return [
         App\Providers\FormServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
+        Elasticquent\ElasticquentServiceProvider::class,
     ],
     /*
       |--------------------------------------------------------------------------
@@ -204,12 +205,14 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        
+        /*
+         * Custom facade
+         */
         'Entrust' => Zizaco\Entrust\EntrustFacade::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
-        
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Captcha' => Mews\Captcha\Facades\Captcha::class,
+        'Es' => Elasticquent\ElasticquentElasticsearchFacade::class,
     ],
 ];
