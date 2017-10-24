@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
-        'App\Console\Commands\ElasticPhpTest'
+        'App\Console\Commands\ElasticPhpTest',
+        'App\Console\Commands\ElasticImportCluster'
     ];
 
     /**
