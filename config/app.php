@@ -159,7 +159,6 @@ return [
         App\Providers\FormServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
-        Elasticquent\ElasticquentServiceProvider::class,
     ],
     /*
       |--------------------------------------------------------------------------
@@ -213,6 +212,5 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Captcha' => Mews\Captcha\Facades\Captcha::class,
-        'Es' => Elasticquent\ElasticquentElasticsearchFacade::class,
     ],
 ];
