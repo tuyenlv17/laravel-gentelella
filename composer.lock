@@ -4,8 +4,13 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "hash": "7367cc751b9c4bd18606c007888c53be",
     "content-hash": "bf5d3c1016f59448696407f96ed44875",
+=======
+    "hash": "b0c4c044cd0d666124d33f2b96baa67f",
+    "content-hash": "0035baf4d85da48504d6e7dfa8113f2d",
+>>>>>>> 8d611cb4d418de5e673088ec3d70bb073305fc13
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -558,34 +563,92 @@
                 "parser"
             ],
             "time": "2014-09-09 13:34:57"
+<<<<<<< HEAD
+=======
         },
         {
-            "name": "elasticsearch/elasticsearch",
-            "version": "v5.3.0",
+            "name": "elasticquent/elasticquent",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/elastic/elasticsearch-php.git",
-                "reference": "50e5b1c63db68839b8acc1f4766769570a27a448"
+                "url": "https://github.com/elasticquent/Elasticquent.git",
+                "reference": "46c838bc1de1f0a2e3e4d28254700171aa51df03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/50e5b1c63db68839b8acc1f4766769570a27a448",
-                "reference": "50e5b1c63db68839b8acc1f4766769570a27a448",
+                "url": "https://api.github.com/repos/elasticquent/Elasticquent/zipball/46c838bc1de1f0a2e3e4d28254700171aa51df03",
+                "reference": "46c838bc1de1f0a2e3e4d28254700171aa51df03",
+                "shasum": ""
+            },
+            "require": {
+                "elasticsearch/elasticsearch": ">1.0 <2.2",
+                "illuminate/config": "~4.2|^5",
+                "illuminate/database": "~4.2|^5",
+                "nesbot/carbon": "~1.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.4",
+                "phpunit/phpunit": "~4.2|~5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Elasticquent\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adam Fairholm",
+                    "email": "adam.fairholm@gmail.com",
+                    "homepage": "http://adamfairholm.com"
+                }
+            ],
+            "description": "Maps Laravel Eloquent models to Elasticsearch types.",
+            "homepage": "https://github.com/elasticquent/Elasticquent",
+            "keywords": [
+                "elasticsearch",
+                "eloquent",
+                "laravel"
+            ],
+            "time": "2017-09-06 03:22:37"
+>>>>>>> 8d611cb4d418de5e673088ec3d70bb073305fc13
+        },
+        {
+            "name": "elasticsearch/elasticsearch",
+            "version": "v2.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/elastic/elasticsearch-php.git",
+                "reference": "c1675245c0a6f789cbb80b3e0b333b9ef521a627"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/c1675245c0a6f789cbb80b3e0b333b9ef521a627",
+                "reference": "c1675245c0a6f789cbb80b3e0b333b9ef521a627",
                 "shasum": ""
             },
             "require": {
                 "guzzlehttp/ringphp": "~1.0",
-                "php": "^5.6|^7.0",
+                "php": ">=5.4",
                 "psr/log": "~1.0"
             },
             "require-dev": {
+                "athletic/athletic": "~0.1",
                 "cpliakas/git-wrapper": "~1.0",
-                "doctrine/inflector": "^1.1",
                 "mockery/mockery": "0.9.4",
-                "phpunit/phpunit": "^4.7|^5.4",
-                "sami/sami": "~3.2",
-                "symfony/finder": "^2.8",
-                "symfony/yaml": "^2.8"
+                "phpunit/phpunit": "~4.7",
+                "symfony/yaml": "2.4.3 as 2.4.2",
+                "twig/twig": "1.*"
             },
             "suggest": {
                 "ext-curl": "*",
@@ -599,7 +662,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "Apache-2.0"
+                "Apache 2"
             ],
             "authors": [
                 {
@@ -612,7 +675,11 @@
                 "elasticsearch",
                 "search"
             ],
+<<<<<<< HEAD
             "time": "2017-07-19 18:44:30"
+=======
+            "time": "2016-03-18 16:31:37"
+>>>>>>> 8d611cb4d418de5e673088ec3d70bb073305fc13
         },
         {
             "name": "erusev/parsedown",
@@ -2087,6 +2154,7 @@
                 "shell"
             ],
             "time": "2017-07-29 19:30:02"
+<<<<<<< HEAD
         },
         {
             "name": "rairlie/laravel-locking-session",
@@ -2128,6 +2196,8 @@
                 "session"
             ],
             "time": "2016-03-16 08:34:09"
+=======
+>>>>>>> 8d611cb4d418de5e673088ec3d70bb073305fc13
         },
         {
             "name": "ramsey/uuid",
@@ -4873,6 +4943,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "elasticquent/elasticquent": 20,
         "zizaco/entrust": 20
     },
     "prefer-stable": false,

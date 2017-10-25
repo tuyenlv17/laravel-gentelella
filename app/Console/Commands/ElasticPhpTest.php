@@ -40,13 +40,14 @@ class ElasticPhpTest extends Command
     {
         $client = ClientBuilder::create()->build();
         //index a document
-//        $params = [
-//            'index' => 'my_index',
-//            'type' => 'my_type',
-//            'body' => ['testField' => 'abc1']
-//        ];
-//        $response = $client->index($params);
-//        print_r($response);
+        $params = [
+            'index' => 'my_index',
+            'type' => 'my_type',
+            'body' => ['testField' => 'test']
+        ];
+        $response = $client->index($params);
+        print_r($response);
+        return;
         //get document
 //        $params = [
 //            'index' => 'my_index',
@@ -80,7 +81,7 @@ class ElasticPhpTest extends Command
             }
             $params['body'] = [];
             foreach ($calls as $call) {
-	            $cnt++;
+                $cnt++;
                 $params['body'][] = [
                     'index' => [
                         '_index' => 'stackoverflow',
@@ -93,9 +94,6 @@ class ElasticPhpTest extends Command
                 $params['body'][] = $callArr;
                 echo "\r" . number_format((float) $cnt / $total * 100, 3, '.', '');
                 $lastId = $call->Id;
-            }
-            if($cnt < 4000000) {
-                continue;
             }
             $client->bulk($params);            
         }
