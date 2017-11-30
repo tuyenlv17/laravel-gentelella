@@ -40,7 +40,7 @@ class ElasticImportCluster extends Command
     public function handle()
     {
         $hosts = [
-            'https://blabla:528491@8a9223fa8b39858aebf904fdc07929a4.ap-southeast-1.aws.found.io:9243'
+            'https://blabla:528491@e3b25ff0ce2f8503b78c9bb23eb65054.us-east-1.aws.found.io:9243'
         ];
         $client = ClientBuilder::create()
             ->setHosts($hosts)
@@ -52,7 +52,7 @@ class ElasticImportCluster extends Command
             $calls = DB::table(DB::raw("stackdump.posts"))
                 ->orderBy('Id', 'asc')
                 ->where('Id', '>', $lastId)
-                ->limit(200)
+                ->limit(500)
                 ->get();
             if(count($calls) == 0) {
                 break;
@@ -62,14 +62,14 @@ class ElasticImportCluster extends Command
                 $cnt++;
                 $params['body'][] = [
                     'index' => [
-                        '_index' => 'stackoverflow',
-                        '_type' => 'posts',
+                        '_index' => 'stackoverflow_posts_fixed',
                         '_id' => $call->Id,
                     ]
                 ];
                 $callArr = (array) $call;
-                unset($callArr['Id']);
                 $params['body'][] = $callArr;
+                $callArr['body']['BodyHtml'] = $callArr['body']['Body'];
+//                $callArr['body']['Body'] = html
                 echo "\r" . number_format((float) $cnt / $total * 100, 3, '.', '');
                 $lastId = $call->Id;
             }

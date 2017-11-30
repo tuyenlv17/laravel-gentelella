@@ -147,7 +147,7 @@ var AppUser = function () {
         $('#birthday').daterangepicker({
             singleDatePicker: true,
             locale: {
-                format: moment().localeData().longDateFormat('L'),
+                format: "YYYY-MM-DD",
             },
             singleClasses: "picker_2",
             showDropdowns: true,

@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         //
         'App\Console\Commands\ElasticPhpTest',
-        'App\Console\Commands\ElasticImportCluster'
+        'App\Console\Commands\ElasticImportCluster',
+        'App\Console\Commands\ElasticScrollTest'
     ];
 
     /**
@@ -37,6 +38,8 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
+        //auto load all command
+//        $this->load(__DIR__.'/Commands');
         require base_path('routes/console.php');
     }
 }
