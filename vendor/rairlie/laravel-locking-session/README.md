@@ -5,7 +5,7 @@ This package implements session locking in Laravel by wrapping an exclusive lock
 It addresses the problem where session data is lost due to concurrent requests updating the session at the same time. One instance where this may happen is when making simultaneous XHR requests.
 
 ##### Example scenario:
-Consider the case were a variable COUNTER is a value stored in the session, and two requests attempt to increment it at the same time. Without session locking:
+Consider the case where a variable COUNTER is a value stored in the session, and two requests attempt to increment it at the same time. Without session locking:
 
     Request A: Read session data: COUNTER = 1
     Request B: Read session data: COUNTER = 1
@@ -32,7 +32,7 @@ With session locking in place, this becomes:
 
 Final result: COUNTER = 3
 
-Session locking ensures correctness at the costs of effectively serialising concurrent requests accessing the session. If you have some concurrent requests that don't use the session, disabling session middleware one those requests allows them to still be concurrent.
+Session locking ensures correctness at the cost of effectively serialising concurrent requests accessing the session. If you have some concurrent requests that don't use the session, disabling session middleware on those requests allows them to still be concurrent.
 
 ## Installation
     composer require rairlie/laravel-locking-session
@@ -42,7 +42,14 @@ In your Laravel app, edit config/app.php and replace the default session handler
     config/app.php:
     - Illuminate\Session\SessionServiceProvider::class,
     + Rairlie\LockingSession\LockingSessionServiceProvider::class,
+    
+By default, lock files are written to the system temp dir, in a subdir 'sessionlocks'. You can specify an alternative path with:
+
+    config/session.php:
+    'lockfile_dir' => '/path/to/my/lockdir'
+
+The directory will be created if it doesn't exist.
 
 ## Requirements
-1. Write access to the system temp dir
+1. Write access to the lock dir
 2. POSIX file system locking e.g. *NIX, Windows (untested).
