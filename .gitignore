@@ -25,5 +25,6 @@ Homestead.json
 *~
 composer.phar
 nohup.out
+test
 node_modules/
 npm-debug.log
